@@ -1,0 +1,46 @@
+
+=== KUCOIN UTA & BALANCE DETECTION ===
+
+[TEST 1] GET /api/v1/accounts
+Status: SUCCESS
+Raw JSON:
+{
+    "code":  "200000",
+    "data":  [
+
+             ]
+}
+
+
+[TEST 2] GET /api/v1/accounts/ledgers?currency=USDT
+Status: SUCCESS
+Raw JSON:
+{
+    "code":  "200000",
+    "data":  {
+                 "currentPage":  1,
+                 "pageSize":  50,
+                 "totalNum":  0,
+                 "totalPage":  0,
+                 "items":  [
+
+                           ]
+             }
+}
+
+
+[TEST 3] GET /api/v1/accounts?type=trade-hf
+Status: SUCCESS
+Raw JSON:
+{
+    "msg":  "type not in the given range",
+    "code":  "400100"
+}
+
+
+[TEST 4] GET /api/v3/hf/accounts?type=trade
+Status: FAILED - The remote server returned an error: (404) Not Found.
+HTTP Status: 404
+Body: {"code":"404","msg":"Not Found","retry":false,"success":false}
+
+=== QUERY COMPLETE ===

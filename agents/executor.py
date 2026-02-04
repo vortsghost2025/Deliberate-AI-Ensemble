@@ -45,7 +45,16 @@ class ExecutionAgent(BaseAgent):
         self.max_position_size_usd = config.get('max_position_size_usd') if config else None
         self.max_trade_loss_usd = config.get('max_trade_loss_usd') if config else None
         self.max_daily_loss_usd = config.get('max_daily_loss_usd') if config else None
-        self.max_open_positions = config.get('max_open_positions') if config else None
+        configured_max_open_positions = config.get('max_open_positions') if config else None
+        if configured_max_open_positions is None:
+            self.max_open_positions = 1
+        else:
+            self.max_open_positions = min(configured_max_open_positions, 1)
+        configured_max_trades = config.get('max_trades_per_session') if config else None
+        if configured_max_trades is None:
+            self.max_trades_per_session = 2
+        else:
+            self.max_trades_per_session = min(configured_max_trades, 2)
 
         self.open_positions: List[Dict[str, Any]] = []
         self.closed_trades: List[Dict[str, Any]] = []
@@ -85,6 +94,13 @@ class ExecutionAgent(BaseAgent):
             if account_balance < self.min_balance_usd:
                 return f"Account balance ${account_balance:.2f} below minimum ${self.min_balance_usd:.2f}"
         return None
+
+    def _validate_session_limits(self) -> Optional[str]:
+        if self.max_trades_per_session is not None and self.total_trades >= self.max_trades_per_session:
+            return f"Max trades per session reached ({self.max_trades_per_session})"
+        if self.max_open_positions is not None and len(self.open_positions) >= self.max_open_positions:
+            return f"Max open positions reached ({self.max_open_positions})"
+        return None
     
     def execute(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -112,6 +128,16 @@ class ExecutionAgent(BaseAgent):
                     action='execute_trade',
                     success=True,
                     data={'trade_executed': False, 'reason': 'Invalid position size'}
+                )
+
+            session_limit_reason = self._validate_session_limits()
+            if session_limit_reason:
+                self.logger.warning(session_limit_reason)
+                self.log_execution_end("execute_trade", success=True)
+                return self.create_message(
+                    action='execute_trade',
+                    success=True,
+                    data={'trade_executed': False, 'reason': session_limit_reason}
                 )
             
             # Get first pair for execution (simplified)

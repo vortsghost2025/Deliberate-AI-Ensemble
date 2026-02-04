@@ -210,11 +210,13 @@ def main():
     order_type = os.getenv("ORDER_TYPE", "market")
     slippage_tolerance_percent = _env_float("SLIPPAGE_TOLERANCE_PERCENT")
     min_balance_usd = _env_float("MIN_BALANCE_USD")
+    min_position_size_units = _env_float("MIN_POSITION_SIZE_UNITS")
 
     max_position_size_usd = _env_float("MAX_POSITION_SIZE_USD")
     max_trade_loss_usd = _env_float("MAX_TRADE_LOSS_USD")
     max_daily_loss_usd = _env_float("MAX_DAILY_LOSS_USD")
     max_open_positions = _env_int("MAX_OPEN_POSITIONS")
+    max_trades_per_session = _env_int("MAX_TRADES_PER_SESSION")
     account_balance_usd = _env_float("ACCOUNT_BALANCE_USD", 10000)
 
     missing_live = []
@@ -277,7 +279,9 @@ def main():
             'min_risk_reward_ratio': 1.5,
             'max_daily_loss': 0.05,  # 5% max daily loss
             'min_signal_strength': 0.05,
-            'min_win_rate': 0.30
+            'min_win_rate': 0.30,
+            'min_position_size_units': min_position_size_units,
+            'enforce_min_position_size_only': True
         },
         'backtester': {
             'min_win_rate': 0.45,
@@ -294,6 +298,7 @@ def main():
             'max_trade_loss_usd': max_trade_loss_usd,
             'max_daily_loss_usd': max_daily_loss_usd,
             'max_open_positions': max_open_positions,
+            'max_trades_per_session': max_trades_per_session,
             'live_api_key': live_api_key,
             'live_api_secret': live_api_secret,
         },

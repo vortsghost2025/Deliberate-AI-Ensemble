@@ -9,6 +9,9 @@ import logging
 
 from .base_agent import BaseAgent, AgentStatus
 
+MAX_DAILY_LOSS_CAP = 0.02  # 2% hard cap for safety
+DEFAULT_MIN_POSITION_SIZE_UNITS = 0.001
+
 
 class RiskManagementAgent(BaseAgent):
     """
@@ -31,11 +34,23 @@ class RiskManagementAgent(BaseAgent):
         self.account_balance = config.get('account_balance', 10000) if config else 10000
         self.risk_per_trade = config.get('risk_per_trade', 0.01) if config else 0.01  # 1%
         self.min_risk_reward_ratio = config.get('min_risk_reward_ratio', 1.5) if config else 1.5
-        self.max_daily_loss = config.get('max_daily_loss', 0.05) if config else 0.05  # 5%
+        requested_max_daily_loss = config.get('max_daily_loss', 0.05) if config else 0.05
+        self.max_daily_loss = min(requested_max_daily_loss, MAX_DAILY_LOSS_CAP)
         self.default_stop_loss_pct = config.get('default_stop_loss_pct', 0.02) if config else 0.02
         self.min_signal_strength = config.get('min_signal_strength', 0.3) if config else 0.3
         self.min_win_rate = config.get('min_win_rate', 0.45) if config else 0.45
         self.min_notional_usd = config.get('min_notional_usd', 10.0) if config else 10.0
+        if config:
+            configured_min_size = config.get('min_position_size_units')
+            self.min_position_size_units = (
+                configured_min_size if configured_min_size is not None else DEFAULT_MIN_POSITION_SIZE_UNITS
+            )
+        else:
+            self.min_position_size_units = DEFAULT_MIN_POSITION_SIZE_UNITS
+        self.min_position_size_by_pair = config.get('min_position_size_by_pair', {}) if config else {}
+        self.enforce_min_position_size_only = config.get(
+            'enforce_min_position_size_only', True
+        ) if config else True
         self.cumulative_risk_today = 0.0
     
     def execute(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -218,10 +233,6 @@ class RiskManagementAgent(BaseAgent):
         # Step 1: Calculate max risk amount (1% of account by default)
         max_risk_amount = self.account_balance * self.risk_per_trade
         
-        # Step 2: Adjust based on signal strength and win rate
-        confidence_multiplier = signal_strength * backtest_win_rate
-        actual_risk_amount = max_risk_amount * confidence_multiplier
-        
         # Step 3: Calculate stop-loss price
         stop_loss_pct = self.default_stop_loss_pct
         stop_loss = current_price * (1 - stop_loss_pct)
@@ -229,25 +240,95 @@ class RiskManagementAgent(BaseAgent):
         # Step 4: Calculate risk per unit (the distance to stop-loss)
         risk_per_unit = current_price - stop_loss
         
-        # Step 5: Calculate position size using correct formula
-        # CORRECT: position_size = risk_amount / risk_per_unit
-        # This ensures: (position_size * risk_per_unit) = risk_amount
-        if risk_per_unit > 0:
-            position_size = actual_risk_amount / risk_per_unit
+        # Step 6: Enforce exchange minimum position size
+        min_size_units = self.min_position_size_by_pair.get(pair, self.min_position_size_units)
+        if self.enforce_min_position_size_only:
+            # When enforcing minimum-only mode, skip dynamic sizing entirely
+            if min_size_units <= 0:
+                return {
+                    'pair': pair,
+                    'current_price': current_price,
+                    'position_size': 0,
+                    'position_size_usd': 0,
+                    'stop_loss': stop_loss,
+                    'take_profit': 0,
+                    'stop_loss_pct': stop_loss_pct * 100,
+                    'take_profit_pct': 0,
+                    'risk_amount': 0,
+                    'risk_pct_of_account': 0,
+                    'signal_strength': signal_strength,
+                    'backtest_win_rate': backtest_win_rate,
+                    'position_approved': False,
+                    'rejection_reason': 'Minimum position size not configured',
+                    'risk_reward_ratio': 0
+                }
+            position_size = min_size_units
         else:
-            position_size = 0
-        
-        # Step 6: Validate position size doesn't exceed account balance
+            # Step 2: Adjust based on signal strength and win rate (only when NOT enforcing minimum-only)
+            confidence_multiplier = signal_strength * backtest_win_rate
+            actual_risk_amount = max_risk_amount * confidence_multiplier
+            
+            # Step 5: Calculate position size using correct formula
+            # CORRECT: position_size = risk_amount / risk_per_unit
+            # This ensures: (position_size * risk_per_unit) = risk_amount
+            if risk_per_unit > 0:
+                position_size = actual_risk_amount / risk_per_unit
+            else:
+                position_size = 0
+            
+            # Enforce minimum if dynamic size is below minimum
+            if min_size_units > 0 and position_size < min_size_units:
+                position_size = min_size_units
+
+        # Step 7: Validate position size doesn't exceed account balance
         position_size_usd = position_size * current_price
         if position_size_usd > self.account_balance:
-            position_size = self.account_balance / current_price
-            actual_risk_amount = (position_size * risk_per_unit)
+            return {
+                'pair': pair,
+                'current_price': current_price,
+                'position_size': 0,
+                'position_size_usd': 0,
+                'stop_loss': stop_loss,
+                'take_profit': 0,
+                'stop_loss_pct': stop_loss_pct * 100,
+                'take_profit_pct': 0,
+                'risk_amount': 0,
+                'risk_pct_of_account': 0,
+                'signal_strength': signal_strength,
+                'backtest_win_rate': backtest_win_rate,
+                'position_approved': False,
+                'rejection_reason': 'Minimum position size exceeds account balance',
+                'risk_reward_ratio': 0
+            }
+
+        # Recompute risk amount based on actual position size
+        actual_risk_amount = position_size * risk_per_unit
         
-        # Step 7: Calculate take-profit to meet risk-reward ratio
+        # Only validate against max risk if NOT in minimum-only mode
+        if not self.enforce_min_position_size_only and actual_risk_amount > max_risk_amount:
+            return {
+                'pair': pair,
+                'current_price': current_price,
+                'position_size': 0,
+                'position_size_usd': 0,
+                'stop_loss': stop_loss,
+                'take_profit': 0,
+                'stop_loss_pct': stop_loss_pct * 100,
+                'take_profit_pct': 0,
+                'risk_amount': actual_risk_amount,
+                'risk_pct_of_account': (actual_risk_amount / self.account_balance) * 100,
+                'signal_strength': signal_strength,
+                'backtest_win_rate': backtest_win_rate,
+                'position_approved': False,
+                'rejection_reason': 'Minimum position size exceeds max risk per trade',
+                'risk_reward_ratio': 0
+            }
+        
+        # Step 8: Calculate take-profit to meet risk-reward ratio
         take_profit_pct = stop_loss_pct * self.min_risk_reward_ratio
         take_profit = current_price * (1 + take_profit_pct)
         
-        # Step 8: Check minimum notional value (avoid dust trades)
+        # Step 9: Check minimum notional value (avoid dust trades)
         if position_size_usd < self.min_notional_usd:
             return {
                 'pair': pair,
@@ -267,10 +348,17 @@ class RiskManagementAgent(BaseAgent):
                 'risk_reward_ratio': take_profit_pct / stop_loss_pct if stop_loss_pct > 0 else 0
             }
         
-        # Step 9: Validate the trade
-        approval, rejection_reason = self._validate_trade(
-            pair, position_size, signal_strength, backtest_win_rate, risk_per_unit
-        )
+        # Step 9: Validate the trade (skip signal/win rate checks in minimum-only mode)
+        if self.enforce_min_position_size_only:
+            # In minimum-only mode, we use the minimum size regardless of signal quality
+            # So we only check that position size is valid
+            approval = position_size > 0
+            rejection_reason = None if approval else "Invalid position size"
+        else:
+            # Normal mode: validate signal strength and win rate
+            approval, rejection_reason = self._validate_trade(
+                pair, position_size, signal_strength, backtest_win_rate, risk_per_unit
+            )
         
         return {
             'pair': pair,

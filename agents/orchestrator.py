@@ -151,6 +151,43 @@ class OrchestratorAgent(BaseAgent):
         if risk_agent and hasattr(risk_agent, 'update_account_balance'):
             risk_agent.update_account_balance(float(new_balance))
             self.logger.info(f"Account balance updated from execution: {new_balance}")
+
+    def _validate_agent_output(
+        self,
+        result: Dict[str, Any],
+        agent_name: str,
+        required_data_keys: Optional[List[str]] = None
+    ) -> bool:
+        """Validate agent output structure and trigger circuit breaker on unexpected shapes."""
+        if not isinstance(result, dict):
+            self.activate_circuit_breaker(f"{agent_name} returned non-dict response")
+            return False
+        if result.get('success') is False:
+            return True
+        data = result.get('data')
+        if not isinstance(data, dict):
+            self.activate_circuit_breaker(f"{agent_name} returned malformed data payload")
+            return False
+        if required_data_keys:
+            missing = [k for k in required_data_keys if k not in data]
+            if missing:
+                self.activate_circuit_breaker(
+                    f"{agent_name} missing required fields: {', '.join(missing)}"
+                )
+                return False
+        return True
+
+    def _validate_market_data(self, market_data: Dict[str, Any]) -> bool:
+        if not isinstance(market_data, dict) or not market_data:
+            return False
+        for pair, data in market_data.items():
+            if not isinstance(data, dict):
+                return False
+            price = data.get('current_price')
+            if not isinstance(price, (int, float)) or price <= 0:
+                self.logger.error("Unexpected market data for %s: %s", pair, data)
+                return False
+        return True
     
     def execute(self, market_symbols: List[str], *args, **kwargs) -> Dict[str, Any]:
         """
@@ -190,9 +227,16 @@ class OrchestratorAgent(BaseAgent):
             if not data_result['success']:
                 self.activate_circuit_breaker("Data fetching failed")
                 return data_result
+
+            if not self._validate_agent_output(data_result, 'DataFetchingAgent', ['market_data']):
+                return self.create_message(
+                    action='orchestrate_workflow',
+                    success=False,
+                    error='Unexpected DataFetchingAgent response'
+                )
             
             market_data = data_result.get('data', {}).get('market_data', {})
-            if not market_data:
+            if not self._validate_market_data(market_data):
                 self.logger.error("No market data returned from DataFetchingAgent")
                 self.activate_circuit_breaker("Data fetching returned empty market data")
                 return self.create_message(
@@ -210,6 +254,12 @@ class OrchestratorAgent(BaseAgent):
             )
             if not analysis_result['success']:
                 self.logger.warning("Market analysis failed, but continuing...")
+            elif not self._validate_agent_output(analysis_result, 'MarketAnalysisAgent', ['analysis', 'regime']):
+                return self.create_message(
+                    action='orchestrate_workflow',
+                    success=False,
+                    error='Unexpected MarketAnalysisAgent response'
+                )
             
             analysis_data = analysis_result.get('data', {})
             
@@ -235,6 +285,12 @@ class OrchestratorAgent(BaseAgent):
             )
             if not backtest_result['success']:
                 self.logger.warning("Backtesting failed, but continuing with caution...")
+            elif not self._validate_agent_output(backtest_result, 'BacktestingAgent', ['backtest_results']):
+                return self.create_message(
+                    action='orchestrate_workflow',
+                    success=False,
+                    error='Unexpected BacktestingAgent response'
+                )
             
             backtest_data = backtest_result.get('data', {})
             
@@ -252,12 +308,27 @@ class OrchestratorAgent(BaseAgent):
             if not risk_result['success']:
                 self.logger.error("Risk assessment failed - BLOCKING TRADES")
                 return risk_result
+            if not self._validate_agent_output(risk_result, 'RiskManagementAgent', ['position_approved']):
+                return self.create_message(
+                    action='orchestrate_workflow',
+                    success=False,
+                    error='Unexpected RiskManagementAgent response'
+                )
             
             risk_data = risk_result['data']
             
             # Check risk thresholds
             if not risk_data.get('position_approved', False):
-                self.logger.warning(f"Position rejected by risk manager: {risk_data.get('rejection_reason')}")
+                rejection_reason = risk_data.get('rejection_reason')
+                self.logger.warning(f"Position rejected by risk manager: {rejection_reason}")
+                reason_lower = (rejection_reason or '').lower()
+                if 'daily loss limit' in reason_lower or 'risk limit' in reason_lower:
+                    self.activate_circuit_breaker("Risk limit hit - trading halted")
+                    return self.create_message(
+                        action='orchestrate_workflow',
+                        success=False,
+                        error='Risk limit hit - trading halted'
+                    )
                 return self.create_message(
                     action='orchestrate_workflow',
                     success=True,
@@ -278,6 +349,12 @@ class OrchestratorAgent(BaseAgent):
                         'account_balance': risk_data.get('account_balance')
                 }
             )
+            if not self._validate_agent_output(exec_result, 'ExecutionAgent', ['trade_executed']):
+                return self.create_message(
+                    action='orchestrate_workflow',
+                    success=False,
+                    error='Unexpected ExecutionAgent response'
+                )
 
             # Optional balance update after execution
             self._update_account_balance_if_provided(exec_result)
