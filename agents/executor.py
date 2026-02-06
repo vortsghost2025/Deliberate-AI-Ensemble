@@ -2,14 +2,24 @@
 Execution Agent
 Handles trade execution with paper trading mode by default.
 Tracks simulated positions and performance.
+Supports live trading via KuCoin API integration.
 """
 
 from typing import Any, Dict, Optional, List
 from datetime import datetime
 import logging
 from enum import Enum
+import os
 
 from .base_agent import BaseAgent, AgentStatus
+
+# KuCoin API client (optional import)
+try:
+    from kucoin.client import Client as KuCoinClient
+    KUCOIN_AVAILABLE = True
+except ImportError:
+    KUCOIN_AVAILABLE = False
+    KuCoinClient = None
 
 
 class TradeStatus(Enum):
@@ -61,6 +71,43 @@ class ExecutionAgent(BaseAgent):
         self.total_trades = 0
         self.winning_trades = 0
         self.losing_trades = 0
+        
+        # KuCoin client initialization for live trading
+        self.kucoin_client = None
+        if self.live_mode and not self.paper_trading:
+            self._initialize_kucoin_client(config)
+
+    def _initialize_kucoin_client(self, config: Dict[str, Any]) -> None:
+        """Initialize KuCoin API client for live trading."""
+        if not KUCOIN_AVAILABLE:
+            raise RuntimeError(
+                "KuCoin library not installed. Run: pip install python-kucoin"
+            )
+        
+        # Get credentials from config or environment
+        api_key = config.get('api_key') or os.getenv('KUCOIN_API_KEY')
+        api_secret = config.get('api_secret') or os.getenv('KUCOIN_API_SECRET')
+        api_passphrase = config.get('api_passphrase') or os.getenv('KUCOIN_API_PASSPHRASE')
+        
+        if not all([api_key, api_secret, api_passphrase]):
+            raise ValueError(
+                "KuCoin API credentials missing. Set KUCOIN_API_KEY, "
+                "KUCOIN_API_SECRET, and KUCOIN_API_PASSPHRASE in environment "
+                "or pass in config."
+            )
+        
+        try:
+            self.kucoin_client = KuCoinClient(
+                api_key=api_key,
+                api_secret=api_secret,
+                passphrase=api_passphrase
+            )
+            # Test connection
+            self.kucoin_client.get_accounts()
+            self.logger.info("✅ KuCoin API connected successfully")
+        except Exception as e:
+            self.logger.error(f"❌ KuCoin API connection failed: {e}")
+            raise RuntimeError(f"Failed to initialize KuCoin client: {e}")
 
     def _get_total_pnl(self) -> float:
         return sum(t['pnl'] for t in self.closed_trades)
@@ -102,6 +149,106 @@ class ExecutionAgent(BaseAgent):
             return f"Max open positions reached ({self.max_open_positions})"
         return None
     
+    def _place_live_order(
+        self,
+        pair: str,
+        side: str,
+        position_size: float,
+        entry_price: float,
+        stop_loss: float,
+        take_profit: float
+    ) -> Dict[str, Any]:
+        """
+        Place a live order on KuCoin exchange.
+        
+        Args:
+            pair: Trading pair (e.g., 'BTC/USDT')
+            side: 'buy' or 'sell'
+            position_size: Size in base currency
+            entry_price: Entry price
+            stop_loss: Stop loss price
+            take_profit: Take profit price
+            
+        Returns:
+            Order details including order_id
+        """
+        if not self.kucoin_client:
+            raise RuntimeError("KuCoin client not initialized")
+        
+        # Convert pair format: BTC/USDT -> BTC-USDT
+        symbol = pair.replace('/', '-')
+        
+        try:
+            # Place main entry order
+            if self.order_type == 'market':
+                self.logger.info(f"Placing MARKET {side} order: {position_size} {symbol}")
+                order = self.kucoin_client.create_market_order(
+                    symbol=symbol,
+                    side=side,
+                    size=position_size
+                )
+            else:  # limit order
+                self.logger.info(
+                    f"Placing LIMIT {side} order: {position_size} {symbol} @ ${entry_price}"
+                )
+                order = self.kucoin_client.create_limit_order(
+                    symbol=symbol,
+                    side=side,
+                    price=str(entry_price),
+                    size=str(position_size)
+                )
+            
+            order_id = order['orderId']
+            self.logger.info(f"✅ Order placed successfully: {order_id}")
+            
+            # Place stop-loss order (conditional)
+            stop_order_id = None
+            if stop_loss > 0:
+                try:
+                    stop_side = 'sell' if side == 'buy' else 'buy'
+                    stop_order = self.kucoin_client.create_stop_order(
+                        symbol=symbol,
+                        side=stop_side,
+                        stop='loss',
+                        stopPrice=str(stop_loss),
+                        size=str(position_size),
+                        price=str(stop_loss * 0.99)  # Slightly below stop for market
+                    )
+                    stop_order_id = stop_order.get('orderId')
+                    self.logger.info(f"✅ Stop-loss order placed: {stop_order_id} @ ${stop_loss}")
+                except Exception as e:
+                    self.logger.warning(f"⚠️ Failed to place stop-loss order: {e}")
+            
+            # Place take-profit order (conditional)
+            tp_order_id = None
+            if take_profit > 0:
+                try:
+                    tp_side = 'sell' if side == 'buy' else 'buy'
+                    tp_order = self.kucoin_client.create_limit_order(
+                        symbol=symbol,
+                        side=tp_side,
+                        price=str(take_profit),
+                        size=str(position_size)
+                    )
+                    tp_order_id = tp_order.get('orderId')
+                    self.logger.info(f"✅ Take-profit order placed: {tp_order_id} @ ${take_profit}")
+                except Exception as e:
+                    self.logger.warning(f"⚠️ Failed to place take-profit order: {e}")
+            
+            return {
+                'order_id': order_id,
+                'stop_order_id': stop_order_id,
+                'tp_order_id': tp_order_id,
+                'symbol': symbol,
+                'side': side,
+                'size': position_size,
+                'price': entry_price
+            }
+            
+        except Exception as e:
+            self.logger.error(f"❌ Live order placement failed: {e}")
+            raise RuntimeError(f"Failed to place live order: {e}")
+    
     def execute(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Execute trade order.
@@ -121,6 +268,16 @@ class ExecutionAgent(BaseAgent):
             take_profit = input_data.get('take_profit', 0)
             paper_trading = input_data.get('paper_trading', self.paper_trading)
             account_balance = input_data.get('account_balance')
+            position_approved = input_data.get('position_approved', None)
+            risk_approved = input_data.get('risk_approved', None)
+
+            if position_approved is False or risk_approved is False:
+                self.log_execution_end("execute_trade", success=True)
+                return self.create_message(
+                    action='execute_trade',
+                    success=True,
+                    data={'trade_executed': False, 'reason': 'Risk approval required'}
+                )
             
             if not market_data or position_size <= 0:
                 self.log_execution_end("execute_trade", success=True)
@@ -164,6 +321,34 @@ class ExecutionAgent(BaseAgent):
                         }
                     )
             
+            # Place live order if not paper trading
+            order_details = None
+            if not paper_trading and self.live_mode:
+                try:
+                    self.logger.warning(
+                        f"🔴 LIVE TRADING ACTIVATED - Placing real order on KuCoin"
+                    )
+                    order_details = self._place_live_order(
+                        pair=pair,
+                        side='buy',
+                        position_size=position_size,
+                        entry_price=entry_price,
+                        stop_loss=stop_loss,
+                        take_profit=take_profit
+                    )
+                    self.logger.info(
+                        f"✅ Live order executed: Order ID {order_details['order_id']}"
+                    )
+                except Exception as e:
+                    error_msg = f"Live order failed: {str(e)}"
+                    self.logger.error(f"❌ {error_msg}")
+                    self.log_execution_end("execute_trade", success=False)
+                    return self.create_message(
+                        action='execute_trade',
+                        success=False,
+                        error=error_msg
+                    )
+            
             # Create trade record
             trade = {
                 'trade_id': self.total_trades + 1,
@@ -180,7 +365,10 @@ class ExecutionAgent(BaseAgent):
                 'pnl_pct': 0,
                 'exit_price': None,
                 'exit_time': None,
-                'exit_reason': None
+                'exit_reason': None,
+                'order_id': order_details['order_id'] if order_details else None,
+                'stop_order_id': order_details['stop_order_id'] if order_details else None,
+                'tp_order_id': order_details['tp_order_id'] if order_details else None
             }
             
             # Add to open positions

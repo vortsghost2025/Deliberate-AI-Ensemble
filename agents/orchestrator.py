@@ -253,7 +253,8 @@ class OrchestratorAgent(BaseAgent):
                 {'market_data': market_data}
             )
             if not analysis_result['success']:
-                self.logger.warning("Market analysis failed, but continuing...")
+                self.logger.error("Market analysis failed - BLOCKING TRADES")
+                return analysis_result
             elif not self._validate_agent_output(analysis_result, 'MarketAnalysisAgent', ['analysis', 'regime']):
                 return self.create_message(
                     action='orchestrate_workflow',
@@ -284,7 +285,8 @@ class OrchestratorAgent(BaseAgent):
                 }
             )
             if not backtest_result['success']:
-                self.logger.warning("Backtesting failed, but continuing with caution...")
+                self.logger.error("Backtesting failed - BLOCKING TRADES")
+                return backtest_result
             elif not self._validate_agent_output(backtest_result, 'BacktestingAgent', ['backtest_results']):
                 return self.create_message(
                     action='orchestrate_workflow',
@@ -345,8 +347,10 @@ class OrchestratorAgent(BaseAgent):
                     'position_size': risk_data.get('position_size'),
                     'stop_loss': risk_data.get('stop_loss'),
                     'take_profit': risk_data.get('take_profit'),
-                        'paper_trading': self.is_paper_trading,
-                        'account_balance': risk_data.get('account_balance')
+                    'paper_trading': self.is_paper_trading,
+                    'account_balance': risk_data.get('account_balance'),
+                    'position_approved': risk_data.get('position_approved', False),
+                    'risk_approved': risk_data.get('position_approved', False)
                 }
             )
             if not self._validate_agent_output(exec_result, 'ExecutionAgent', ['trade_executed']):
