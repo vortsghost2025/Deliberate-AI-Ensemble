@@ -18,6 +18,7 @@
 ### For Deployment & Testing
 1. [TESTING_AND_DEPLOYMENT.md](TESTING_AND_DEPLOYMENT.md) - Complete validation test suite & next steps
 2. [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) - Production readiness checklist
+3. [SECTION_12_FIRST_LIVE_VALIDATION.md](SECTION_12_FIRST_LIVE_VALIDATION.md) - Live framework validation proof (Feb 6, 2026)
 
 ### For Project Overview
 → [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - High-level project summary & features
@@ -37,6 +38,7 @@
 | **ORCHESTRATION_DIAGRAMS.md** | Visual diagrams, state machine, data flow | Visual learners |
 | **ARCHITECTURE_VALIDATION.md** | 6 critical patterns verified, safety proof | Technical review |
 | **MULTI_AGENT_PROOF.md** | Why this is REAL multi-agent orchestration | Philosophy/debate |
+| **SECTION_12_FIRST_LIVE_VALIDATION.md** | Live trading validation, framework resilience proof | Understanding Feb 6 validation |
 | **TESTING_AND_DEPLOYMENT.md** | Test cases, paper trading, tuning, live upgrade | Deployment phase |
 | **DEPLOYMENT_CHECKLIST.md** | Production safety checklist | Before going live |
 
@@ -83,6 +85,7 @@ workspace/
     ├── ORCHESTRATION_TOPOLOGY.md  # Architecture deep dive
     ├── ORCHESTRATION_DIAGRAMS.md  # Visual architecture
     ├── ARCHITECTURE_VALIDATION.md # Safety verification
+    ├── SECTION_12_FIRST_LIVE_VALIDATION.md # Live validation proof (Feb 6, 2026)
     ├── MULTI_AGENT_PROOF.md       # Multi-agent confirmation
     ├── TESTING_AND_DEPLOYMENT.md  # Test & deploy guide
     └── DEPLOYMENT_CHECKLIST.md    # Live readiness
