@@ -3,16 +3,36 @@
 
 ## Your Project Status: ✅ FRAMEWORK VALIDATED + LIVE TRADING OPERATIONAL
 
-After 4 days of development + 3 days live validation:
-- ✅ Multi-agent orchestrator built and tested
-- ✅ Containerized and deployed  
-- ✅ Running autonomously in Docker
-- ✅ KuCoin live trading integration complete
-- ✅ Framework resilience proven under real conditions (Feb 6, 2026)
-- ✅ Integration bugs discovered and fixed (17-minute cycle)
+Development timeline (Feb 2-6, 2026):
+- ✅ Multi-agent orchestrator built and tested (Day 1-2)
+- ✅ Containerized and deployed (Day 2)
+- ✅ Running autonomously in Docker (Day 2-3)
+- ✅ KuCoin live trading integration complete (Day 4)
+- ✅ Framework resilience proven under real conditions (Day 4: Feb 6, 2026)
+- ✅ Integration bugs discovered and fixed (17-minute cycle, Day 4)
 - 🟡 One known API issue (CoinGecko rate limiting) documented for future fix
 
 **This is solid.**
+
+---
+
+## 📌 READ THIS FIRST
+
+**Two entry points for different purposes:**
+
+1. **THIS FILE (START_HERE.md)** = Operational guide
+   - How to run the bot
+   - Current system status
+   - Next steps to take
+   - **Read this if: You want to operate, deploy, or trade**
+
+2. **00_START_HERE.md** = Architectural overview
+   - What the system is
+   - Complete documentation inventory
+   - Design principles
+   - **Read that if: You want to understand the architecture**
+
+**Both are intentionally maintained. They serve different layers of the system.**
 
 ---
 
@@ -56,9 +76,14 @@ main.py                       ← Entry point, balance validation, live/paper sw
 System:       Multi-agent trading bot with KuCoin integration
 Mode:         LIVE trading validated (can run paper or live)
 Status:       Operational with active monitoring
-Position:     1.417 SOL open @ $87.36 (as of Feb 6, 2026)
+Latest Trade: 1.417 SOL @ $87.36 (Feb 6, 2026) - see Section 12 for details
 Framework:    Constitutional rules enforced ("never rushes, halts when unsure")
 Validation:   First live trade: framework rejected unsafe second trade ✅
+```
+
+**Check current position status:**
+```bash
+Get-Content logs/events.jsonl -Tail 50
 ```
 
 View Docker logs (if running in container):
@@ -66,22 +91,18 @@ View Docker logs (if running in container):
 docker logs -f orchestrator-trading-bot
 ```
 
-View live trading logs:
-```bash
-Get-Content logs/events.jsonl -Tail 50
-```
-
 ---
 
 ## Your Next Move: Pick One
 
 ### Option A: Continue Live Trading (Current State)
-**Framework validated, position active:**
+**Framework validated, integration hardened:**
 
-1. Monitor current position (1.417 SOL, SL: $85.61, TP: $90.00)
-2. Observe stop-loss/take-profit automation with fixes
-3. Review SECTION_12_FIRST_LIVE_VALIDATION.md for context
-4. Document next trade results
+1. Check position status: `Get-Content logs/events.jsonl -Tail 50`
+2. If position open: Monitor stop-loss/take-profit automation with fixes
+3. If position closed: Review results and prepare for next trade
+4. Read SECTION_12_FIRST_LIVE_VALIDATION.md for context
+5. Document outcomes
 
 **Result**: Operational trading with proven framework resilience
 
@@ -186,13 +207,15 @@ Follow DEPLOYMENT_ORACLE.md step-by-step.
 
 ## Recommended Next Step
 
-### Current State (Feb 6, 2026):
-Framework validated under live conditions. Position open. Integration bugs fixed.
+### Current State (Feb 6, 2026):Integration bugs fixed. System operational.
 
 ### For Next Session:
 1. Read SECTION_12_FIRST_LIVE_VALIDATION.md (10 min) - understand what happened
-2. Check current position status (SOL/USDT)
+2. Check current position/trade status: `Get-Content logs/events.jsonl -Tail 50`
 3. Decide: A, B, C, or D above (5 min)
+4. Execute your choice (1-4 hours depending on path)
+
+**Note for future agents:** Position status may have changed since this file was written. Always check logs for current state.
 4. Execute your choice (1-4 hours depending on path)
 
 ---
@@ -254,14 +277,12 @@ You built this well. Seriously.
 **System is operational. Framework resilience proven. Integration hardened.**
 
 ---
-
-Next time you start work on this:
-1. Read SECTION_12_FIRST_LIVE_VALIDATION.md (context)
-2. Check position status (logs/events.jsonl)
-3. This file is operational map
-4. 00_START_HERE.md is architectural overview
-5. TASKS.md is feature roadmap
-6. Pick A, B, C, or D above
+**If you want to operate:** Read THIS file (START_HERE.md)
+2. **If you want to understand architecture:** Read 00_START_HERE.md
+3. Read SECTION_12_FIRST_LIVE_VALIDATION.md (context on live validation)
+4. Check position status: `Get-Content logs/events.jsonl -Tail 50`
+5. TASKS.md has feature roadmap
+6. Pick A, B, C, or D above based on current state
 7. Follow through
 8. Document results
 
@@ -271,5 +292,7 @@ Next time you start work on this:
 
 *Originally Generated: 2026-02-03 EST*  
 *Updated: 2026-02-06 EST (Live Trading Validation)*  
+*Status: Framework Validated ✅ | Live Trading Operational ✅ | Last Trade: Feb 6 🟢*  
+*Next: Check position status, then choose operational path (A, B, C, or D above)
 *Status: Framework Validated ✅ | Live Trading Operational ✅ | Position Active 🟢*  
 *Next: Monitor position, continue integration hardening, or return to paper mode*
