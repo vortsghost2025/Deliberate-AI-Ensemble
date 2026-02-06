@@ -282,7 +282,8 @@ config = {
 2. **Verify safety features** work as expected
 3. **Analyze performance** with at least 20 trades
 4. **Backtest strategy** with historical data
-5. **Start small** when going live (5% of capital)
+5. **Read [SECTION_12_FIRST_LIVE_VALIDATION.md](SECTION_12_FIRST_LIVE_VALIDATION.md)** - Learn from live validation (Feb 6, 2026)
+6. **Start small** when going live (5% of capital)
 
 ## 🔮 Future Enhancements
 
