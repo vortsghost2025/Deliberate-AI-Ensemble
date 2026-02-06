@@ -321,7 +321,8 @@ Before enabling live trading:
 3. Run `test_agents.py` to verify system
 4. Run `main.py` multiple times to see performance
 5. Customize configuration in `config_template.py`
-6. Scale to live trading (when ready)
+6. Read [SECTION_12_FIRST_LIVE_VALIDATION.md](SECTION_12_FIRST_LIVE_VALIDATION.md) to understand live framework validation (Feb 6, 2026)
+7. Scale to live trading (when ready)
 
 ## Key Files
 
@@ -330,6 +331,7 @@ Before enabling live trading:
 - **agents/base_agent.py** - Agent template
 - **requirements.txt** - Dependencies
 - **README.md** - Architecture overview
+- **SECTION_12_FIRST_LIVE_VALIDATION.md** - Live validation proof
 - **test_agents.py** - Test suite
 - **logs/trading_bot.log** - Activity log
 
