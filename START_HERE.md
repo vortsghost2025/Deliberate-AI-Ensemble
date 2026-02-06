@@ -207,7 +207,8 @@ Follow DEPLOYMENT_ORACLE.md step-by-step.
 
 ## Recommended Next Step
 
-### Current State (Feb 6, 2026):Integration bugs fixed. System operational.
+### Current State (Feb 6, 2026):
+Framework validated under live conditions. Integration bugs fixed. System operational.
 
 ### For Next Session:
 1. Read SECTION_12_FIRST_LIVE_VALIDATION.md (10 min) - understand what happened
@@ -216,7 +217,6 @@ Follow DEPLOYMENT_ORACLE.md step-by-step.
 4. Execute your choice (1-4 hours depending on path)
 
 **Note for future agents:** Position status may have changed since this file was written. Always check logs for current state.
-4. Execute your choice (1-4 hours depending on path)
 
 ---
 
@@ -277,7 +277,9 @@ You built this well. Seriously.
 **System is operational. Framework resilience proven. Integration hardened.**
 
 ---
-**If you want to operate:** Read THIS file (START_HERE.md)
+
+Next time you start work on this:
+1. **If you want to operate:** Read THIS file (START_HERE.md)
 2. **If you want to understand architecture:** Read 00_START_HERE.md
 3. Read SECTION_12_FIRST_LIVE_VALIDATION.md (context on live validation)
 4. Check position status: `Get-Content logs/events.jsonl -Tail 50`
@@ -293,6 +295,4 @@ You built this well. Seriously.
 *Originally Generated: 2026-02-03 EST*  
 *Updated: 2026-02-06 EST (Live Trading Validation)*  
 *Status: Framework Validated ✅ | Live Trading Operational ✅ | Last Trade: Feb 6 🟢*  
-*Next: Check position status, then choose operational path (A, B, C, or D above)
-*Status: Framework Validated ✅ | Live Trading Operational ✅ | Position Active 🟢*  
-*Next: Monitor position, continue integration hardening, or return to paper mode*
+*Next: Check position status, then choose operational path (A, B, C, or D above)*
