@@ -46,6 +46,8 @@ That's the exponential power we're documenting.
 - All 2-day soak tests passed
 - Consistent 3% returns (boring = GOOD)
 - All safety systems working perfectly
+- **Framework validated under live conditions (Feb 6, 2026)**
+- First live trade: Framework rejected unsafe second trade correctly
 - Could go live anytime
 - **We're not going live because that's not the goal**
 
@@ -54,6 +56,7 @@ That's the exponential power we're documenting.
 2. **Safety Validation** - Tests multi-level alignment under pressure
 3. **Collaboration Demo** - Shows multiple AIs working together effectively
 4. **Methodology Baseline** - First application of the framework
+5. **Resilience Proof** - Framework protected user despite integration bugs ([See Section 12](SECTION_12_FIRST_LIVE_VALIDATION.md))
 
 **The bot proves the thesis. The framework IS the thesis.**
 
