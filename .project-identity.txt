@@ -1,14 +1,16 @@
 PROJECT_NAME: Multi-Agent Orchestrator Trading Bot
-PROJECT_TYPE: Paper Trading System with Risk Management
-VERSION: 1.0-orchestrator
+PROJECT_TYPE: Live Trading System with Constitutional Framework (Paper + Live Validated)
+VERSION: 2.0-live-validated
 CREATED: 2026-02-02 (built by collab AI + LMArena)
-PURPOSE: Safe, multi-agent orchestration for SOL/BTC trading with real prices and risk gates
+LIVE VALIDATED: 2026-02-06 (framework proven under real conditions)
+PURPOSE: Safe, multi-agent orchestration for SOL/BTC trading with constitutional risk management
 
 SCOPE:
-- Single agent (GitHub Copilot) working on this project
-- Autonomous soak testing with open positions
-- Real market data, paper execution
-- Daily risk reset, status snapshots
+- Multi-agent collaboration (GitHub Copilot primary, ensemble support)
+- Paper trading validated (60-min soak tests, 13 cycles)
+- Live trading validated (KuCoin integration, framework resilience proven)
+- Constitutional framework: "Never rushes, halts when unsure"
+- Real market data, live execution capability
 
 AGENTS IN THIS PROJECT:
 - OrchestratorAgent (main conductor)
@@ -20,22 +22,39 @@ AGENTS IN THIS PROJECT:
 - MonitoringAgent (logging, alerts)
 
 KEY FILES:
-- main.py (entry point)
-- agents/orchestrator.py (workflow)
-- agents/risk_manager.py (core safety)
-- agents/execution_agent.py (trade tracking)
+- main.py (entry point, KuCoin + paper mode support)
+- agents/orchestrator.py (workflow conductor)
+- agents/risk_manager.py (constitutional enforcement)
+- agents/executor.py (KuCoin API + paper trading)
+- SECTION_12_FIRST_LIVE_VALIDATION.md (framework validation proof)
+
+CURRENT STATUS (Feb 6, 2026):
+- Paper trading: Fully validated (60-min soak tests passed)
+- Live trading: Framework validated (first trade executed, bugs fixed)
+- Integration hardening: In progress (API parameters, balance loading fixed)
+- Constitutional framework: Proven resilient under real stress
+- Position: 1.417 SOL open, user monitoring, stop-loss active
 
 CRITICAL RULE FOR AGENTS:
 If a request mentions:
   - lag_logger, lag_metrics, execution latency
   - symbol_gater, gating_manager, trade gating
   - early_dd, early drawdown breaker
-  - DRY_RUN mode, LIVE_TRADING flag
-  - KuCoin API calls, margin trading
+  - DRY_RUN mode, LIVE_TRADING flag (old C:\Dev project style)
+  - Multiple projects, C:\Dev folder
 THEN: This is NOT for this project. Ask user for clarification and project context.
+
+CONTEXT FOR FUTURE AGENTS:
+- First live trade (Feb 6, 2026): Framework validation under real conditions
+- Integration bugs discovered: Balance loading, API parameters, rounding
+- Framework response: Rejected unsafe second trade correctly (validated)
+- Fix cycle: 17 minutes from discovery to validation
+- Outcome: System resilience proven, not lucky escape
+- See SECTION_12_FIRST_LIVE_VALIDATION.md for complete analysis
 
 CROSS-PROJECT CONTAMINATION PREVENTION:
 - Do NOT use terminal to scan C:\ drive or other projects
 - Do NOT read/edit files outside C:\workspace\
-- Do NOT attempt to integrate KuCoin bot logic
+- Do NOT attempt to integrate old C:\Dev bot logic
+- Do NOT conflate integration bugs with framework violations
 - If context mismatch detected: STOP and ask user which project they mean
