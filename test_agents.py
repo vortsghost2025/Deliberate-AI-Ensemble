@@ -252,14 +252,16 @@ def test_risk_manager_targeted():
     print("TARGETED RISK MANAGER TESTS")
     print("="*60 + "\n")
     
-    # Test 1: Full confidence → should use full 1% risk
-    print("Test 1: Full confidence uses full 1% risk...")
+    # Test 1: Minimum position size enforcement (UPDATED FOR NEW MODE)
+    print("Test 1: Minimum position size enforcement...")
     cfg = {
         "account_balance": 10_000,
-        "risk_per_trade": 0.01,          # 1%
-        "default_stop_loss_pct": 0.02,   # 2%
+        "risk_per_trade": 0.01,
+        "default_stop_loss_pct": 0.02,
         "min_signal_strength": 0.0,
         "min_win_rate": 0.0,
+        "min_position_size_units": 0.1,  # Set minimum
+        "enforce_min_position_size_only": True,  # Use fixed minimums
     }
     agent = RiskManagementAgent(cfg)
     
@@ -275,34 +277,43 @@ def test_risk_manager_targeted():
     
     data = msg["data"]["assessments"]["BTCUSDT"]
     
-    # Expected: risk_amount ≈ 100 (1% of 10k)
-    assert abs(data["risk_amount"] - 100.0) < 0.1, f"Expected risk_amount ~100, got {data['risk_amount']}"
-    assert abs(data["risk_pct_of_account"] - 1.0) < 0.1, f"Expected 1%, got {data['risk_pct_of_account']}"
-    # Risk per unit = 2 (100 → 98), so size ≈ 50
-    assert abs(data["position_size"] - 50.0) < 0.1, f"Expected position_size ~50, got {data['position_size']}"
-    assert data["position_approved"], "Position should be approved"
-    print("   [PASS] Full confidence test\n")
+    # With minimum enforcement: position_size = 0.1 BTC
+    # Risk = position_size * (price - stop_loss) = 0.1 * 2 = 0.2
+    assert abs(data["position_size"] - 0.1) < 0.01, f"Expected position_size 0.1, got {data['position_size']}"
+    assert abs(data["risk_amount"] - 0.2) < 0.01, f"Expected risk_amount ~0.2, got {data['risk_amount']}"
+    assert data["position_approved"], "Position should be approved with minimum size"
+    print("   [PASS] Minimum size enforcement test\n")
     
-    # Test 2: Tiny confidence → risk scaled down strongly
-    print("Test 2: Tiny confidence scales risk down...")
+    # Test 2: Dynamic sizing mode (when enforce_min_position_size_only = False)
+    print("Test 2: Dynamic sizing mode (when enabled)...")
+    cfg_dynamic = {
+        "account_balance": 10_000,
+        "risk_per_trade": 0.01,
+        "default_stop_loss_pct": 0.02,
+        "min_signal_strength": 0.0,
+        "min_win_rate": 0.0,
+        "min_position_size_units": 0.001,  # Low minimum
+        "enforce_min_position_size_only": False,  # Enable dynamic
+    }
+    agent_dynamic = RiskManagementAgent(cfg_dynamic)
+    
     market_data = {"BTCUSDT": {"current_price": 100.0}}
-    analysis = {"BTCUSDT": {"signal_strength": 0.2}}
-    backtest = {"BTCUSDT": {"win_rate": 0.3}}  # confidence = 0.06
+    analysis = {"BTCUSDT": {"signal_strength": 1.0}}
+    backtest = {"BTCUSDT": {"win_rate": 1.0}}
     
-    msg = agent.execute({
+    msg = agent_dynamic.execute({
         "market_data": market_data,
         "analysis": analysis,
         "backtest_results": backtest,
     })
     data = msg["data"]["assessments"]["BTCUSDT"]
     
-    # Base risk = 100; confidence 0.06 → expected risk ≈ 6
-    assert abs(data["risk_amount"] - 6.0) < 0.1, f"Expected risk_amount ~6, got {data['risk_amount']}"
-    assert abs(data["risk_pct_of_account"] - 0.06) < 0.01, f"Expected 0.06%, got {data['risk_pct_of_account']}"
-    # Risk per unit = 2 → size ≈ 3
-    assert abs(data["position_size"] - 3.0) < 0.1, f"Expected position_size ~3, got {data['position_size']}"
+    # With full confidence: risk ≈ $100, position ≈ 50 units
+    assert abs(data["risk_amount"] - 100.0) < 0.5, f"Expected risk_amount ~100, got {data['risk_amount']}"
+    assert abs(data["position_size"] - 50.0) < 0.5, f"Expected position_size ~50, got {data['position_size']}"
+    assert abs(data["risk_pct_of_account"] - 1.0) < 0.1, f"Expected 1.0%, got {data['risk_pct_of_account']}"
     assert data["position_approved"], "Position should be approved"
-    print("   [PASS] Tiny confidence test\n")
+    print("   [PASS] Dynamic sizing test\n")
     
     # Test 3: Below minimum signal strength → veto
     print("Test 3: Signal below threshold is rejected...")
@@ -312,6 +323,8 @@ def test_risk_manager_targeted():
         "default_stop_loss_pct": 0.02,
         "min_signal_strength": 0.5,
         "min_win_rate": 0.0,
+        "enforce_min_position_size_only": False,  # Use dynamic sizing so signal is checked
+        "min_notional_usd": 10.0,
     }
     agent = RiskManagementAgent(cfg)
     

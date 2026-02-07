@@ -14,6 +14,13 @@ RISK_CONFIG = {
     'min_risk_reward_ratio': 1.5,       # Minimum profit:loss ratio
     'max_daily_loss': 0.05,             # 5% max daily loss
     'account_balance': 10000,           # Same as above
+    'min_notional_usd': 10.0,           # Minimum trade value in USD (prevents dust trades)
+    'min_position_size_units': 0.001,   # Global minimum position size (in base currency)
+    'min_position_size_by_pair': {      # Exchange-specific minimums per trading pair
+        'SOL/USDT': 0.1,                # KuCoin minimum: 0.1 SOL
+        'BTC/USDT': 0.0001,             # KuCoin minimum: 0.0001 BTC
+    },
+    'enforce_min_position_size_only': True,  # True = use minimum sizes only (safer for live trading)
 }
 
 # Market Analysis
