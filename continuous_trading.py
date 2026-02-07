@@ -17,6 +17,7 @@ Configuration:
 
 import logging
 import os
+import signal
 import sys
 import time
 from datetime import datetime
@@ -166,6 +167,14 @@ def main():
     setup_logging()
     logger = logging.getLogger("ContinuousBot")
     
+    # Signal handler to ignore SIGINT during sleep cycles
+    # This prevents VS Code/Windows from killing the process during long sleeps
+    def signal_handler(sig, frame):
+        logger.info("Signal received during cycle - ignoring to maintain continuity")
+        # Don't exit, let the cycle complete naturally
+    
+    signal.signal(signal.SIGINT, signal_handler)
+    
     # Load configuration from config.py
     account_balance = 100.0
     paper_trading = True
@@ -246,7 +255,12 @@ def main():
             print_system_status(agents)
             
             logger.info(f"Cycle #{cycle_count} completed. Sleeping for {cycle_interval}s...")
-            time.sleep(cycle_interval)
+            try:
+                time.sleep(cycle_interval)
+            except KeyboardInterrupt:
+                # If we get here, user REALLY wants to stop (Ctrl+C twice or handler failed)
+                logger.info("Received interrupt during sleep - stopping gracefully")
+                break
     
     except KeyboardInterrupt:
         logger.info(f"\nTrading bot stopped by user after {cycle_count} cycles")
