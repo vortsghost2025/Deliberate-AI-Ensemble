@@ -22,6 +22,12 @@ import sys
 import time
 from datetime import datetime
 
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+
 from agents import (
     OrchestratorAgent,
     DataFetchingAgent,
@@ -51,6 +57,107 @@ def setup_logging():
         format='[%(asctime)s] %(name)s - %(levelname)s: %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+
+
+def check_singleton_enforcement():
+    """
+    PRODUCTION REQUIREMENT #2: Singleton Enforcement
+    
+    Ensures only ONE instance of the bot can run at a time.
+    Uses PID file to track running instance and prevent duplicates.
+    
+    Returns: True if startup approved, False if should exit
+    """
+    pid_file = 'bot.pid'
+    process_log = 'bot_process.log'
+    current_pid = os.getpid()
+    
+    # Check if PID file exists
+    if os.path.exists(pid_file):
+        try:
+            with open(pid_file, 'r') as f:
+                content = f.read().strip().split('|')
+                old_pid = int(content[0])
+                old_timestamp = content[1] if len(content) > 1 else 'unknown'
+            
+            # Check if process is still running
+            is_running = False
+            if PSUTIL_AVAILABLE:
+                is_running = psutil.pid_exists(old_pid)
+            else:
+                # Fallback: Try to send signal 0 (doesn't actually signal, just checks)
+                try:
+                    os.kill(old_pid, 0)
+                    is_running = True
+                except OSError:
+                    is_running = False
+            
+            if is_running:
+                print("\n" + "="*60)
+                print("❌ SINGLETON VIOLATION: Bot Already Running")
+                print("="*60)
+                print(f"\nAnother instance is already active:")
+                print(f"  PID: {old_pid}")
+                print(f"  Started: {old_timestamp}")
+                print(f"\nOnly ONE bot instance can run at a time.")
+                print("This prevents duplicate trades and conflicting orders.")
+                print("\nIf you believe this is a stale lock:")
+                print(f"  1. Verify no bot is running: tasklist | findstr python")
+                print(f"  2. Delete stale lock: del {pid_file}")
+                print("\n" + "="*60)
+                
+                # Log the violation
+                with open(process_log, 'a') as log:
+                    log.write(f"[{datetime.now().isoformat()}] SINGLETON_VIOLATION: "
+                             f"PID {current_pid} blocked by existing PID {old_pid}\n")
+                
+                return False
+            else:
+                # Stale PID file - clean it up
+                print(f"⚠️  Stale PID file detected (process {old_pid} not running)")
+                print(f"   Cleaning up and proceeding...\n")
+                os.remove(pid_file)
+                
+                with open(process_log, 'a') as log:
+                    log.write(f"[{datetime.now().isoformat()}] STALE_PID_CLEANED: "
+                             f"PID {old_pid} from {old_timestamp}\n")
+        
+        except Exception as e:
+            print(f"⚠️  Error reading PID file: {e}")
+            print(f"   Removing corrupted file and proceeding...\n")
+            os.remove(pid_file)
+    
+    # Write new PID file
+    try:
+        with open(pid_file, 'w') as f:
+            f.write(f"{current_pid}|{datetime.now().isoformat()}")
+        
+        with open(process_log, 'a') as log:
+            log.write(f"[{datetime.now().isoformat()}] BOT_START: PID {current_pid}\n")
+        
+        print(f"✅ Singleton check passed (PID: {current_pid})\n")
+        return True
+    
+    except Exception as e:
+        print(f"❌ ERROR: Could not write PID file: {e}")
+        print(f"   Bot startup aborted for safety.\n")
+        return False
+
+
+def cleanup_singleton():
+    """Remove PID file on graceful shutdown."""
+    pid_file = 'bot.pid'
+    process_log = 'bot_process.log'
+    current_pid = os.getpid()
+    
+    if os.path.exists(pid_file):
+        try:
+            os.remove(pid_file)
+            with open(process_log, 'a') as log:
+                log.write(f"[{datetime.now().isoformat()}] BOT_STOP: PID {current_pid}\n")
+            print(f"\n✅ Singleton lock released (PID: {current_pid})")
+        except Exception as e:
+            print(f"\n⚠️  Error removing PID file: {e}")
 
 
 def initialize_agents(config: dict) -> dict:
@@ -167,6 +274,10 @@ def main():
     setup_logging()
     logger = logging.getLogger("ContinuousBot")
     
+    # PRODUCTION REQUIREMENT #2: Singleton Enforcement
+    if not check_singleton_enforcement():
+        sys.exit(1)
+    
     # Signal handler to ignore SIGINT during sleep cycles
     # This prevents VS Code/Windows from killing the process during long sleeps
     def signal_handler(sig, frame):
@@ -265,6 +376,9 @@ def main():
     except KeyboardInterrupt:
         logger.info(f"\nTrading bot stopped by user after {cycle_count} cycles")
         
+        # Cleanup singleton lock
+        cleanup_singleton()
+        
         # Print final performance
         executor = agents['executor']
         perf = executor.get_performance_summary()
@@ -285,7 +399,12 @@ def main():
     
     except Exception as e:
         logger.error(f"Fatal error: {str(e)}", exc_info=True)
+        cleanup_singleton()
         return 1
+    
+    finally:
+        # Ensure cleanup on any exit path
+        cleanup_singleton()
 
 
 if __name__ == '__main__':
