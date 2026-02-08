@@ -278,11 +278,34 @@ def main():
     if not check_singleton_enforcement():
         sys.exit(1)
     
-    # Signal handler to ignore SIGINT during sleep cycles
-    # This prevents VS Code/Windows from killing the process during long sleeps
+    # Graceful shutdown tracking
+    shutdown_requested = {'flag': False, 'first_signal_time': None}
+    
+    # Signal handler: Double Ctrl+C pattern
+    # First Ctrl+C: Request graceful shutdown after current cycle
+    # Second Ctrl+C (within 2 seconds): Force immediate exit
     def signal_handler(sig, frame):
-        logger.info("Signal received during cycle - ignoring to maintain continuity")
-        # Don't exit, let the cycle complete naturally
+        current_time = time.time()
+        
+        if shutdown_requested['flag']:
+            # Second Ctrl+C - force exit
+            elapsed = current_time - shutdown_requested['first_signal_time']
+            if elapsed < 2.0:
+                logger.info("Second Ctrl+C received - forcing immediate shutdown")
+                print("\n⚠️  Force shutdown initiated...")
+                cleanup_singleton()
+                sys.exit(0)
+            else:
+                # Reset if more than 2 seconds elapsed
+                shutdown_requested['first_signal_time'] = current_time
+                logger.info("Graceful shutdown already requested - press Ctrl+C again within 2s to force")
+        else:
+            # First Ctrl+C - request graceful shutdown
+            shutdown_requested['flag'] = True
+            shutdown_requested['first_signal_time'] = current_time
+            logger.info("Graceful shutdown requested - will stop after current cycle completes")
+            print("\n✋ Graceful shutdown requested...")
+            print("   (Press Ctrl+C again within 2 seconds to force immediate stop)\n")
     
     signal.signal(signal.SIGINT, signal_handler)
     
@@ -365,13 +388,14 @@ def main():
             
             print_system_status(agents)
             
-            logger.info(f"Cycle #{cycle_count} completed. Sleeping for {cycle_interval}s...")
-            try:
-                time.sleep(cycle_interval)
-            except KeyboardInterrupt:
-                # If we get here, user REALLY wants to stop (Ctrl+C twice or handler failed)
-                logger.info("Received interrupt during sleep - stopping gracefully")
+            # Check if graceful shutdown requested
+            if shutdown_requested['flag']:
+                logger.info(f"Graceful shutdown - stopping after cycle #{cycle_count}")
+                print(f"\n✅ Graceful shutdown complete after {cycle_count} cycles\n")
                 break
+            
+            logger.info(f"Cycle #{cycle_count} completed. Sleeping for {cycle_interval}s...")
+            time.sleep(cycle_interval)
     
     except KeyboardInterrupt:
         logger.info(f"\nTrading bot stopped by user after {cycle_count} cycles")
