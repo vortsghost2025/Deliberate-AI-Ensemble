@@ -28,6 +28,7 @@ class ContinuousPaperTradingMonitor:
         self.daily_risk_used = 0.0
         self.daily_risk_limit = 500.0  # 5%
         self.max_drawdown = 0.0
+        self.logs_dir = './logs/paper'
         
         # Mock market data - rotates each cycle
         self.market_data_sets = [

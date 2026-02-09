@@ -64,6 +64,9 @@ def get_config():
         print("\n✅ Proceeding with live trading...\n")
     
     config = {
+        # Logging
+        'logs_dir': './logs/production',
+        
         # Mode
         'live_mode': live_mode,
         'paper_trading': paper_trading,

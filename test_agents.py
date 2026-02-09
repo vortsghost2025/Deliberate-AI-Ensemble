@@ -79,7 +79,7 @@ def test_individual_agents():
     
     # Test Monitoring Agent
     print("\n6. Testing MonitoringAgent...")
-    monitor = MonitoringAgent()
+    monitor = MonitoringAgent({'logs_dir': './logs/test'})
     monitor_result = monitor.execute({
         'workflow_stage': 'test',
         'data_result': data_result,

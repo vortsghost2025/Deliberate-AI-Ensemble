@@ -323,6 +323,7 @@ def main():
     logger.info(f"Cycle interval: {cycle_interval} seconds")
     
     config = {
+        'logs_dir': './logs/production',
         'orchestrator': {
             'paper_trading': paper_trading
         },
