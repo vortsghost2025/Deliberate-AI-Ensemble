@@ -84,6 +84,14 @@ def analyze_symptoms(input_symptoms, diseases):
     matches.sort(key=lambda x: x['confidence'], reverse=True)
     return matches[:10]  # Top 10 matches
 
+def extract_all_symptoms(diseases):
+    """Extract all unique symptoms from the disease dataset"""
+    all_symptoms = set()
+    for disease_name, symptom_lists in diseases.items():
+        for symptoms in symptom_lists:
+            all_symptoms.update(symptoms)
+    return sorted(list(all_symptoms))
+
 def generate_report(input_symptoms, matches, descriptions, precautions):
     """
     Generate final consensus report
