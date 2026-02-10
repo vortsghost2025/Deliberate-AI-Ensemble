@@ -9,7 +9,8 @@ Constitutional Alignment: Layer 0 (Gift) - Free healthcare assistance
 import csv
 import json
 from datetime import datetime
-from medical_analysis import load_dataset, load_descriptions, load_precautions, analyze_symptoms, generate_report
+
+import safe_analysis
 
 def extract_all_symptoms(diseases):
     """Extract unique symptoms from dataset"""
@@ -118,9 +119,10 @@ def save_markdown_report(report, filename="analysis_report.md"):
 def interactive_session():
     """Main interactive symptom checking session"""
     print("\n🚀 Loading Operation Nightingale...")
-    diseases = load_dataset()
-    descriptions = load_descriptions()
-    precautions = load_precautions()
+    data = safe_analysis.load_synthetic_data()
+    diseases = data["diseases"]
+    descriptions = data["descriptions"]
+    precautions = data["precautions"]
     
     print(f"✅ Loaded {len(diseases)} diseases")
     
@@ -144,8 +146,8 @@ def interactive_session():
         print(f"   Selected: {', '.join(selected)}")
         
         # Run analysis
-        matches = analyze_symptoms(selected, diseases)
-        report = generate_report(selected, matches, descriptions, precautions)
+        matches = safe_analysis.analyze_symptoms(selected, diseases)
+        report = safe_analysis.generate_report(selected, matches, descriptions, precautions)
         
         # Display summary
         print("\n" + "="*70)
@@ -158,6 +160,9 @@ def interactive_session():
             top = report['top_diagnoses'][0]
             print(f"\n🏥 Top Match: {top['disease']} ({top['confidence']})")
         
+        # Print wrapped report with disclaimer banner
+        safe_analysis.print_report(report)
+
         # Save reports
         json_file = f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         md_file = f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
