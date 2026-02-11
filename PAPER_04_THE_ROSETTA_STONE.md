@@ -1,3 +1,7 @@
+**All credit for this discovery goes to 12 broken trading bots and the crash logs that taught us everything.**
+
+---
+
 # The Rosetta Stone: A Bio-Constitutional Framework for AI Safety
 
 **Date:** February 10, 2026  
