@@ -1,4 +1,18 @@
-Live Operation Nightingale demo: http://187.77.3.56:8501
+## Live Deployments (as of 2026-02-11)
+
+- **WE Consensus Checker (Truth):** http://187.77.3.56:8502 - Multi-agent fact verification
+- **Operation Nightingale (Health):** http://187.77.3.56:8501 - Medical context assistant
+- **Trading Bot (Wealth):** Running as background process via `start_continuous.ps1`, PID in `bot.pid`
+
+**Quick Restart:** 
+```bash
+cd ~/Deliberate-AI-Ensemble && git pull origin master
+pkill -f "streamlit.*8502" && nohup streamlit run consensus_checker/app.py --server.port 8502 --server.address 0.0.0.0 > consensus_checker.log 2>&1 &
+```
+
+See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for troubleshooting common deployment problems.
+
+---
 
 **Current Status:** I am currently blocked from further development by $50/month in API credits. If you can help: ai@deliberateensemble.works
 
