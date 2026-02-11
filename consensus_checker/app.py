@@ -135,21 +135,24 @@ if verify_button:
             else:
                 with st.spinner("🔎 Engaging consensus agents... (This takes 30-60 seconds)"):
                     try:
-                            # Record check BEFORE calling API (prevent burn without counting)
-                            rate_limiter.record_check()
-                            
-                            # Initialize client and orchestrator
-                            client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-                            orchestrator = ConsensusOrchestrator(
-                                client=client,
-                                model=LLM_MODEL,
-                                max_tokens=MAX_TOKENS,
-                                temperature=TEMPERATURE,
-                                num_agents=3
-                            )
-                            
-                            # Run verification
-                            result = orchestrator.verify_claim(claim_text)
+                        # Record check BEFORE calling API (prevent burn without counting)
+                        rate_limiter.record_check()
+                        
+                        # Initialize client and orchestrator
+                        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+                        orchestrator = ConsensusOrchestrator(
+                            client=client,
+                            model=LLM_MODEL,
+                            max_tokens=MAX_TOKENS,
+                            temperature=TEMPERATURE,
+                            num_agents=3
+                        )
+                        
+                        # Run verification
+                        result = orchestrator.verify_claim(claim_text)
+                        
+                        st.markdown("---")
+                        st.markdown("## 📊 Verification Results")
                         
                         # Show consensus analysis
                         consensus = result["consensus_analysis"]
