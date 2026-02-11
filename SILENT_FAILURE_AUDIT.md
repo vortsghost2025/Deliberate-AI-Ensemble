@@ -59,8 +59,8 @@
 - **Recommended Fix:** Add a lightweight audit note or hook that records "human approval received" before commits or pushes.
 
 ### 3. File Writes Without Checksum Verification
-- **Status:** OPEN
-- **Evidence:** [SESSION_CHECKSUM.md](SESSION_CHECKSUM.md) exists, but there is no enforced check before updates to [AGENT_COORDINATION/SHARED_TASK_QUEUE.md](AGENT_COORDINATION/SHARED_TASK_QUEUE.md) or [AGENT_COORDINATION/VSCODE_STATUS.md](AGENT_COORDINATION/VSCODE_STATUS.md).
+- **Status:** PARTIAL
+- **Evidence:** [SESSION_CHECKSUM.md](SESSION_CHECKSUM.md) now requires `python checksum_guard.py`, but the checksum is not yet enforced in task/status updates.
 - **Recommended Fix:** Add a brief "checksum verified" line to task updates or status updates.
 
 ### 4. Task Claims Without Evidence Links
@@ -69,9 +69,9 @@
 - **Recommended Fix:** Require a commit hash or file link for every task marked COMPLETE.
 
 ### 5. Confidence Ratings Missing
-- **Status:** OPEN
-- **Evidence:** [AGENT_COORDINATION/VSCODE_STATUS.md](AGENT_COORDINATION/VSCODE_STATUS.md) and [AGENT_COORDINATION/DESKTOP_STATUS.md](AGENT_COORDINATION/DESKTOP_STATUS.md) do not include confidence ratings.
-- **Recommended Fix:** Add "Confidence: __/10" to status templates.
+- **Status:** PARTIAL
+- **Evidence:** [AGENT_COORDINATION/VSCODE_STATUS.md](AGENT_COORDINATION/VSCODE_STATUS.md) and [AGENT_COORDINATION/DESKTOP_STATUS.md](AGENT_COORDINATION/DESKTOP_STATUS.md) include confidence fields, but not all agents have filled them.
+- **Recommended Fix:** Require each status update to include a numeric confidence and one-line reasoning.
 
 ### 6. Model/Session ID Not Logged
 - **Status:** PARTIAL
