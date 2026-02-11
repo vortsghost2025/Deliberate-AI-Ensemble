@@ -63,11 +63,11 @@ class MonitoringAgent(BaseAgent):
         self.log_execution_start("log_and_monitor")
         
         try:
-            # Extract data from all phases
-            data_result = input_data.get('data_result', {})
-            analysis_result = input_data.get('analysis_result', {})
-            risk_result = input_data.get('risk_result', {})
-            exec_result = input_data.get('exec_result', {})
+            # Extract data from all phases (handle None for partial cycles)
+            data_result = input_data.get('data_result') or {}
+            analysis_result = input_data.get('analysis_result') or {}
+            risk_result = input_data.get('risk_result') or {}
+            exec_result = input_data.get('exec_result') or {}
             
             # Create comprehensive event log
             event = {
