@@ -27,6 +27,17 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
+    /* Force light mode with soft background */
+    .stApp {
+        background-color: #FAFAFA;
+        color: #333333;
+    }
+    
+    /* Center headers */
+    h1, h2, h3 {
+        text-align: center !important;
+    }
+    
     /* Make main content narrower and centered */
     .main .block-container {
         max-width: 900px;
@@ -42,20 +53,20 @@ st.markdown("""
     }
 
     .disclaimer-box {
-        border: 1px solid #e0e0e0;
+        border-left: 4px solid #DAA520;
         padding: 12px 15px;
         border-radius: 6px;
-        background-color: #fafafa;
-        color: #444;
+        background-color: #F5F5DC;
+        color: #5D4E37;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
     .resource-notice {
-        border: 1px solid #e0e0e0;
+        border-left: 4px solid #4A90E2;
         padding: 12px 15px;
         border-radius: 6px;
-        background-color: #f5f7fb;
-        color: #333;
+        background-color: #F0F4F8;
+        color: #2C3E50;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
