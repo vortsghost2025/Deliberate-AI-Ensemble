@@ -27,62 +27,77 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
-    /* Force light mode with soft background */
-    .stApp {
-        background-color: #FAFAFA;
-        color: #333333;
+    /* Light, neutral background instead of black */
+    [data-testid="stAppViewContainer"] {
+        background-color: #f5f5f5;
     }
-    
-    /* Center headers */
-    h1, h2, h3 {
-        text-align: center !important;
+    [data-testid="stHeader"] {
+        background-color: transparent;
     }
-    
-    /* Make main content narrower and centered */
+
+    /* Center main content and limit width so it feels intentional */
     .main .block-container {
         max-width: 900px;
-        padding-top: 2rem;
-        padding-bottom: 4rem;
         margin: 0 auto;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
     }
 
-    /* Softer base font + line spacing */
+    /* Softer base font */
     html, body, [class*="css"]  {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        line-height: 1.5;
+        color: #222222;
     }
 
+    /* Center the main title */
+    .main h1 {
+        text-align: center;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Optional: center the subheader too */
+    .main h3, .main h2 {
+        text-align: center;
+    }
+
+    /* Calm disclaimer box: no bright yellow or red */
     .disclaimer-box {
-        border-left: 4px solid #DAA520;
-        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        padding: 12px 16px;
         border-radius: 6px;
-        background-color: #F5F5DC;
-        color: #5D4E37;
+        background-color: #fafafa;
+        color: #333333;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
+
+    /* Calm resource/status box */
     .resource-notice {
-        border-left: 4px solid #4A90E2;
-        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        padding: 12px 16px;
         border-radius: 6px;
-        background-color: #F0F4F8;
-        color: #2C3E50;
+        background-color: #f7f9fc;
+        color: #333333;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
+
+    /* Verdict styling: only these get color emphasis */
     .consensus-strong {
-        color: #1a7f37;
+        color: #1a7f37;  /* deep green */
         font-weight: 600;
     }
     .consensus-contested {
-        color: #b3261e;
+        color: #b3261e;  /* deep red */
         font-weight: 600;
     }
+
+    /* Agent output cards: simple white cards */
     .agent-output {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         padding: 15px;
         border-radius: 5px;
-        border-left: 4px solid #3498DB;
+        border: 1px solid #e5e5e5;
         margin: 10px 0;
     }
     </style>
