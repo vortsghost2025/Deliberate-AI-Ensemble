@@ -92,13 +92,24 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* Agent output cards: simple white cards */
+    /* Agent output cards: light grey instead of white */
     .agent-output {
-        background-color: #ffffff;
+        background-color: #fafafa;
         padding: 15px;
         border-radius: 5px;
         border: 1px solid #e5e5e5;
         margin: 10px 0;
+    }
+
+    /* Fix sidebar button contrast - make sure text is visible */
+    [data-testid="stSidebar"] button {
+        background-color: #ffffff !important;
+        color: #222222 !important;
+        border: 1px solid #e0e0e0 !important;
+    }
+    [data-testid="stSidebar"] button:hover {
+        background-color: #f0f0f0 !important;
+        border-color: #3498DB !important;
     }
     </style>
 """, unsafe_allow_html=True)
