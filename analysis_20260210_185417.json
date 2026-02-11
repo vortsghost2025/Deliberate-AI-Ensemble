@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-02-10T18:54:17.271526",
+  "input_symptoms": [
+    "abdominal_pain"
+  ],
+  "analysis": {
+    "total_matches": 1,
+    "high_confidence": [
+      {
+        "disease": "Typhoid",
+        "confidence": 1.0,
+        "matching_symptoms": [
+          "abdominal_pain"
+        ],
+        "all_symptoms": [
+          "fatigue",
+          "knee_pain",
+          "bladder_discomfort",
+          "redness_of_eyes",
+          "abdominal_pain"
+        ]
+      }
+    ],
+    "medium_confidence": [],
+    "low_confidence": []
+  },
+  "top_diagnoses": [
+    {
+      "disease": "Typhoid",
+      "confidence": "100.0%",
+      "matching_symptoms": [
+        "abdominal_pain"
+      ],
+      "description": "Synthetic description for Typhoid.",
+      "precautions": [
+        "Synthetic precaution 1",
+        "Synthetic precaution 2",
+        "Synthetic precaution 3",
+        "Synthetic precaution 4"
+      ]
+    }
+  ]
+}

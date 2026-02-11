@@ -1,0 +1,25 @@
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   PAPER_02_THE_MORAL_IMPERATIVE.md
+	modified:   medical_data_poc/medical_analysis.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.vscode/
+	FAILURE_ANALYSIS_FEB9_2026.md
+	PAPER_04_THE_ROSETTA_STONE.md
+	SESSION_ID_PERSISTENCE_VALIDATION.md
+	git_local_history.txt
+	git_local_status.txt
+	lmarena.ini
+	lmarenaconvo.md.txt
+	lmarenaconvorecovered.md
+	medical_data_poc/deploy_to_vps.ps1
+	vps_password.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
