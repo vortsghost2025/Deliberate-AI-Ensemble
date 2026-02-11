@@ -80,10 +80,9 @@ stats = rate_limiter.get_stats()
 st.markdown(f"""
     <div class="resource-notice">
         {RESOURCE_NOTICE.format(max_checks=MAX_CHECKS_PER_HOUR)}
-        <br><br>
-        <b>Current Status:</b> {stats['checks_last_hour']}/{stats['limit_per_hour']} checks used in last hour
-        <br>
-        <b>Total Verifications (All Time):</b> {stats['total_checks_all_time']}
+        
+<b>Current Status:</b> {stats['checks_last_hour']}/{stats['limit_per_hour']} checks used in last hour<br>
+<b>Total Verifications (All Time):</b> {stats['total_checks_all_time']}
     </div>
 """, unsafe_allow_html=True)
 
