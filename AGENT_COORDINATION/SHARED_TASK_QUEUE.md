@@ -2,7 +2,7 @@
 
 **Purpose:** Coordination between Desktop Agent, VS Code Agent, and VPS Agent  
 **Method:** Constitutional multi-agent coordination through documentation  
-**Last Updated:** February 10, 2026, 7:30 PM EST
+**Last Updated:** February 10, 2026, 7:40 PM EST
 
 ---
 
@@ -68,6 +68,15 @@ git commit -m "docs: add paper 04 and coordination lessons (simplified)"
 **Description:** Update the VPS deployment to the safe medical POC code (synthetic-only + disclaimer). Pull latest from origin/master and restart the Streamlit app.
 **Dependencies:** TASK-009 (workspace sync)
 **Notes:** Verify disclaimer banner is visible at http://187.77.3.56:8501/ before continuing feature work.
+
+### TASK-011: Remediate Silent Failure Audit Findings
+**Status:** PENDING  
+**Assigned to:** VS Code Agent  
+**Requested by:** Sean  
+**Priority:** HIGH  
+**Description:** Fix open items identified in SILENT_FAILURE_AUDIT.md (confidence ratings, evidence links, checksum verification, session IDs).
+**Dependencies:** TASK-012
+**Notes:** Track fixes with [AUDIT] commits and update audit status as items close.
 
 ### TASK-012: Silent Failure Audit (Initial Scan)
 **Status:** COMPLETE ✓  
