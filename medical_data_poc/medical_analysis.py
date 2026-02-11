@@ -57,27 +57,37 @@ def analyze_symptoms(input_symptoms, diseases):
     """
     Claude Analysis (Step 1): Match symptoms to potential diseases
     Returns: List of (disease, confidence, matching_symptoms)
+    
+    Applies confidence penalty for insufficient symptom count (<3 symptoms)
+    to prevent spurious 100% confidence from single rare symptoms.
     """
     matches = []
     input_set = set([s.lower().strip() for s in input_symptoms])
+    symptom_count = len(input_set)
     
     for disease, symptom_sets in diseases.items():
         for symptoms in symptom_sets:
             symptom_set = set([s.lower().strip() for s in symptoms])
             
             # Calculate match confidence
-            if len(input_set) == 0:
+            if symptom_count == 0:
                 continue
                 
             matching = input_set.intersection(symptom_set)
-            confidence = len(matching) / len(input_set)
+            confidence = len(matching) / symptom_count
+            
+            # Apply confidence penalty for too few symptoms
+            # Prevents 100% confidence from single symptom matches (clinical safety)
+            confidence_penalty = min(1.0, symptom_count / 3.0)
+            confidence = confidence * confidence_penalty
             
             if confidence > 0:
                 matches.append({
                     'disease': disease,
                     'confidence': confidence,
                     'matching_symptoms': list(matching),
-                    'all_symptoms': symptoms
+                    'all_symptoms': symptoms,
+                    'symptom_count': symptom_count  # For caller warning display
                 })
     
     # Sort by confidence
@@ -95,10 +105,17 @@ def extract_all_symptoms(diseases):
 def generate_report(input_symptoms, matches, descriptions, precautions):
     """
     Generate final consensus report
+    
+    Includes warning for low symptom count (<3) to guide users
+    toward more accurate analysis.
     """
+    symptom_count = len(input_symptoms)
+    
     report = {
         'timestamp': datetime.now().isoformat(),
         'input_symptoms': input_symptoms,
+        'symptom_count': symptom_count,
+        'low_confidence_warning': symptom_count < 3,
         'analysis': {
             'total_matches': len(matches),
             'high_confidence': [m for m in matches if m['confidence'] >= 0.7],
@@ -127,6 +144,12 @@ def print_report(report):
     print("="*70)
     print(f"\nTimestamp: {report['timestamp']}")
     print(f"Input Symptoms: {', '.join(report['input_symptoms'])}")
+    
+    # Display low symptom count warning
+    if report.get('low_confidence_warning', False):
+        print(f"\n⚠️  LOW CONFIDENCE WARNING:")
+        print(f"   Only {report['symptom_count']} symptom(s) provided.")
+        print(f"   Add 2 or more additional symptoms for more accurate results.")
     
     analysis = report['analysis']
     print(f"\n📊 Analysis Summary:")
