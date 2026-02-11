@@ -100,6 +100,17 @@ st.markdown("""
         border: 1px solid #e5e5e5;
         margin: 10px 0;
     }
+
+    /* Fix button contrast - make secondary buttons visible */
+    button[kind="secondary"] {
+        background-color: #ffffff !important;
+        color: #222222 !important;
+        border: 1px solid #d0d0d0 !important;
+    }
+    button[kind="secondary"]:hover {
+        background-color: #f0f0f0 !important;
+        border-color: #999999 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
