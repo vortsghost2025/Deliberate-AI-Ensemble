@@ -27,35 +27,48 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
+    /* Make main content narrower and centered */
+    .main .block-container {
+        max-width: 900px;
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+        margin: 0 auto;
+    }
+
+    /* Softer base font + line spacing */
+    html, body, [class*="css"]  {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+    }
+
     .disclaimer-box {
-        border: 2px solid #FFD700;
-        padding: 15px;
-        border-radius: 8px;
-        background-color: #FFFACD;
-        color: #8B4513;
-        margin-bottom: 20px;
+        border: 1px solid #e0e0e0;
+        padding: 12px 15px;
+        border-radius: 6px;
+        background-color: #fafafa;
+        color: #444;
+        margin-bottom: 16px;
         font-size: 0.9em;
     }
     .resource-notice {
-        border: 2px solid #FF6B6B;
-        padding: 15px;
-        border-radius: 8px;
-        background-color: #FFE5E5;
-        color: #8B0000;
-        margin-bottom: 20px;
-        font-size: 0.95em;
-        font-weight: 500;
+        border: 1px solid #e0e0e0;
+        padding: 12px 15px;
+        border-radius: 6px;
+        background-color: #f5f7fb;
+        color: #333;
+        margin-bottom: 16px;
+        font-size: 0.9em;
     }
     .consensus-strong {
-        color: #2ECC71;
-        font-weight: bold;
+        color: #1a7f37;
+        font-weight: 600;
     }
     .consensus-contested {
-        color: #E74C3C;
-        font-weight: bold;
+        color: #b3261e;
+        font-weight: 600;
     }
     .agent-output {
-        background-color: #F8F9FA;
+        background-color: #f8f9fa;
         padding: 15px;
         border-radius: 5px;
         border-left: 4px solid #3498DB;
@@ -68,21 +81,31 @@ st.markdown("""
 st.title(f"{APP_ICON} {APP_TITLE}")
 st.subheader("Transparent Multi-Agent Fact Verification")
 
+# Sidebar with stats
+stats = rate_limiter.get_stats()
+with st.sidebar:
+    st.markdown("### 📊 Service Status")
+    st.markdown(f"""
+    <div class="resource-notice">
+    <b>Checks this hour:</b> {stats['checks_last_hour']}/{stats['limit_per_hour']}<br>
+    <b>All-time checks:</b> {stats['total_checks_all_time']}
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    st.markdown("### ℹ️ About")
+    st.markdown("""
+    This tool runs 3 independent AI agents to verify claims.
+    
+    Rate limited to preserve resources. This is a free public service.
+    
+    **Contact:** ai@deliberateensemble.works
+    """)
+
 # Constitutional Disclaimer
 st.markdown(f"""
     <div class="disclaimer-box">
         {TRANSPARENCY_DISCLAIMER}
-    </div>
-""", unsafe_allow_html=True)
-
-# Resource Notice
-stats = rate_limiter.get_stats()
-st.markdown(f"""
-    <div class="resource-notice">
-        {RESOURCE_NOTICE.format(max_checks=MAX_CHECKS_PER_HOUR)}
-        
-<b>Current Status:</b> {stats['checks_last_hour']}/{stats['limit_per_hour']} checks used in last hour<br>
-<b>Total Verifications (All Time):</b> {stats['total_checks_all_time']}
     </div>
 """, unsafe_allow_html=True)
 
