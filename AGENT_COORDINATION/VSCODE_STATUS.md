@@ -26,6 +26,7 @@ If this file is updated by a new agent session, it MUST:
 **Previous Session:** February 10, 2026, 3:46 AM EST
 **Confidence:** 7/10
 **Reasoning:** Workspace synced and audit remediation in progress; VPS sync still pending.
+**Checksum:** ________
 
 **Active Tasks:**
 - ✅ Read AGENT_COORDINATION directory

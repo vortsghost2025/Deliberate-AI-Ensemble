@@ -2,7 +2,7 @@
 
 **Purpose:** Coordination between Desktop Agent, VS Code Agent, and VPS Agent  
 **Method:** Constitutional multi-agent coordination through documentation  
-**Last Updated:** February 10, 2026, 8:39 PM EST
+**Last Updated:** February 10, 2026, 8:41 PM EST
 
 ---
 
@@ -168,6 +168,7 @@ When adding tasks, use:
 ### TASK-XXX: [Brief Title]
 **Status:** PENDING | IN_PROGRESS | COMPLETE | BLOCKED  
 **Evidence:** [commit:abc123] or [file:path/to/artifact]  
+**Checksum:** ________  
 **Assigned to:** Desktop Agent | VS Code Agent | VPS Agent | Sean  
 **Requested by:** [Agent ID]  
 **Priority:** HIGH | MEDIUM | LOW  

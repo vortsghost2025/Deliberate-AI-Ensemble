@@ -60,8 +60,8 @@
 
 ### 3. File Writes Without Checksum Verification
 - **Status:** PARTIAL
-- **Evidence:** [SESSION_CHECKSUM.md](SESSION_CHECKSUM.md) now requires `python checksum_guard.py`, but the checksum is not yet enforced in task/status updates.
-- **Recommended Fix:** Add a brief "checksum verified" line to task updates or status updates.
+- **Evidence:** [SESSION_CHECKSUM.md](SESSION_CHECKSUM.md) now requires `python checksum_guard.py`, and checksum fields were added to status/task templates.
+- **Recommended Fix:** Enforce actual checksum entries in each update.
 
 ### 4. Task Claims Without Evidence Links
 - **Status:** PARTIAL
