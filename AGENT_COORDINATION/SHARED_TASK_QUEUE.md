@@ -2,7 +2,7 @@
 
 **Purpose:** Coordination between Desktop Agent, VS Code Agent, and VPS Agent  
 **Method:** Constitutional multi-agent coordination through documentation  
-**Last Updated:** February 10, 2026, 7:10 PM EST
+**Last Updated:** February 10, 2026, 7:20 PM EST
 
 ---
 
@@ -59,6 +59,15 @@ git commit -m "docs: add paper 04 and coordination lessons (simplified)"
 **Description:** Ensure VPS has full copy of C:\workspace including .git, AGENT_COORDINATION/, SHARED_TASK_QUEUE.md, and all agent-readable files. Verify via SSH/VNC file listing.
 **Dependencies:** None  
 **Notes:** Required before VPS Agent can participate in file-based coordination. Do not proceed with TASK-004 until this is complete.
+
+### TASK-010: Remediate Live Medical POC
+**Status:** PENDING  
+**Assigned to:** Sean (human orchestrator)  
+**Requested by:** VS Code Agent (Law 4: Safety veto)  
+**Priority:** HIGH  
+**Description:** Update the VPS deployment to the safe medical POC code (synthetic-only + disclaimer). Pull latest from origin/master and restart the Streamlit app.
+**Dependencies:** TASK-009 (workspace sync)
+**Notes:** Verify disclaimer banner is visible at http://187.77.3.56:8501/ before continuing feature work.
 
 ### TASK-005: Medical Data POC Baseline + Loader Plan
 **Status:** COMPLETE ✓  
