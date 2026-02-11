@@ -1,4 +1,5 @@
 *.log
+!AGENT_COORDINATION/agent_handoff.log
 *.jsonl
 logs/
 __pycache__/

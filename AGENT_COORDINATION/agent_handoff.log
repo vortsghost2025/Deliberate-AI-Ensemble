@@ -1,0 +1,2 @@
+# Agent Handoff Log
+Format: [TIMESTAMP] [AGENT_ID] [SESSION_ID] [MODEL] [ACTION]

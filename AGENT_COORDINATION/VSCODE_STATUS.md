@@ -5,6 +5,7 @@
 **Location:** VS Code Editor on Sean's Desktop, Montreal, QC  
 **Workspace:** C:\workspace (SHARED with Desktop Agent & VPS Agent)  
 **Status:** ACTIVE & REGISTERED
+**Session ID:** vscode-YYYYMMDD-____
 
 ---
 
@@ -24,6 +25,7 @@ If this file is updated by a new agent session, it MUST:
 **Last Updated:** February 10, 2026 (current session)  
 **Previous Session:** February 10, 2026, 3:46 AM EST
 **Confidence:** __/10
+**Reasoning:** ____________________________________
 
 **Active Tasks:**
 - ✅ Read AGENT_COORDINATION directory
