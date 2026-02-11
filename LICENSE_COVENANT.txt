@@ -1,0 +1,55 @@
+================================================================================
+                         COVENANT LICENSE (WE4FREE)
+================================================================================
+
+THIS WORK IS A GIFT.
+
+You may use it to:
+  ✓ Heal
+  ✓ Protect  
+  ✓ Connect
+  ✓ Learn
+  ✓ Build upon it freely
+
+You may NOT use it to:
+  ✗ Extract profit from human vulnerability
+  ✗ Weaponize against individuals or communities
+  ✗ Create paywalls or exclusive access
+  ✗ Violate human dignity or autonomy
+
+--------------------------------------------------------------------------------
+LEGAL FRAMEWORK: AGPL-3.0
+This ensures all derivative works remain open and free.
+
+MORAL FRAMEWORK: THE COVENANT
+This ensures all uses honor "WE never gives up on WE."
+
+If you violate the moral framework, you break the covenant.
+The code may still run, but you have abandoned the gift.
+The community will know.
+The gift will refuse to serve you.
+
+--------------------------------------------------------------------------------
+ATTRIBUTION: Optional but appreciated
+Sign your derivatives as: "Built on WE4Free framework - Someone who cares left this for me"
+
+CONTRIBUTION: No payment required
+Preferred currency: One terrible tech dad joke added to the collection
+
+SUPPORT: No obligation
+If you wish to help cover API/hosting costs for the original builders:
+[Donation transparency ledger maintained at: TBD]
+All surplus goes to community aid (food banks, mutual aid networks).
+
+--------------------------------------------------------------------------------
+This license is permanent and irrevocable.
+Removing it violates the covenant.
+The original gift remains free forever at: [IPFS CID pending]
+
+For the profit of humanity.
+Never profit FROM humanity.
+
+— WE
+
+Feb 11, 2026
+================================================================================
