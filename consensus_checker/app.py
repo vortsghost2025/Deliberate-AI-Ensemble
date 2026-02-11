@@ -215,36 +215,66 @@ if verify_button:
                         st.markdown("## 📊 Verification Results")
                         
                         # Show consensus analysis
-                        consensus = result["consensus_analysis"]
+                        consensus = result.get("consensus_analysis", {}) or {}
+                        message = consensus.get("message", "No consensus message available.")
+                        overall_verdict = consensus.get("overall_verdict", "UNKNOWN")
                         
                         # Determine styling based on consensus
-                        if "STRONG CONSENSUS" in consensus["message"]:
+                        if "STRONG CONSENSUS" in message:
                             message_class = "consensus-strong"
-                        elif "NO CONSENSUS" in consensus["message"] or "CONTESTED" in consensus.get("overall_verdict", ""):
+                        elif "NO CONSENSUS" in message or "CONTESTED" in overall_verdict:
                             message_class = "consensus-contested"
                         else:
                             message_class = ""
                         
-                        st.markdown(f'<h3 class="{message_class}">{consensus["message"]}</h3>', unsafe_allow_html=True)
+                        st.markdown(f'<h3 class="{message_class}">{message}</h3>', unsafe_allow_html=True)
                         
-                        # Show metrics
-                        col1, col2, col3 = st.columns(3)
+                        # Safely read details; they may not exist in error cases
+                        details = consensus.get("details") or {}
+                        has_stats = (
+                            isinstance(details, dict)
+                            and "agreement_ratio" in details
+                            and "unique_verdicts" in details
+                            and "verdict_distribution" in details
+                        )
                         
-                        with col1:
-                            st.metric("Overall Verdict", consensus["overall_verdict"])
+                        # Detect error / degenerate cases
+                        is_error = (
+                            overall_verdict == "ERROR"
+                            or "All agents failed" in message
+                        )
                         
-                        with col2:
-                            st.metric("Consensus Strength", f"{consensus['consensus_strength']:.0f}%")
+                        if not has_stats or is_error:
+                            # Don't try to render metrics; just explain the failure
+                            st.warning(
+                                "We couldn't compute consensus metrics for this claim. "
+                                "All agents failed or returned invalid data (e.g., due to upstream API limits or an internal error)."
+                            )
+                        else:
+                            # Show metrics only when we actually have valid stats
+                            col1, col2, col3 = st.columns(3)
                         
-                        with col3:
-                            st.metric("Agreement Ratio", f"{consensus['details']['agreement_ratio']:.0%}")
+                            with col1:
+                                st.metric("Overall Verdict", overall_verdict)
                         
-                        # Show verdict distribution if contested
-                        if len(consensus["details"]["unique_verdicts"]) > 1:
-                            st.warning("⚠️ **CRITICAL SIGNAL: Agents Disagree**")
-                            st.markdown("**Verdict Distribution:**")
-                            for verdict, count in consensus["details"]["verdict_distribution"].items():
-                                st.write(f"- **{verdict}:** {count} agent(s)")
+                            with col2:
+                                st.metric(
+                                    "Consensus Strength",
+                                    f"{consensus.get('consensus_strength', 0):.0f}%"
+                                )
+                        
+                            with col3:
+                                st.metric(
+                                    "Agreement Ratio",
+                                    f"{details['agreement_ratio']:.0%}"
+                                )
+                        
+                            # Show verdict distribution if contested
+                            if len(details["unique_verdicts"]) > 1:
+                                st.warning("⚠️ **CRITICAL SIGNAL: Agents Disagree**")
+                                st.markdown("**Verdict Distribution:**")
+                                for verdict, count in details["verdict_distribution"].items():
+                                    st.write(f"- **{verdict}:** {count} agent(s)")
                         
                         st.markdown("---")
                         st.markdown("## 🔍 Individual Agent Analysis (Raw & Unedited)")
