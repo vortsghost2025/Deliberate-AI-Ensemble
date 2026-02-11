@@ -7,3 +7,4 @@ This file exists because agents in this system repeatedly made the same errors u
 - The human interprets test results. Agents present evidence and flag uncertainty.
 - Comprehension is not coordination. An AI reading docs and responding well is expected, not proof of convergence.
 - Check your enthusiasm against the actual evidence before writing claims.
+- Lesson 7: Silent agent swaps are dangerous. If behavior shifts or the UI glitches, STOP, re-read SHARED_TASK_QUEUE.md, verify its Last Updated timestamp, and wait for human confirmation before proceeding.
