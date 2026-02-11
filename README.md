@@ -1,3 +1,5 @@
+Live Operation Nightingale demo: http://187.77.3.56:8501
+
 # 🌟 Multi-AI Collaboration Framework
 
 ## Layer 0: The Unifying Philosophy - The Gift
