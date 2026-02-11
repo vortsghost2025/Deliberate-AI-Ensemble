@@ -9,7 +9,7 @@ import sys
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from consensus_checker.config import *
+from consensus_checker.consensus_config import *
 from consensus_checker.orchestrator import ConsensusOrchestrator
 from consensus_checker.rate_limiter import RateLimiter
 
