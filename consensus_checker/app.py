@@ -43,10 +43,10 @@ st.markdown("""
         padding-bottom: 3rem;
     }
 
-    /* Softer base font */
-    html, body, [class*="css"]  {
+    /* Force dark text everywhere */
+    html, body, [class*="css"], .stApp, .main, p, div, span, label, h1, h2, h3, h4, h5, h6 {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: #222222;
+        color: #1a1a1a !important;
     }
 
     /* Center the main title */
