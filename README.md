@@ -1,5 +1,7 @@
 Live Operation Nightingale demo: http://187.77.3.56:8501
 
+**Current Status:** I am currently blocked from further development by $50/month in API credits. If you can help: ai@deliberateensemble.works
+
 # 🌟 Multi-AI Collaboration Framework
 
 ## Layer 0: The Unifying Philosophy - The Gift
