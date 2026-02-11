@@ -27,89 +27,63 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
-    /* Light, neutral background instead of black */
-    [data-testid="stAppViewContainer"] {
-        background-color: #f5f5f5;
+    /* Force light mode with soft background */
+    .stApp {
+        background-color: #FAFAFA;
+        color: #333333;
     }
-    [data-testid="stHeader"] {
-        background-color: transparent;
+    
+    /* Center headers */
+    h1, h2, h3 {
+        text-align: center !important;
     }
-
-    /* Center main content and limit width so it feels intentional */
+    
+    /* Make main content narrower and centered */
     .main .block-container {
         max-width: 900px;
-        margin: 0 auto;
         padding-top: 2rem;
-        padding-bottom: 3rem;
+        padding-bottom: 4rem;
+        margin: 0 auto;
     }
 
-    /* Force dark text everywhere */
-    html, body, [class*="css"], .stApp, .main, p, div, span, label, h1, h2, h3, h4, h5, h6 {
+    /* Softer base font + line spacing */
+    html, body, [class*="css"]  {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: #1a1a1a !important;
+        line-height: 1.5;
     }
 
-    /* Center the main title */
-    .main h1 {
-        text-align: center;
-        margin-bottom: 0.4rem;
-    }
-
-    /* Optional: center the subheader too */
-    .main h3, .main h2 {
-        text-align: center;
-    }
-
-    /* Calm disclaimer box: no bright yellow or red */
     .disclaimer-box {
-        border: 1px solid #e0e0e0;
-        padding: 12px 16px;
+        border-left: 4px solid #DAA520;
+        padding: 12px 15px;
         border-radius: 6px;
-        background-color: #fafafa;
-        color: #333333;
+        background-color: #F5F5DC;
+        color: #5D4E37;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
-
-    /* Calm resource/status box */
     .resource-notice {
-        border: 1px solid #e0e0e0;
-        padding: 12px 16px;
+        border-left: 4px solid #4A90E2;
+        padding: 12px 15px;
         border-radius: 6px;
-        background-color: #f7f9fc;
-        color: #333333;
+        background-color: #F0F4F8;
+        color: #2C3E50;
         margin-bottom: 16px;
         font-size: 0.9em;
     }
-
-    /* Verdict styling: only these get color emphasis */
     .consensus-strong {
-        color: #1a7f37;  /* deep green */
+        color: #1a7f37;
         font-weight: 600;
     }
     .consensus-contested {
-        color: #b3261e;  /* deep red */
+        color: #b3261e;
         font-weight: 600;
     }
-
-    /* Agent output cards: simple white cards */
     .agent-output {
-        background-color: #ffffff;
+        background-color: #f8f9fa;
         padding: 15px;
         border-radius: 5px;
-        border: 1px solid #e5e5e5;
+        border-left: 4px solid #3498DB;
         margin: 10px 0;
-    }
-
-    /* Fix button contrast - make secondary buttons visible */
-    button[kind="secondary"] {
-        background-color: #ffffff !important;
-        color: #222222 !important;
-        border: 1px solid #d0d0d0 !important;
-    }
-    button[kind="secondary"]:hover {
-        background-color: #f0f0f0 !important;
-        border-color: #999999 !important;
     }
     </style>
 """, unsafe_allow_html=True)
