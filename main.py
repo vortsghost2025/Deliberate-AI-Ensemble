@@ -17,7 +17,8 @@ from agents import (
     RiskManagementAgent,
     BacktestingAgent,
     ExecutionAgent,
-    MonitoringAgent
+    MonitoringAgent,
+    AuditorAgent
 )
 
 # Import configuration
@@ -79,7 +80,10 @@ def initialize_agents(config: dict) -> dict:
     monitor_agent = MonitoringAgent(config.get('monitor', {}))
     orchestrator.register_agent(monitor_agent)
     
-    print("[OK] All 6 agents initialized and registered\n")
+    auditor_agent = AuditorAgent(config.get('auditor', {}))
+    orchestrator.register_agent(auditor_agent)
+    
+    print("[OK] All 7 agents initialized and registered\n")
     
     return {
         'orchestrator': orchestrator,

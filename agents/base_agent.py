@@ -109,6 +109,19 @@ class BaseAgent:
         """
         Execute the agent's main task. Override in subclasses.
         
+        **CRITICAL CONTRACT: All execute() methods MUST be idempotent.**
+        
+        Idempotency means calling execute() twice with identical inputs
+        must produce identical outputs with NO duplicate side effects.
+        
+        This guarantees:
+        - Safe retries on transient errors (API timeouts, network issues)
+        - Zero risk of duplicate trades or double API calls
+        - Reproducible results for debugging and auditing
+        
+        Example: If execute() places a trade, it must check if that exact
+        trade already exists before creating a duplicate.
+        
         Returns:
             Message dictionary with results
         """

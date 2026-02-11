@@ -8,6 +8,7 @@ from .risk_manager import RiskManagementAgent
 from .backtester import BacktestingAgent
 from .executor import ExecutionAgent
 from .monitor import MonitoringAgent
+from .auditor import AuditorAgent
 
 __all__ = [
     'OrchestratorAgent',
@@ -17,4 +18,5 @@ __all__ = [
     'BacktestingAgent',
     'ExecutionAgent',
     'MonitoringAgent',
+    'AuditorAgent',
 ]

@@ -15,6 +15,7 @@ from .base_agent import BaseAgent, AgentStatus
 class WorkflowStage(Enum):
     """Stages of the trading decision workflow."""
     IDLE = "idle"
+    WAITING_FOR_NEXT_CYCLE = "waiting_for_next_cycle"  # Between cycles, prevents overlap
     FETCHING_DATA = "fetching_data"
     ANALYZING_MARKET = "analyzing_market"
     BACKTESTING = "backtesting"
@@ -43,7 +44,8 @@ class OrchestratorAgent(BaseAgent):
         super().__init__("OrchestratorAgent", config)
         config = config or {}
         self.current_stage = WorkflowStage.IDLE
-        self.workflow_history: List[Dict[str, Any]] = []
+        self.workflow_history: List[Dict[str, Any]] = []  # Stage transitions
+        self.workflow_trace: List[Dict[str, Any]] = []  # Complete agent message trace
         self.trading_paused = False
         self.pause_reason: Optional[str] = None
         self.circuit_breaker_active = False
@@ -370,6 +372,7 @@ class OrchestratorAgent(BaseAgent):
                 'log_and_monitor',
                 {
                     'workflow_stage': WorkflowStage.MONITORING.value,
+                    'workflow_trace': self.workflow_trace,  # Full audit trail
                     'data_result': data_result,
                     'analysis_result': analysis_result,
                     'risk_result': risk_result,
@@ -377,8 +380,29 @@ class OrchestratorAgent(BaseAgent):
                 }
             )
             
+            # Step 7: Post-Cycle Safety Audit (Last Line of Defense)
+            if 'AuditorAgent' in self.agent_registry:
+                audit_result = self._execute_agent_phase(
+                    'AuditorAgent',
+                    'audit_safety_checks',
+                    {'workflow_trace': self.workflow_trace}
+                )
+                
+                # If audit failed, trigger circuit breaker
+                audit_data = audit_result.get('data', {})
+                if not audit_data.get('audit_passed', True):
+                    violations = audit_data.get('violations', [])
+                    violation_summary = '; '.join(violations)
+                    self.activate_circuit_breaker(f"Safety audit failed: {violation_summary}")
+                    return self.create_message(
+                        action='orchestrate_workflow',
+                        success=False,
+                        error=f"Safety audit detected violations: {violation_summary}",
+                        data={'audit_violations': violations}
+                    )
+            
             # Return final orchestration result
-            self.transition_stage(WorkflowStage.IDLE)
+            self.transition_stage(WorkflowStage.WAITING_FOR_NEXT_CYCLE)
             self.log_execution_end("orchestrate_trading_workflow", success=True)
             
             return self.create_message(
@@ -434,6 +458,10 @@ class OrchestratorAgent(BaseAgent):
             agent = self.agent_registry[agent_name]
             self.logger.debug(f"Executing {agent_name}.{action}")
             result = agent.execute(input_data)
+            
+            # Add to workflow trace for complete auditability
+            self.workflow_trace.append(result)
+            
             return result
         except Exception as e:
             error_msg = f"{agent_name} execution failed: {str(e)}"
