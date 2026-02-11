@@ -85,6 +85,20 @@ st.markdown("""
         border-left: 4px solid #3498DB;
         margin: 10px 0;
     }
+    
+    /* Fix expander headers - make text visible */
+    [data-testid="stExpander"] summary {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+    }
+    [data-testid="stExpander"] summary:hover {
+        background-color: #f0f0f0 !important;
+    }
+    
+    /* Fix button contrast */
+    button {
+        color: #1a1a1a !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
