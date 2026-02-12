@@ -267,6 +267,9 @@ Feb 11, 2026
 AGPL-3.0 + Covenant Addendum  
 See [LICENSE_COVENANT.txt](LICENSE_COVENANT.txt)
 
-**Permanent mirror:** [IPFS CID pending]  
+**Permanent IPFS mirror:** `QmVQhfCgqmyuMURJHdrh5ofUAuw5t1XwBUZFY3pVtmQDUE`  
+- https://ipfs.io/ipfs/QmVQhfCgqmyuMURJHdrh5ofUAuw5t1XwBUZFY3pVtmQDUE  
+- https://gateway.pinata.cloud/ipfs/QmVQhfCgqmyuMURJHdrh5ofUAuw5t1XwBUZFY3pVtmQDUE
+
 **Source repository:** github.com/vortsghost2025/Deliberate-AI-Ensemble  
 **Alternative mirror:** [Codeberg link TBD]
