@@ -48,6 +48,8 @@ class OrchestratorAgent(BaseAgent):
         self.workflow_trace: List[Dict[str, Any]] = []  # Complete agent message trace
         self.trading_paused = False
         self.pause_reason: Optional[str] = None
+        self.pause_timestamp: Optional[datetime] = None
+        self.resume_warning_given = False
         self.circuit_breaker_active = False
         self.agent_registry: Dict[str, BaseAgent] = {}
         self.logger.setLevel(logging.DEBUG)
@@ -73,15 +75,26 @@ class OrchestratorAgent(BaseAgent):
         """
         self.trading_paused = True
         self.pause_reason = reason
+        self.pause_timestamp = datetime.now()
+        self.resume_warning_given = False
         self.set_status(AgentStatus.PAUSED, f"Trading paused: {reason}")
-        self.logger.warning(f"[WARN] TRADING PAUSED: {reason}")
+        self.logger.warning(f"[WARN] 🧊 SNOEPILE FREEZE: Trading paused at {self.pause_timestamp.strftime('%Y-%m-%d %H:%M:%S')} - {reason}")
     
-    def resume_trading(self) -> None:
+    def resume_trading(self, reason: str = "Manual resume") -> None:
         """Resume trading after pause."""
+        pause_duration = None
+        if self.pause_timestamp:
+            pause_duration = (datetime.now() - self.pause_timestamp).total_seconds() / 3600
+        
         self.trading_paused = False
+        old_reason = self.pause_reason
         self.pause_reason = None
+        self.pause_timestamp = None
+        self.resume_warning_given = False
         self.set_status(AgentStatus.IDLE)
-        self.logger.info("Trading resumed")
+        
+        duration_str = f" (paused for {pause_duration:.1f} hours)" if pause_duration else ""
+        self.logger.info(f"[INFO] 🌱 SNOEPILE THAW: Trading resumed{duration_str} - Reason: {reason} | Previous pause: {old_reason}")
     
     def activate_circuit_breaker(self, reason: str) -> None:
         """
@@ -288,12 +301,46 @@ class OrchestratorAgent(BaseAgent):
             
             # Check market regime - CRITICAL SAFETY FEATURE
             market_regime = analysis_data.get('regime', 'unknown')
-            if market_regime == 'bearish':
+            
+            # 🧊 SNOEPILE AUTO RESUME PROTOCOL
+            if self.trading_paused and not self.circuit_breaker_active:
+                # Check if conditions are good for auto-resume
+                if market_regime in ['neutral', 'bullish']:
+                    if not self.resume_warning_given:
+                        # First cycle: give warning
+                        self.resume_warning_given = True
+                        self.logger.info(f"[INFO] ☀️ SNOEPILE WARMING: Market regime is {market_regime}. Will auto-resume next cycle if conditions hold.")
+                        cycle_results['final_result'] = self.create_message(
+                            action='orchestrate_workflow',
+                            success=True,
+                            data={'trading_paused': True, 'resume_warning': True, 'regime': market_regime},
+                        )
+                        return cycle_results['final_result']
+                    else:
+                        # Second cycle: auto-resume
+                        self.resume_trading(f"Auto-resume: Market regime improved to {market_regime}")
+                        self.logger.info(f"[INFO] 🌱 Auto-resumed trading - market regime: {market_regime}")
+                        # Continue to trading logic below
+                else:
+                    # Still bearish, reset warning
+                    self.resume_warning_given = False
+            
+            # Pause if entering bearish regime
+            if market_regime == 'bearish' and not self.trading_paused:
                 self.pause_trading("Bearish market regime detected - downtrend protection active")
                 cycle_results['final_result'] = self.create_message(
                     action='orchestrate_workflow',
                     success=True,
                     data={'trading_paused': True, 'reason': 'bearish_regime'},
+                )
+                return cycle_results['final_result']
+            
+            # If still paused (and not auto-resuming), skip trading
+            if self.trading_paused:
+                cycle_results['final_result'] = self.create_message(
+                    action='orchestrate_workflow',
+                    success=True,
+                    data={'trading_paused': True, 'reason': self.pause_reason},
                 )
                 return cycle_results['final_result']
             
