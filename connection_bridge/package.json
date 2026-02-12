@@ -1,0 +1,19 @@
+{
+  "name": "we4free-connection-bridge",
+  "version": "1.0.0",
+  "description": "A simple tool for letting people know they're seen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "we4free",
+    "connection",
+    "gift"
+  ],
+  "author": "WE4Free Team",
+  "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
