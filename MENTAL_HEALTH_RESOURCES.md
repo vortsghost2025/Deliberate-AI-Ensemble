@@ -42,7 +42,19 @@
 | **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868 | Free 24/7 support for youth (19 and under) |
 | **Info-Social 811** | Dial 811 | 24/7 health information and mental health support line for all Quebec residents |
 
-### **Montreal & Quebec**
+### **Quebec** (Provincial - All Regions)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **Info-Social 811** | Dial 811 (option 2) | Free 24/7 professional psychosocial intervention for mental health and social problems; available across all Quebec |
+| **1-866-APPELLE** | Call 1-866-APPELLE (1-866-277-3553); Text 535353; [Live Chat](https://suicide.ca/en/chatting-online-with-a-counsellor) | Quebec suicide prevention hotline; 24/7; French and English; text and live chat available |
+| **Drugs: Help and Referral** | Call 514-527-2626 or 1-800-265-2626 | 24/7 bilingual telephone service for drug concerns; information, referral, listening; confidential and anonymous; serves all Quebec |
+| **Gambling: Help and Referral** | Call 514-527-0140 or 1-800-461-0140 | 24/7 bilingual telephone service for gambling concerns; information, referral, listening; confidential and anonymous; serves all Quebec |
+| **CLSC (Local Community Service Centres)** | [CLSC Directory](https://sante.gouv.qc.ca/en/repertoire-ressources/clsc/) | Network of local community service centers across Quebec providing mental health support, counseling, and social services; find your nearest CLSC |
+| **911** | Dial 911 | Immediate danger to yourself or others |
+
+### **Montreal & Montérégie** (Regional)
 
 #### Crisis Support
 | Organization | Contact | Services |
