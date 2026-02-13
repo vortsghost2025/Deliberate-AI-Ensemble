@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE4Free - Mental Health Resources</title>
+    <meta name="description" content="Free, accessible mental health support for everyone, everywhere. Global directory of crisis lines, counseling services, and peer support.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header { 
+            text-align: center; 
+            margin-bottom: 60px; 
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 { 
+            font-size: 3rem; 
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .subtitle { 
+            font-size: 1.3rem; 
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .resource-section { 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border-radius: 15px; 
+            padding: 40px; 
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-in;
+        }
+
+        .resource-section h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .resource-table th, 
+        .resource-table td { 
+            padding: 16px; 
+            text-align: left; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); 
+        }
+
+        .resource-table th { 
+            background: rgba(255, 255, 255, 0.15); 
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .resource-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .resource-table tr:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        a { 
+            color: white; 
+            text-decoration: underline;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        .usage-tips {
+            list-style: none;
+            padding: 0;
+        }
+
+        .usage-tips li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            border-left: 4px solid white;
+        }
+
+        .usage-tips strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        footer { 
+            text-align: center; 
+            margin-top: 60px;
+            padding: 40px 20px;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .resource-section {
+                padding: 25px;
+            }
+
+            .resource-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .resource-table {
+                font-size: 0.9rem;
+            }
+
+            .resource-table th,
+            .resource-table td {
+                padding: 12px 8px;
+            }
+
+            /* Stack table on mobile */
+            .resource-table thead {
+                display: none;
+            }
+
+            .resource-table tr {
+                display: block;
+                margin-bottom: 20px;
+                background: rgba(255, 255, 255, 0.08);
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            .resource-table td {
+                display: block;
+                text-align: left;
+                padding: 8px 0;
+                border: none;
+            }
+
+            .resource-table td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+                opacity: 0.8;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mental Health Resources</h1>
+            <p class="subtitle">Free, accessible mental health support for everyone, everywhere. You are not alone.</p>
+        </header>
+
+        <div class="resource-section">
+            <h2>🌍 Global Mental Health Resources</h2>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                        <th>How to Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Organization">7 Cups</td>
+                        <td data-label="Contact"><a href="https://www.7cups.com" target="_blank">7cups.com</a></td>
+                        <td data-label="Services">Free, anonymous peer support chat; licensed therapists for low-cost sessions</td>
+                        <td data-label="How to Use">Visit website, create account, connect with a listener in 24/7 chat</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Crisis Text Line</td>
+                        <td data-label="Contact">Text HOME to 741741 (US/Canada/UK)</td>
+                        <td data-label="Services">24/7 free crisis text support</td>
+                        <td data-label="How to Use">Text keyword to start conversation; no app needed</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">International Association for Suicide Prevention (IASP)</td>
+                        <td data-label="Contact"><a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">iasp.info/resources/Crisis_Centres/</a></td>
+                        <td data-label="Services">Global directory of suicide prevention centers</td>
+                        <td data-label="How to Use">Search by country to find local crisis lines</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">WHO Mental Health Portal</td>
+                        <td data-label="Contact"><a href="https://www.who.int/mental_health" target="_blank">who.int/mental_health</a></td>
+                        <td data-label="Services">Global mental health resources, toolkits, and emergency contacts</td>
+                        <td data-label="How to Use">Explore resources by region; multilingual support available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resource-section">
+            <h2>🇺🇸 United States</h2>
+            <h3 style="margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem;">National Resources</h3>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Organization">National Suicide Prevention Lifeline</td>
+                        <td data-label="Contact">Call or text 988</td>
+                        <td data-label="Services">24/7 free crisis support; Spanish-language option available</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">National Alliance on Mental Illness (NAMI)</td>
+                        <td data-label="Contact">1-800-950-NAMI (6264); <a href="https://www.nami.org" target="_blank">nami.org</a></td>
+                        <td data-label="Services">Free peer support, education, and local chapter directory</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">SAMHSA National Helpline</td>
+                        <td data-label="Contact">1-800-662-HELP (4357)</td>
+                        <td data-label="Services">24/7 free mental health and substance use referral service</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem;">City-Specific Resources</h3>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="City">New York City</td>
+                        <td data-label="Organization">NYC Well</td>
+                        <td data-label="Contact">Call 1-888-NYC-WELL (929-9555); Text WELL to 65746</td>
+                        <td data-label="Services">Free 24/7 mental health support, counseling, and referrals</td>
+                    </tr>
+                    <tr>
+                        <td data-label="City">Los Angeles</td>
+                        <td data-label="Organization">LA County Department of Mental Health</td>
+                        <td data-label="Contact">1-800-854-7771; <a href="https://dmh.lacounty.gov" target="_blank">dmh.lacounty.gov</a></td>
+                        <td data-label="Services">Free counseling, crisis intervention, and community resources</td>
+                    </tr>
+                    <tr>
+                        <td data-label="City">Chicago</td>
+                        <td data-label="Organization">Chicago Department of Public Health</td>
+                        <td data-label="Contact">311; <a href="https://www.chicago.gov/city/en/depts/cdph/provdrs/mental_health.html" target="_blank">chicago.gov/mentalhealth</a></td>
+                        <td data-label="Services">Free mental health screenings, support groups, and crisis services</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resource-section">
+            <h2>🇨🇦 Canada</h2>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Organization">Canadian Association for Suicide Prevention (CASP)</td>
+                        <td data-label="Contact"><a href="https://www.casp.ca" target="_blank">casp.ca</a></td>
+                        <td data-label="Services">National suicide prevention resources and crisis line directory</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Kids Help Phone</td>
+                        <td data-label="Contact">Call 1-800-668-6868; Text CONNECT to 686868</td>
+                        <td data-label="Services">Free 24/7 support for youth (19 and under)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Ontario Mental Health Helpline</td>
+                        <td data-label="Contact">1-866-531-2600</td>
+                        <td data-label="Services">Free 24/7 mental health support for Ontario residents</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resource-section">
+            <h2>🇬🇧 United Kingdom</h2>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Organization">Samaritans</td>
+                        <td data-label="Contact">Call 116 123; Email jo@samaritans.org</td>
+                        <td data-label="Services">Free 24/7 emotional support for anyone in distress</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Mind</td>
+                        <td data-label="Contact">0300 123 3393; <a href="https://www.mind.org.uk" target="_blank">mind.org.uk</a></td>
+                        <td data-label="Services">Free mental health information, support groups, and crisis lines</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">NHS Mental Health Services</td>
+                        <td data-label="Contact">111; <a href="https://www.nhs.uk/mental-health" target="_blank">nhs.uk/mental-health</a></td>
+                        <td data-label="Services">Free NHS mental health services, including crisis support</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resource-section">
+            <h2>🇦🇺 Australia</h2>
+            <table class="resource-table">
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>Contact</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Organization">Lifeline Australia</td>
+                        <td data-label="Contact">Call 13 11 14; <a href="https://www.lifeline.org.au" target="_blank">lifeline.org.au</a></td>
+                        <td data-label="Services">Free 24/7 crisis support and suicide prevention services</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Beyond Blue</td>
+                        <td data-label="Contact">Call 1300 22 4636; <a href="https://www.beyondblue.org.au" target="_blank">beyondblue.org.au</a></td>
+                        <td data-label="Services">Free mental health support, information, and resources</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Organization">Headspace</td>
+                        <td data-label="Contact">Call 1800 650 890; <a href="https://www.headspace.org.au" target="_blank">headspace.org.au</a></td>
+                        <td data-label="Services">Free mental health support for young people (12-25)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resource-section">
+            <h2>✨ How to Use These Resources Effectively</h2>
+            <ul class="usage-tips">
+                <li>
+                    <strong>Crisis Situations:</strong>
+                    Call or text 24/7 lines immediately if you or someone you know is in danger.
+                </li>
+                <li>
+                    <strong>Peer Support:</strong>
+                    Use chat services for anonymous, non-judgmental listening (great for emotional distress).
+                </li>
+                <li>
+                    <strong>Long-Term Support:</strong>
+                    Connect with local chapters or government services for ongoing counseling and resources.
+                </li>
+                <li>
+                    <strong>Language Access:</strong>
+                    Most national lines offer multilingual support—ask for assistance in your preferred language.
+                </li>
+            </ul>
+        </div>
+
+        <footer>
+            <p><strong>WE4Free</strong> - No profit. No ads. Just WE.</p>
+            <p>Free forever | No monetization | No data collection</p>
+            <p style="margin-top: 20px;">
+                <a href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/master/MENTAL_HEALTH_RESOURCES.md" target="_blank">View source on GitHub</a> | 
+                <a href="https://deliberateensemble.works" target="_blank">WE4Free Homepage</a>
+            </p>
+            <a href="https://deliberateensemble.works" class="back-link">← Back to WE4Free</a>
+        </footer>
+    </div>
+</body>
+</html>
