@@ -18,7 +18,8 @@ SSH_HOST = "88.223.85.164"
 SSH_PORT = 65002
 SSH_USER = "u526066719"
 SSH_PASSWORD = "134679Rosebud!"
-REMOTE_DIR = "/home/u526066719/public_html"
+# CORRECT PATH - domain-specific public_html
+REMOTE_DIR = "/home/u526066719/domains/deliberateensemble.works/public_html"
 LOCAL_DIR = "we4free_website"
 
 print("Deploying WE4Free to deliberateensemble.works...")
