@@ -1,7 +1,7 @@
 // WE4Free Service Worker - Offline-First Crisis Support
 // Version 1.0.0
 
-const CACHE_NAME = 'we4free-v4';
+const CACHE_NAME = 'we4free-v5';
 const EMERGENCY_CACHE = 'we4free-emergency-v1';
 
 // Critical resources that MUST be available offline
@@ -123,12 +123,22 @@ self.addEventListener('fetch', (event) => {
             // Not in cache, fetch from network
             console.log('[WE4Free SW] Fetching from network:', url.pathname);
             return fetch(request).then(networkResponse => {
-                // Cache successful responses
-                if (networkResponse && networkResponse.status === 200) {
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(request, networkResponse.clone());
-                    });
+                // Clone response BEFORE doing anything with it
+                if (!networkResponse || networkResponse.status !== 200) {
+                    return networkResponse;
                 }
+
+                // Clone for caching (do this FIRST before any operations)
+                const responseToCache = networkResponse.clone();
+
+                // Cache in background (non-blocking)
+                caches.open(CACHE_NAME).then(cache => {
+                    cache.put(request, responseToCache);
+                }).catch(err => {
+                    console.error('[WE4Free SW] Cache put failed:', err);
+                });
+
+                // Return original response to browser
                 return networkResponse;
             }).catch(error => {
                 console.error('[WE4Free SW] Fetch failed:', error);
