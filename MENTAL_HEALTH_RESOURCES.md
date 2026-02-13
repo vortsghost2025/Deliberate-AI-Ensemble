@@ -126,6 +126,39 @@
 |---------|---------|----------|
 | **Ontario Works** | [Apply online](https://www.ontario.ca/page/ontario-works) or call local office; [MyBenefits Portal](https://mybenefits.mcss.gov.on.ca/auth/login) | Social assistance providing financial help, health benefits, and employment support; health benefits include mental health and addiction treatment coverage; [Learn more about Ontario Works](https://feedontario.ca/story/ontario-works-5-things-everyone-should-know/) |
 
+###  **British Columbia** (Provincial)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **988 Suicide Crisis Helpline** | Call or text 988 | 24/7 free suicide prevention support; national service available across BC |
+| **BC Crisis Centre** | Call 310-6789 (no area code needed in BC); [crisiscentre.bc.ca](https://crisiscentre.bc.ca) | 24/7 free confidential crisis support; distress line |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [kidshelpphone.ca](https://kidshelpphone.ca) | 24/7 free support for youth; multilingual (100+ languages) |
+
+#### Navigator Services & Support
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **HealthLink BC** | Call 811; [healthlinkbc.ca](https://www.healthlinkbc.ca) | 24/7 free health advice including mental health and substance use information; speak with nurses, dietitians, pharmacists |
+| **BC Mental Health & Substance Use Services** | [Find services near you](https://www2.gov.bc.ca/gov/content/health/managing-your-health/mental-health-substance-use) | Provincial directory of publicly-funded mental health and substance use services |
+
+### **Alberta** (Provincial)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **Mental Health Helpline** | Call 1-877-303-2642; [albertahealthservices.ca](https://www.albertahealthservices.ca/amh/amh.aspx) | 24/7 free mental health advice, information, and connections to services for children and adults |
+| **Addiction Helpline** | Call 1-866-332-2322; [albertahealthservices.ca](https://www.albertahealthservices.ca/findhealth/Service.aspx?id=1008399&serviceAtFacilityID=1047128) | 24/7 free addiction support, advice, and connections to services |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [kidshelpphone.ca](https://kidshelpphone.ca) | 24/7 free support for youth; multilingual (100+ languages) |
+
+#### Navigator Services & Support
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **811 Health Link** | Call 811; [albertahealthservices.ca/info/Page12630.aspx](https://www.albertahealthservices.ca/info/Page12630.aspx) | 24/7 free health advice including mental health information |
+| **Indigenous Support Line** | Call 1-844-944-4744 or 811; [info](https://www.albertahealthservices.ca/info/Page18213.aspx) | Free culturally safe mental health and addiction support for Indigenous peoples |
+| **Child & Adolescent Intake Services** | Call 1-825-402-6799 | Intake for children and youth mental health services |
+
 ---
 
 ## 🇬🇧 **United Kingdom**
