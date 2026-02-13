@@ -1,42 +1,47 @@
 {
   "version": "1.0.0",
-  "generated": "2026-02-13T21:26:16.310819Z",
+  "generated": "2026-02-13T21:33:35.268045Z",
   "algorithm": "SHA-256",
   "files": {
     "/index.html": {
       "sha256": "e80a0acfe00bbf480b40ef10f5320f19ca9ca41abf5836e449508c43da522938",
       "size": 12560,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/resources.html": {
-      "sha256": "dc8225f6f4f10f8de95c8ca3ff88ebd04eaeeb1cd8df02228834f4145b6d9a50",
-      "size": 106140,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "sha256": "e1ceea074279da5faeac9930b168981cd2d90a5d364396a631d8ba6132c4a162",
+      "size": 106332,
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/emergency.html": {
       "sha256": "515225c4491e007188a03050da07fd8b54141f1178d54e17a96872da815263ed",
       "size": 7834,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/sw.js": {
-      "sha256": "49507ba2b497e499505d10b3644e0cc4853fd5f2e618701deac350b70de742e2",
-      "size": 6714,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "sha256": "1d839a0daefd0b4e02a2a043542f42f3244124d7b13f5f63301c57004519f874",
+      "size": 6794,
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/manifest.json": {
       "sha256": "cf9dddf1c3c75b6a360d1b60071a127cc40c85233d285399bd97a4a60fc57fd2",
       "size": 2224,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/db.js": {
       "sha256": "ced26e3f0d594eeb1c9a7b2f7d9aac9c127f4fe9a80a80ed20d3af5c6624ec80",
       "size": 7982,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "added": "2026-02-13T21:33:35.268045Z"
     },
     "/integrity.js": {
       "sha256": "496ca82dc38f39da3fbd0ad437607e1b12450441cea4a51a77b4e3128893bb0c",
       "size": 6584,
-      "added": "2026-02-13T21:26:16.310819Z"
+      "added": "2026-02-13T21:33:35.268045Z"
+    },
+    "/self_healing.js": {
+      "sha256": "34ef2e2e8030a3a1410e4e4d0d345d882d8affa8e946ce3716ff7d2d0b2a9c02",
+      "size": 10923,
+      "added": "2026-02-13T21:33:35.268045Z"
     }
   }
 }

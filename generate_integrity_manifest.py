@@ -22,7 +22,8 @@ FILES_TO_HASH = [
     'sw.js',
     'manifest.json',
     'db.js',
-    'integrity.js'
+    'integrity.js',
+    'self_healing.js'
 ]
 
 BASE_DIR = Path('we4free_website')
