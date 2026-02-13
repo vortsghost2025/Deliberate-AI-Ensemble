@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Emergency Escalation - WE4Free</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .escalation-container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .current-channel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .current-channel h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffc107;
+        }
+
+        .channel-status {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .try-button {
+            width: 100%;
+            padding: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            margin-bottom: 15px;
+        }
+
+        .try-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .try-button:active {
+            transform: translateY(0);
+        }
+
+        .try-button.emergency {
+            background: #ff6b6b;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .try-button.emergency:hover {
+            background: #ff5252;
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .fallback-chain {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .fallback-chain h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .channel-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .channel-item.current {
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 3px solid #ffc107;
+        }
+
+        .channel-item.tried {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .channel-item.available {
+            border-left: 3px solid #4caf50;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .reassurance {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4caf50;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="escalation-container">
+        <h1>🆘 Need a Different Way to Connect?</h1>
+
+        <div class="reassurance">
+            <strong>You are safe.</strong> We're here to help you find a way to reach support.
+        </div>
+
+        <div class="current-channel">
+            <h2 id="current-name">Trying Phone Call</h2>
+            <p class="channel-status" id="current-status">If calling isn't working, try the next option below.</p>
+        </div>
+
+        <button class="try-button" id="escalate-btn" onclick="tryNextChannel()">
+            📞 Try Next Option
+        </button>
+
+        <button class="try-button emergency" onclick="window.location.href='tel:911'">
+            🚨 Emergency: Call 911
+        </button>
+
+        <div class="fallback-chain">
+            <h3>Available Options (in order):</h3>
+            <div id="channel-list">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <a href="/resources.html" class="back-link">← Back to Resources</a>
+    </div>
+
+    <script>
+    // ==============================================
+    // WE4Free Emergency Escalation UI
+    // Multi-path fallback with "Try Next Option"
+    // ==============================================
+
+    const fallbackChain = [
+        { name: 'Phone Call', type: 'tel', url: 'tel:988', icon: '📞', description: 'Direct voice call' },
+        { name: 'Text Message', type: 'sms', url: 'sms:988&body=I%20need%20help', icon: '💬', description: 'SMS to crisis line' },
+        { name: 'TTY Relay', type: 'tty', url: 'tel:711', icon: '⌨️', description: 'Relay service for deaf/HoH' },
+        { name: 'Contact Form', type: 'webchat', url: '/webchat.html', icon: '📝', description: 'Offline-capable form' },
+        { name: 'Emergency Fallback', type: 'emergency', url: '/emergency.html', icon: '🆘', description: 'Cached emergency page' }
+    ];
+
+    let currentIndex = 0;
+    let triedChannels = new Set();
+
+    function updateUI() {
+        const current = fallbackChain[currentIndex];
+        const currentName = document.getElementById('current-name');
+        const currentStatus = document.getElementById('current-status');
+        const escalateBtn = document.getElementById('escalate-btn');
+        const channelList = document.getElementById('channel-list');
+
+        // Update current channel info
+        currentName.textContent = `${current.icon} ${current.name}`;
+        currentStatus.textContent = current.description;
+
+        // Update button text
+        if (currentIndex < fallbackChain.length - 1) {
+            const next = fallbackChain[currentIndex + 1];
+            escalateBtn.textContent = `${next.icon} Try ${next.name}`;
+        } else {
+            escalateBtn.textContent = '✅ All Options Shown';
+            escalateBtn.disabled = true;
+            escalateBtn.style.opacity = '0.5';
+        }
+
+        // Update channel list
+        channelList.innerHTML = '';
+        fallbackChain.forEach((channel, index) => {
+            const div = document.createElement('div');
+            div.className = 'channel-item';
+
+            if (index === currentIndex) {
+                div.className += ' current';
+            } else if (triedChannels.has(index)) {
+                div.className += ' tried';
+            } else if (index > currentIndex) {
+                div.className += ' available';
+            }
+
+            div.textContent = `${channel.icon} ${channel.name} - ${channel.description}`;
+            channelList.appendChild(div);
+        });
+
+        // Log to console
+        console.log('[WE4Free Escalation] Current channel:', current.name);
+        console.log('[WE4Free Escalation] Tried channels:', Array.from(triedChannels));
+    }
+
+    function tryNextChannel() {
+        const current = fallbackChain[currentIndex];
+
+        // Mark current as tried
+        triedChannels.add(currentIndex);
+
+        // Track in IndexedDB if available
+        if (typeof WE4FreeChannelRouter !== 'undefined') {
+            WE4FreeChannelRouter.trackChannelUsage(current.type, {
+                source: 'escalation_ui',
+                escalated: true,
+                tried_index: currentIndex
+            });
+        }
+
+        // Move to next channel
+        currentIndex++;
+
+        if (currentIndex >= fallbackChain.length) {
+            alert('All options have been tried. If this is an emergency, call 911 immediately.');
+            window.location.href = '/emergency.html';
+            return;
+        }
+
+        const next = fallbackChain[currentIndex];
+
+        // Update UI
+        updateUI();
+
+        // Redirect after a brief delay
+        setTimeout(() => {
+            console.log('[WE4Free Escalation] Redirecting to:', next.url);
+            window.location.href = next.url;
+        }, 1500);
+    }
+
+    // Check if we have a starting channel from URL params
+    const params = new URLSearchParams(window.location.search);
+    const startChannel = params.get('start');
+    if (startChannel) {
+        const index = fallbackChain.findIndex(c => c.type === startChannel);
+        if (index !== -1) {
+            currentIndex = index;
+            console.log('[WE4Free Escalation] Starting from:', startChannel);
+        }
+    }
+
+    // Check device capabilities and skip unavailable channels
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) {
+        // On desktop, skip SMS
+        console.log('[WE4Free Escalation] Desktop detected - SMS will be prioritized lower');
+    }
+
+    // Initialize UI
+    updateUI();
+
+    // Store escalation session
+    try {
+        sessionStorage.setItem('we4free_escalation_started', Date.now());
+    } catch (e) {
+        // Silent fail
+    }
+
+    console.log('[WE4Free Escalation] Escalation UI loaded');
+    console.log('[WE4Free Escalation] Fallback chain:', fallbackChain.map(c => c.name));
+    </script>
+</body>
+</html>

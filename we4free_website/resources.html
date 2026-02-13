@@ -18,13 +18,19 @@
             box-sizing: border-box;
         }
 
-        body { 
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea; /* Solid color for instant LCP */
             color: white;
             line-height: 1.6;
+            transition: background 0.6s ease;
+        }
+
+        /* Gradient applied after LCP */
+        body.gradient-ready {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .container {
@@ -132,8 +138,8 @@
             font-size: 1.1rem;
         }
 
-        footer { 
-            text-align: center; 
+        footer {
+            text-align: center;
             margin-top: 60px;
             padding: 40px 20px;
             opacity: 0.9;
@@ -142,6 +148,71 @@
 
         footer p {
             margin: 10px 0;
+        }
+
+        /* Integrity Status Indicator */
+        .integrity-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .integrity-indicator.normal {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .integrity-indicator.degraded {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid #ffc107;
+            color: #ffc107;
+        }
+
+        .integrity-indicator.recovery {
+            background: rgba(255, 87, 34, 0.2);
+            border: 2px solid #ff5722;
+            color: #ff5722;
+        }
+
+        .integrity-indicator.emergency {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+        .integrity-indicator .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .integrity-indicator.normal .status-dot {
+            background: #4caf50;
+        }
+
+        .integrity-indicator.degraded .status-dot {
+            background: #ffc107;
+        }
+
+        .integrity-indicator.recovery .status-dot {
+            background: #ff5722;
+        }
+
+        .integrity-indicator.emergency .status-dot {
+            background: #fff;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .back-link {
@@ -373,6 +444,14 @@
                 <a href="tel:711" style="color: #ffd700; text-decoration: underline; font-weight: bold;">711</a>
                 for relay service to access any emergency number
             </p>
+            <div style="margin-top: 18px; margin-bottom: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="/webchat.html" style="display: inline-block; background: rgba(255, 255, 255, 0.25); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; border: 2px solid rgba(255, 255, 255, 0.3);" onmouseover="this.style.background='rgba(255,255,255,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.25)'; this.style.transform='translateY(0)'">
+                    💬 Contact Form
+                </a>
+                <a href="/escalate.html" style="display: inline-block; background: rgba(255, 193, 7, 0.3); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; border: 2px solid rgba(255, 193, 7, 0.5);" onmouseover="this.style.background='rgba(255,193,7,0.4)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,193,7,0.3)'; this.style.transform='translateY(0)'">
+                    🔄 Try Different Option
+                </a>
+            </div>
             <p style="font-size: 1rem; margin-bottom: 0;">Scroll down for your province's resources 👇</p>
         </div>
 
@@ -418,6 +497,12 @@
 
         <!-- WE4Free Self-Healing UI -->
         <script src="/self_healing.js"></script>
+
+        <!-- WE4Free Smart Channel Router -->
+        <script src="/channel_router.js"></script>
+
+        <!-- WE4Free Conflict Resolution -->
+        <script src="/conflict_resolver.js"></script>
 
         <script>
         // ==============================================
@@ -577,12 +662,20 @@
             setupPassiveListeners();
             highlightLastUsed();
             startVisibilityHeartbeat();
-            setupGeolocation(); // NEW: Auto-detect province
+
+            // Defer geolocation to idle time (LCP optimization)
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    setupGeolocation();
+                }, { timeout: 2000 });
+            } else {
+                setTimeout(() => setupGeolocation(), 1000);
+            }
 
             // Run initial health check
             setTimeout(checkCrisisBoxHealth, 500);
 
-            console.log('[WE4Free] Initialization complete');
+            console.log('[WE4Free] Initialization complete (geolocation deferred)');
             console.log('[WE4Free] TIP: Type toggleCalmMode() to enable/disable calm mode');
         }
 
@@ -730,6 +823,21 @@
             initializeWE4Free();
         }
 
+        // LCP OPTIMIZATION: Apply gradient after initial paint
+        window.addEventListener('load', () => {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    document.body.classList.add('gradient-ready');
+                    console.log('[WE4Free] Gradient applied (post-LCP)');
+                });
+            } else {
+                setTimeout(() => {
+                    document.body.classList.add('gradient-ready');
+                    console.log('[WE4Free] Gradient applied (post-LCP)');
+                }, 100);
+            }
+        });
+
         // ==============================================
         // WEB VITALS MONITORING (Performance Tracking)
         // ==============================================
@@ -831,6 +939,61 @@
 
         // Initialize Web Vitals on load
         setupWebVitals();
+
+        // ==============================================
+        // INTEGRITY STATUS INDICATOR
+        // ==============================================
+        function updateIntegrityIndicator() {
+            const indicator = document.getElementById('integrity-status');
+            const text = document.getElementById('integrity-text');
+
+            if (!indicator || !text) return;
+
+            // Check integrity verification status
+            if (typeof WE4FreeIntegrity !== 'undefined') {
+                const status = WE4FreeIntegrity.getStatus();
+
+                if (status.failed_count > 0) {
+                    // Integrity failures detected
+                    indicator.className = 'integrity-indicator emergency';
+                    text.textContent = `System Integrity: Emergency (${status.failed_count} failed)`;
+                    console.error('[WE4Free] Integrity failures detected:', status.failed_files);
+                } else if (status.verified_count > 0) {
+                    // All verified files passed
+                    indicator.className = 'integrity-indicator normal';
+                    text.textContent = `System Integrity: Verified (${status.verified_count} files)`;
+                } else if (status.manifest_loaded) {
+                    // Manifest loaded but no verifications yet
+                    indicator.className = 'integrity-indicator degraded';
+                    text.textContent = 'System Integrity: Checking...';
+                } else {
+                    // No manifest loaded (graceful degradation)
+                    indicator.className = 'integrity-indicator degraded';
+                    text.textContent = 'System Integrity: Disabled';
+                }
+            } else {
+                // Integrity system not loaded
+                indicator.className = 'integrity-indicator degraded';
+                text.textContent = 'System Integrity: Initializing...';
+            }
+
+            // Check self-healing status
+            if (typeof WE4FreeSelfHealing !== 'undefined' && WE4FreeSelfHealing.recoveryAttempts > 0) {
+                indicator.className = 'integrity-indicator recovery';
+                text.textContent = `System Integrity: Recovery (${WE4FreeSelfHealing.recoveryAttempts} attempts)`;
+            }
+        }
+
+        // Update integrity indicator after systems initialize
+        setTimeout(() => {
+            updateIntegrityIndicator();
+
+            // Re-check every 60 seconds
+            setInterval(updateIntegrityIndicator, 60000);
+        }, 2000);
+
+        // Expose for manual updates
+        window.updateIntegrityIndicator = updateIntegrityIndicator;
 
         // ==============================================
         // SERVICE WORKER REGISTRATION (PWA + Offline Support)
@@ -1899,10 +2062,14 @@
         </div>
 
         <footer>
+            <div id="integrity-status" class="integrity-indicator normal">
+                <span class="status-dot"></span>
+                <span id="integrity-text">System Integrity: Normal</span>
+            </div>
             <p><strong>WE4Free</strong> - No profit. No ads. Just WE.</p>
             <p>Free forever | No monetization | No data collection</p>
             <p style="margin-top: 20px;">
-                <a href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/master/MENTAL_HEALTH_RESOURCES.md" target="_blank">View source on GitHub</a> | 
+                <a href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/master/MENTAL_HEALTH_RESOURCES.md" target="_blank">View source on GitHub</a> |
                 <a href="https://deliberateensemble.works" target="_blank">WE4Free Homepage</a>
             </p>
             <a href="https://deliberateensemble.works" class="back-link">← Back to WE4Free</a>

@@ -136,18 +136,46 @@ const WE4FreeDB = {
             console.log('[WE4Free] Starting background sync...');
 
             // TODO: Replace with actual API endpoint
-            // For now, just update sync status
-            const provinces = await this.db.provinces.toArray();
+            // Example: const response = await fetch('https://api.we4free.ca/v1/provinces');
+            // const serverData = await response.json();
 
-            for (const province of provinces) {
+            // For now, just update sync status
+            const localProvinces = await this.db.provinces.toArray();
+
+            for (const localProvince of localProvinces) {
+                // Simulate server data (in real implementation, this comes from API)
+                // const serverProvince = serverData.find(p => p.code === localProvince.code);
+
+                // If server data exists and conflict resolver is available, check for conflicts
+                // if (serverProvince && typeof WE4FreeConflictResolver !== 'undefined') {
+                //     const hasConflict = WE4FreeConflictResolver.detectConflict(localProvince, serverProvince);
+                //
+                //     if (hasConflict) {
+                //         // Resolve conflict
+                //         const resolved = await WE4FreeConflictResolver.resolve(
+                //             localProvince,
+                //             serverProvince,
+                //             { sync_source: 'background', province_code: localProvince.code }
+                //         );
+                //
+                //         // Update with resolved data
+                //         await this.db.provinces.put(resolved);
+                //         console.log('[WE4Free] Conflict resolved and province updated:', localProvince.code);
+                //     } else {
+                //         // No conflict, use server data
+                //         await this.db.provinces.put(serverProvince);
+                //     }
+                // }
+
+                // Update sync status
                 await this.db.sync_status.put({
-                    province_code: province.code,
+                    province_code: localProvince.code,
                     last_sync: Date.now(),
                     pending: false
                 });
             }
 
-            console.log('[WE4Free] Sync completed for', provinces.length, 'provinces');
+            console.log('[WE4Free] Sync completed for', localProvinces.length, 'provinces');
             return true;
 
         } catch (error) {

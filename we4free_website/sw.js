@@ -1,7 +1,7 @@
 // WE4Free Service Worker - Offline-First Crisis Support
 // Version 1.0.0
 
-const CACHE_NAME = 'we4free-v5';
+const CACHE_NAME = 'we4free-v10';
 const EMERGENCY_CACHE = 'we4free-emergency-v1';
 
 // Critical resources that MUST be available offline
@@ -10,9 +10,13 @@ const CRITICAL_ASSETS = [
     '/index.html',
     '/resources.html',
     '/emergency.html',
+    '/webchat.html',
+    '/escalate.html',
     '/db.js',
     '/integrity.js',
     '/self_healing.js',
+    '/channel_router.js',
+    '/conflict_resolver.js',
     '/integrity.manifest.json',
     'https://unpkg.com/dexie@3.2.4/dist/dexie.min.js'
 ];

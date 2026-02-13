@@ -47,7 +47,7 @@ try:
         sftp.put(str(html_file), remote_file)
 
     # 2. Upload Service Worker and Manifest
-    pwa_files = ["sw.js", "manifest.json", "db.js", "integrity.js", "self_healing.js", "integrity.manifest.json"]
+    pwa_files = ["sw.js", "manifest.json", "db.js", "integrity.js", "self_healing.js", "channel_router.js", "conflict_resolver.js", "integrity.manifest.json"]
     print(f"\n🚀 Uploading PWA files...")
     for pwa_file in pwa_files:
         local_file = local_path / pwa_file

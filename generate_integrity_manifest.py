@@ -19,11 +19,15 @@ FILES_TO_HASH = [
     'index.html',
     'resources.html',
     'emergency.html',
+    'webchat.html',
+    'escalate.html',
     'sw.js',
     'manifest.json',
     'db.js',
     'integrity.js',
-    'self_healing.js'
+    'self_healing.js',
+    'channel_router.js',
+    'conflict_resolver.js'
 ]
 
 BASE_DIR = Path('we4free_website')

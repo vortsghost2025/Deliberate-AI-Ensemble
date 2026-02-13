@@ -1,47 +1,67 @@
 {
   "version": "1.0.0",
-  "generated": "2026-02-13T21:37:56.670425Z",
+  "generated": "2026-02-13T21:57:36.456529Z",
   "algorithm": "SHA-256",
   "files": {
     "/index.html": {
       "sha256": "e80a0acfe00bbf480b40ef10f5320f19ca9ca41abf5836e449508c43da522938",
       "size": 12560,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/resources.html": {
-      "sha256": "e1ceea074279da5faeac9930b168981cd2d90a5d364396a631d8ba6132c4a162",
-      "size": 106332,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "sha256": "54cb17bf6e24ce3dec0ade121bfc03a7b774b3bca098d9d865fc4730fbbc4929",
+      "size": 113634,
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/emergency.html": {
       "sha256": "515225c4491e007188a03050da07fd8b54141f1178d54e17a96872da815263ed",
       "size": 7834,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "added": "2026-02-13T21:57:36.456529Z"
+    },
+    "/webchat.html": {
+      "sha256": "ab67df485606f86659fd50a5046e1d063380c9c5db5ff40cf1735c0aa35bfdf0",
+      "size": 12837,
+      "added": "2026-02-13T21:57:36.456529Z"
+    },
+    "/escalate.html": {
+      "sha256": "558d06959653563cb5973239da98230ec737118e01751b7b7cbee1be807b001d",
+      "size": 9943,
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/sw.js": {
-      "sha256": "342ca49cff8fce89a87888420c821a8d892fced2a6ea9e692d1b7b5090e0708f",
-      "size": 7207,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "sha256": "afdcf95ef1c52e9ce61992a9534ac663ab3ee8ab88806dfb2b75865c67cb6f79",
+      "size": 7310,
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/manifest.json": {
       "sha256": "cf9dddf1c3c75b6a360d1b60071a127cc40c85233d285399bd97a4a60fc57fd2",
       "size": 2224,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/db.js": {
-      "sha256": "ced26e3f0d594eeb1c9a7b2f7d9aac9c127f4fe9a80a80ed20d3af5c6624ec80",
-      "size": 7982,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "sha256": "5288e36b049680780d2b6587e285d0e359b46e3c817f456b81ad6eb78a704be0",
+      "size": 9582,
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/integrity.js": {
       "sha256": "496ca82dc38f39da3fbd0ad437607e1b12450441cea4a51a77b4e3128893bb0c",
       "size": 6584,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "added": "2026-02-13T21:57:36.456529Z"
     },
     "/self_healing.js": {
       "sha256": "34ef2e2e8030a3a1410e4e4d0d345d882d8affa8e946ce3716ff7d2d0b2a9c02",
       "size": 10923,
-      "added": "2026-02-13T21:37:56.670425Z"
+      "added": "2026-02-13T21:57:36.456529Z"
+    },
+    "/channel_router.js": {
+      "sha256": "e104fb8ef8b59383975260cd01c044bbcd410dffa858d75b0cd37b2015353615",
+      "size": 11967,
+      "added": "2026-02-13T21:57:36.456529Z"
+    },
+    "/conflict_resolver.js": {
+      "sha256": "7d47a2d7d9f3fbd1ec8adfb5389973edd7e5ddc346e7554ac4d337a8cab6add2",
+      "size": 12030,
+      "added": "2026-02-13T21:57:36.456529Z"
     }
   }
 }
