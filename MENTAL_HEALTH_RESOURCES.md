@@ -208,6 +208,25 @@
 
 ---
 
+### **Nova Scotia** (Provincial)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **988 Suicide Crisis Helpline** | Call or text 988 | 24/7 free suicide prevention support; national service available across Nova Scotia |
+| **Provincial Mental Health and Addictions Crisis Line** | Call 1-888-429-8167 | 24/7 toll-free crisis support for mental health and addictions |
+| **HealthLink 811** | Call 811 or 1-866-770-7763 | 24/7 health advice and support including mental health |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [kidshelpphone.ca](https://kidshelpphone.ca) | 24/7 free support for youth; multilingual (100+ languages) |
+
+#### Navigator Services & Support
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **211 Nova Scotia** | Call 211 or 1-855-466-4994 (toll-free); [ns.211.ca](https://ns.211.ca) | Free 24/7 community services directory including mental health and addictions support |
+| **Mental Health and Addictions Intake** | Call 1-855-922-1122; [Book online](https://prebooking.nshealth.ca/) | Intake and appointment booking (Mon-Fri 8:30am-4:30pm; Tue/Thu until 8pm); interpretation services available |
+
+---
+
 ## 🇬🇧 **United Kingdom**
 
 | Organization | Contact | Services |
