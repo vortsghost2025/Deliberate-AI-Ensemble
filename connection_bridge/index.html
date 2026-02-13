@@ -273,8 +273,13 @@
             result.classList.add('show');
             result.scrollIntoView({ behavior: 'smooth' });
             
+            // Determine which endpoint to use (local vs Netlify)
+            const shortenEndpoint = window.location.hostname === 'localhost' 
+                ? '/api/shorten' 
+                : '/.netlify/functions/shorten';
+            
             // Shorten the link via Bitly
-            fetch('/api/shorten', {
+            fetch(shortenEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url: link })

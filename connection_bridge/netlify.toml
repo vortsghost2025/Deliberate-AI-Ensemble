@@ -1,0 +1,7 @@
+# Netlify Configuration
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Environment variables (set these in Netlify dashboard)
+# BITLY_TOKEN = your_bitly_token_here
