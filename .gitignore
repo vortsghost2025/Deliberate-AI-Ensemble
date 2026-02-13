@@ -5,3 +5,5 @@ logs/
 __pycache__/
 *.pyc
 config.py
+.env
+connection_bridge/.env

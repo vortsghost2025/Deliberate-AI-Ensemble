@@ -176,7 +176,9 @@
             }
 
             try {
-                const decoded = JSON.parse(atob(encoded));
+                // Unicode-safe base64 decoding
+                const jsonData = decodeURIComponent(escape(atob(encoded)));
+                const decoded = JSON.parse(jsonData);
                 const { sender, recipient, message, timestamp } = decoded;
                 
                 const date = new Date(timestamp);
