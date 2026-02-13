@@ -1,0 +1,20 @@
+# Disable caching for HTML files
+<FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</FilesMatch>
+
+# Service Worker MIME type (CRITICAL for PWA)
+<FilesMatch "sw\.js$">
+    Header set Content-Type "application/javascript"
+    Header set Service-Worker-Allowed "/"
+</FilesMatch>
+
+# PWA Manifest MIME type
+<FilesMatch "manifest\.json$">
+    Header set Content-Type "application/manifest+json"
+</FilesMatch>
+
+# Allow Service Worker scope
+Header set Access-Control-Allow-Origin "*"
