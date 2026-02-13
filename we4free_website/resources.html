@@ -224,6 +224,25 @@
                 font-size: 0.85rem;
             }
         }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            }
+
+            .resource-section {
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            .resource-table {
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            a {
+                color: #e0e7ff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -233,24 +252,77 @@
             <p class="subtitle">Free, accessible mental health support for everyone, everywhere. You are not alone.</p>
         </header>
 
-        <div style="background: #ff6b6b; color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: sticky; top: 0; z-index: 999;">
-            <h2 style="margin-top: 0; font-size: 1.8rem; margin-bottom: 20px;">🚨 Need Help Right Now?</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 20px;">
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; min-width: 200px;">
-                    <p style="font-size: 1.4rem; font-weight: bold; margin-bottom: 5px;"><a href="tel:911" style="color: white; text-decoration: none;">911</a></p>
-                    <p style="font-size: 0.9rem;">Immediate Danger</p>
-                </div>
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; min-width: 200px;">
-                    <p style="font-size: 1.4rem; font-weight: bold; margin-bottom: 5px;"><a href="tel:988" style="color: white; text-decoration: none;">988</a></p>
-                    <p style="font-size: 0.9rem;">Suicide Crisis Helpline</p>
-                </div>
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; min-width: 200px;">
-                    <p style="font-size: 1.4rem; font-weight: bold; margin-bottom: 5px;"><a href="tel:1-800-668-6868" style="color: white; text-decoration: none;">1-800-668-6868</a></p>
-                    <p style="font-size: 0.9rem;">Kids Help Phone<br>(Text: CONNECT to 686868)</p>
-                </div>
+        <div id="crisis-box" style="background: #ff6b6b; color: white; padding: 25px 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: sticky; top: 0; z-index: 999;">
+            <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 18px;">🚨 Need Help Right Now?</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 18px;">
+                <!-- 911 Card -->
+                <a href="tel:911" onclick="return confirmCall('911', 'Immediate Danger');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                    <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">911</p>
+                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Immediate Danger</p>
+                </a>
+                <!-- 988 Card -->
+                <a href="tel:988" onclick="return confirmCall('988', 'Suicide Crisis');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                    <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">988</p>
+                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Suicide Crisis</p>
+                </a>
+                <!-- Kids Help Phone Card -->
+                <a href="tel:1-800-668-6868" onclick="return confirmCall('1-800-668-6868', 'Kids Help Phone');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">1-800-668-6868</p>
+                    <p style="font-size: 0.85rem; margin: 0; opacity: 0.95;">Kids Help Phone<br><span style="font-size: 0.75rem;">(Text: CONNECT to 686868)</span></p>
+                </a>
             </div>
             <p style="font-size: 1rem; margin-bottom: 0;">Scroll down for your province's resources 👇</p>
         </div>
+
+        <script>
+        // Call intent confirmation to prevent accidental taps
+        function confirmCall(number, service) {
+            // Skip confirmation on desktop
+            if (window.innerWidth > 768) return true;
+
+            // iOS and mobile: show confirmation
+            const message = `Call ${service}?\n\n${number}\n\nThis will initiate a phone call.`;
+            return confirm(message);
+        }
+
+        // Dark mode support
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            const crisisBox = document.getElementById('crisis-box');
+            if (crisisBox) {
+                crisisBox.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.6)';
+            }
+        }
+
+        // Monitor crisis box visibility (simple health check)
+        function checkCrisisBoxHealth() {
+            const crisisBox = document.getElementById('crisis-box');
+            if (!crisisBox) {
+                console.error('[WE4Free] Crisis box not found in DOM');
+                return false;
+            }
+
+            const rect = crisisBox.getBoundingClientRect();
+            const isVisible = rect.height > 0 && rect.width > 0;
+
+            if (!isVisible) {
+                console.error('[WE4Free] Crisis box is not visible');
+            }
+
+            const computedStyle = window.getComputedStyle(crisisBox);
+            const isSticky = computedStyle.position === 'sticky' || computedStyle.position === '-webkit-sticky';
+
+            if (!isSticky) {
+                console.warn('[WE4Free] Crisis box is not sticky');
+            }
+
+            return isVisible && isSticky;
+        }
+
+        // Run health check on load
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkCrisisBoxHealth, 500);
+        });
+        </script>
 
         <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; text-align: center;">
             <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;">🇨🇦 Find Your Province</h3>
