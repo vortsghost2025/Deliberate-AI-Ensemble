@@ -4,13 +4,39 @@
 Write-Host "`n🚀 Deploying WE4Free to deliberateensemble.works..." -ForegroundColor Cyan
 
 # SSH Details
-$HOST = "88.223.85.164"
-$PORT = "65002"
-$USER = "u526066719"
+$SSH_HOST = "88.223.85.164"
+$SSH_PORT = "65002"
+$SSH_USER = "u526066719"
+
+# Load password from environment or .env file
+$SSH_PASSWORD = $env:SSH_PASSWORD
+if (-not $SSH_PASSWORD -and (Test-Path ".env")) {
+    Get-Content ".env" | ForEach-Object {
+        if ($_ -match "^SSH_PASSWORD=(.+)$") {
+            $SSH_PASSWORD = $matches[1]
+        }
+    }
+}
 
 # Deploy all HTML files from we4free_website folder
 Write-Host "📤 Uploading website files..." -ForegroundColor Yellow
-scp -P $PORT we4free_website/*.html ${USER}@${HOST}:~/public_html/
+
+if ($SSH_PASSWORD) {
+    # Use password from environment (requires sshpass or plink)
+    # For Windows, use plink from PuTTY if available, otherwise prompt
+    $plink = Get-Command plink -ErrorAction SilentlyContinue
+    if ($plink) {
+        echo y | plink -P $SSH_PORT -pw $SSH_PASSWORD ${SSH_USER}@${SSH_HOST} "exit"
+        pscp -P $SSH_PORT -pw $SSH_PASSWORD we4free_website/*.html ${SSH_USER}@${SSH_HOST}:public_html/
+    } else {
+        # Fall back to standard scp (will prompt for password)
+        Write-Host "💡 Tip: Install PuTTY for password-less deployment" -ForegroundColor Yellow
+        scp -P $SSH_PORT we4free_website/*.html ${SSH_USER}@${SSH_HOST}:~/public_html/
+    }
+} else {
+    # No password in environment, use standard scp
+    scp -P $SSH_PORT we4free_website/*.html ${SSH_USER}@${SSH_HOST}:~/public_html/
+}
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "✅ Deployment successful!" -ForegroundColor Green
