@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WE4Free">
     <title>WE4Free - Mental Health Resources</title>
     <meta name="description" content="Free, accessible mental health support for everyone, everywhere. Global directory of crisis lines, counseling services, and peer support.">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     <style>
         * {
             margin: 0;
@@ -338,23 +344,60 @@
             <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 18px;">🚨 Need Help Right Now?</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 18px;">
                 <!-- 911 Card -->
-                <a href="tel:911" data-number="911" onclick="return confirmCall('911', 'Immediate Danger');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
-                    <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">911</p>
-                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Immediate Danger</p>
-                </a>
-                <!-- 988 Card -->
-                <a href="tel:988" data-number="988" onclick="return confirmCall('988', 'Suicide Crisis');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
-                    <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">988</p>
-                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Suicide Crisis</p>
-                </a>
-                <!-- Kids Help Phone Card -->
-                <a href="tel:1-800-668-6868" data-number="1-800-668-6868" onclick="return confirmCall('1-800-668-6868', 'Kids Help Phone');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
-                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">1-800-668-6868</p>
-                    <p style="font-size: 0.85rem; margin: 0; opacity: 0.95;">Kids Help Phone<br><span style="font-size: 0.75rem;">(Text: CONNECT to 686868)</span></p>
-                </a>
+                <div style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1;">
+                    <a href="tel:911" data-number="911" onclick="return confirmCall('911', 'Immediate Danger');" style="text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.parentElement.style.background='rgba(0,0,0,0.35)'; this.parentElement.style.transform='translateY(-2px)'" onmouseout="this.parentElement.style.background='rgba(0,0,0,0.2)'; this.parentElement.style.transform='translateY(0)'">
+                        <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">911</p>
+                        <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Immediate Danger</p>
+                    </a>
+                </div>
+                <!-- 988 Card with SMS -->
+                <div style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1;">
+                    <a href="tel:988" data-number="988" onclick="return confirmCall('988', 'Suicide Crisis');" style="text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation; margin-bottom: 8px;" onmouseover="this.parentElement.style.background='rgba(0,0,0,0.35)'; this.parentElement.style.transform='translateY(-2px)'" onmouseout="this.parentElement.style.background='rgba(0,0,0,0.2)'; this.parentElement.style.transform='translateY(0)'">
+                        <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">988</p>
+                        <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Suicide Crisis</p>
+                    </a>
+                    <a href="sms:988&body=I%20need%20help" style="background: rgba(0,0,0,0.3); color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; display: inline-block; transition: background 0.2s; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.5)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'">💬 Text 988</a>
+                </div>
+                <!-- Kids Help Phone Card with SMS -->
+                <div style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1;">
+                    <a href="tel:1-800-668-6868" data-number="1-800-668-6868" onclick="return confirmCall('1-800-668-6868', 'Kids Help Phone');" style="text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation; margin-bottom: 8px;" onmouseover="this.parentElement.style.background='rgba(0,0,0,0.35)'; this.parentElement.style.transform='translateY(-2px)'" onmouseout="this.parentElement.style.background='rgba(0,0,0,0.2)'; this.parentElement.style.transform='translateY(0)'">
+                        <p style="font-size: 1.3rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">1-800-668-6868</p>
+                        <p style="font-size: 0.85rem; margin: 0; opacity: 0.95;">Kids Help Phone</p>
+                    </a>
+                    <a href="sms:686868&body=CONNECT" style="background: rgba(0,0,0,0.3); color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; display: inline-block; transition: background 0.2s; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.5)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'">💬 Text 686868</a>
+                </div>
             </div>
+            <p style="font-size: 0.85rem; margin-bottom: 12px; opacity: 0.9;">Can't call? Use text options above 💬</p>
             <p style="font-size: 1rem; margin-bottom: 0;">Scroll down for your province's resources 👇</p>
         </div>
+
+        <!-- NOSCRIPT FALLBACK - Critical for JS failure -->
+        <noscript>
+            <div style="background: #ff6b6b; color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; border: 3px solid #fff;">
+                <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 20px;">🚨 Emergency Crisis Numbers</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;"><strong>JavaScript is disabled. Emergency numbers below:</strong></p>
+                <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                    <a href="tel:911" style="color: white; text-decoration: none; display: block; margin-bottom: 8px;">
+                        <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0;">911</p>
+                        <p style="font-size: 1rem;">Immediate Danger</p>
+                    </a>
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                    <a href="tel:988" style="color: white; text-decoration: none; display: block; margin-bottom: 8px;">
+                        <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0;">988</p>
+                        <p style="font-size: 1rem;">Suicide Crisis</p>
+                    </a>
+                    <a href="sms:988&body=I%20need%20help" style="color: #ffd700; text-decoration: underline; font-size: 0.9rem;">💬 Text 988</a>
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                    <a href="tel:1-800-668-6868" style="color: white; text-decoration: none; display: block; margin-bottom: 8px;">
+                        <p style="font-size: 1.5rem; font-weight: bold; margin: 0 0 8px 0;">1-800-668-6868</p>
+                        <p style="font-size: 1rem;">Kids Help Phone</p>
+                    </a>
+                    <a href="sms:686868&body=CONNECT" style="color: #ffd700; text-decoration: underline; font-size: 0.9rem;">💬 Text 686868</a>
+                </div>
+            </div>
+        </noscript>
 
         <script>
         // ==============================================
@@ -514,6 +557,7 @@
             setupPassiveListeners();
             highlightLastUsed();
             startVisibilityHeartbeat();
+            setupGeolocation(); // NEW: Auto-detect province
 
             // Run initial health check
             setTimeout(checkCrisisBoxHealth, 500);
@@ -522,13 +566,371 @@
             console.log('[WE4Free] TIP: Type toggleCalmMode() to enable/disable calm mode');
         }
 
+        // ==============================================
+        // GEOLOCATION-AWARE ROUTING
+        // ==============================================
+        function setupGeolocation() {
+            // Check if we already have a saved province
+            const savedProvince = localStorage.getItem('we4free_province');
+            if (savedProvince) {
+                console.log(`[WE4Free] Using saved province: ${savedProvince}`);
+                return;
+            }
+
+            // Only request if user hasn't explicitly chosen a province
+            if (!window.location.hash.includes('#')) {
+                detectProvince();
+            }
+        }
+
+        function detectProvince() {
+            if (!('geolocation' in navigator)) {
+                console.log('[WE4Free] Geolocation not supported');
+                return;
+            }
+
+            // Use low-accuracy, fast detection
+            const options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 86400000 // 24 hours
+            };
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    const province = getProvinceFromCoords(latitude, longitude);
+
+                    if (province) {
+                        console.log(`[WE4Free] Detected province: ${province}`);
+                        localStorage.setItem('we4free_province', province);
+
+                        // Show notification
+                        showProvinceNotification(province);
+                    }
+                },
+                (error) => {
+                    console.log(`[WE4Free] Geolocation declined or failed: ${error.message}`);
+                },
+                options
+            );
+        }
+
+        // Rough province detection from coordinates (client-side only, no tracking)
+        function getProvinceFromCoords(lat, lon) {
+            // Quebec
+            if (lat >= 45 && lat <= 62 && lon >= -79 && lon <= -57) {
+                return 'quebec';
+            }
+            // Ontario
+            if (lat >= 42 && lat <= 57 && lon >= -95 && lon <= -74) {
+                return 'ontario';
+            }
+            // BC
+            if (lat >= 48 && lat <= 60 && lon >= -139 && lon <= -114) {
+                return 'british-columbia';
+            }
+            // Alberta
+            if (lat >= 49 && lat <= 60 && lon >= -120 && lon <= -110) {
+                return 'alberta';
+            }
+            // Manitoba
+            if (lat >= 49 && lat <= 60 && lon >= -102 && lon <= -89) {
+                return 'manitoba';
+            }
+            // Saskatchewan
+            if (lat >= 49 && lat <= 60 && lon >= -110 && lon <= -101) {
+                return 'saskatchewan';
+            }
+            // Nova Scotia
+            if (lat >= 43 && lat <= 47 && lon >= -66 && lon <= -59) {
+                return 'nova-scotia';
+            }
+
+            return null; // Unknown location or outside Canada
+        }
+
+        function showProvinceNotification(province) {
+            const provinceNames = {
+                'quebec': 'Quebec',
+                'ontario': 'Ontario',
+                'british-columbia': 'British Columbia',
+                'alberta': 'Alberta',
+                'manitoba': 'Manitoba',
+                'saskatchewan': 'Saskatchewan',
+                'nova-scotia': 'Nova Scotia'
+            };
+
+            const name = provinceNames[province];
+            const link = `<a href="#${province}" style="color: #ffd700; text-decoration: underline;">View ${name} resources</a>`;
+
+            // Create notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                right: 30px;
+                background: #667eea;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 998;
+                max-width: 300px;
+                font-size: 0.9rem;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <strong>📍 Detected: ${name}</strong><br>
+                ${link}
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; font-size: 1.2rem; position: absolute; top: 5px; right: 10px; cursor: pointer;">×</button>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 10000);
+        }
+
+        // Expose function to manually set province
+        window.setProvince = function(province) {
+            localStorage.setItem('we4free_province', province);
+            console.log(`[WE4Free] Province manually set to: ${province}`);
+            window.location.hash = `#${province}`;
+        };
+
         // Run on DOM load
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeWE4Free);
         } else {
             initializeWE4Free();
         }
-        </script>
+
+        // ==============================================
+        // WEB VITALS MONITORING (Performance Tracking)
+        // ==============================================
+        function setupWebVitals() {
+            const vitals = {
+                lcp: null,
+                fid: null,
+                inp: null,
+                cls: 0
+            };
+
+            // Track Largest Contentful Paint (LCP) - Should be <2.5s
+            if ('PerformanceObserver' in window) {
+                try {
+                    const lcpObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        const lastEntry = entries[entries.length - 1];
+                        vitals.lcp = lastEntry.renderTime || lastEntry.loadTime;
+
+                        if (vitals.lcp > 2500) {
+                            console.warn(`[WE4Free] LCP too slow: ${vitals.lcp.toFixed(0)}ms (target: <2500ms)`);
+                        } else {
+                            console.log(`[WE4Free] LCP: ${vitals.lcp.toFixed(0)}ms ✓`);
+                        }
+                    });
+                    lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+
+                    // Track First Input Delay (FID) - Should be <100ms
+                    const fidObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach((entry) => {
+                            vitals.fid = entry.processingStart - entry.startTime;
+
+                            if (vitals.fid > 100) {
+                                console.warn(`[WE4Free] FID too slow: ${vitals.fid.toFixed(0)}ms (target: <100ms)`);
+                            } else {
+                                console.log(`[WE4Free] FID: ${vitals.fid.toFixed(0)}ms ✓`);
+                            }
+                        });
+                    });
+                    fidObserver.observe({ type: 'first-input', buffered: true });
+
+                    // Track Interaction to Next Paint (INP) - Should be <200ms
+                    if ('PerformanceEventTiming' in window) {
+                        const inpObserver = new PerformanceObserver((list) => {
+                            const entries = list.getEntries();
+                            entries.forEach((entry) => {
+                                if (entry.duration > (vitals.inp || 0)) {
+                                    vitals.inp = entry.duration;
+
+                                    if (vitals.inp > 200) {
+                                        console.warn(`[WE4Free] INP too slow: ${vitals.inp.toFixed(0)}ms (target: <200ms)`);
+                                    } else {
+                                        console.log(`[WE4Free] INP: ${vitals.inp.toFixed(0)}ms ✓`);
+                                    }
+                                }
+                            });
+                        });
+                        inpObserver.observe({ type: 'event', buffered: true, durationThreshold: 16 });
+                    }
+
+                    // Track Cumulative Layout Shift (CLS) - Should be <0.1
+                    const clsObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach((entry) => {
+                            if (!entry.hadRecentInput) {
+                                vitals.cls += entry.value;
+                            }
+                        });
+
+                        if (vitals.cls > 0.1) {
+                            console.warn(`[WE4Free] CLS too high: ${vitals.cls.toFixed(3)} (target: <0.1)`);
+                        } else if (vitals.cls > 0) {
+                            console.log(`[WE4Free] CLS: ${vitals.cls.toFixed(3)} ✓`);
+                        }
+                    });
+                    clsObserver.observe({ type: 'layout-shift', buffered: true });
+
+                    // Report summary after 10 seconds
+                    setTimeout(() => {
+                        console.log('[WE4Free] Web Vitals Summary:', {
+                            LCP: vitals.lcp ? `${vitals.lcp.toFixed(0)}ms ${vitals.lcp < 2500 ? '✓' : '⚠️'}` : 'N/A',
+                            FID: vitals.fid ? `${vitals.fid.toFixed(0)}ms ${vitals.fid < 100 ? '✓' : '⚠️'}` : 'N/A',
+                            INP: vitals.inp ? `${vitals.inp.toFixed(0)}ms ${vitals.inp < 200 ? '✓' : '⚠️'}` : 'N/A',
+                            CLS: `${vitals.cls.toFixed(3)} ${vitals.cls < 0.1 ? '✓' : '⚠️'}`
+                        });
+                    }, 10000);
+
+                } catch (e) {
+                    console.warn('[WE4Free] Web Vitals monitoring failed:', e.message);
+                }
+            } else {
+                console.warn('[WE4Free] PerformanceObserver not supported');
+            }
+
+            // Expose vitals for console access
+            window.getWebVitals = () => vitals;
+        }
+
+        // Initialize Web Vitals on load
+        setupWebVitals();
+
+        // ==============================================
+        // SERVICE WORKER REGISTRATION (PWA + Offline Support)
+        // ==============================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('[WE4Free] Service Worker registered:', registration.scope);
+
+                    // Check for updates every hour
+                    setInterval(() => {
+                        registration.update();
+                    }, 3600000);
+
+                }).catch(error => {
+                    console.warn('[WE4Free] Service Worker registration failed:', error);
+                });
+            });
+        } else {
+            console.warn('[WE4Free] Service Worker not supported');
+        }
+
+        // ==============================================
+        // ERROR BOUNDARY - Guaranteed Crisis Box Fallback
+        // ==============================================
+
+        // Global error handler for crisis box
+        window.addEventListener('error', (event) => {
+            console.error('[WE4Free] Global error caught:', event.error);
+            ensureCrisisBoxVisible();
+        });
+
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('[WE4Free] Unhandled rejection:', event.reason);
+            ensureCrisisBoxVisible();
+        });
+
+        // Function to ensure crisis box is always visible
+        function ensureCrisisBoxVisible() {
+            const crisisBox = document.getElementById('crisis-box');
+
+            // If crisis box is somehow missing or broken, inject emergency fallback
+            if (!crisisBox || !crisisBox.offsetHeight) {
+                console.error('[WE4Free] Crisis box missing or broken - injecting emergency fallback');
+                injectEmergencyFallback();
+            }
+        }
+
+        // Inject basic emergency display as last resort
+        function injectEmergencyFallback() {
+            // Only inject if not already present
+            if (document.getElementById('emergency-fallback')) {
+                return;
+            }
+
+            const fallback = document.createElement('div');
+            fallback.id = 'emergency-fallback';
+            fallback.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: #d32f2f;
+                color: white;
+                padding: 25px 20px;
+                z-index: 9999;
+                text-align: center;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            `;
+
+            fallback.innerHTML = `
+                <h2 style="margin: 0 0 15px 0; font-size: 1.5rem;">🚨 EMERGENCY RESOURCES</h2>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="tel:911" style="background: rgba(0,0,0,0.3); color: white; text-decoration: none; padding: 15px 20px; border-radius: 8px; display: inline-block; min-width: 120px;">
+                        <div style="font-size: 2rem; font-weight: bold;">911</div>
+                        <div style="font-size: 0.9rem;">Emergency</div>
+                    </a>
+                    <a href="tel:988" style="background: rgba(0,0,0,0.3); color: white; text-decoration: none; padding: 15px 20px; border-radius: 8px; display: inline-block; min-width: 120px;">
+                        <div style="font-size: 2rem; font-weight: bold;">988</div>
+                        <div style="font-size: 0.9rem;">Suicide Crisis</div>
+                    </a>
+                    <a href="tel:1-800-668-6868" style="background: rgba(0,0,0,0.3); color: white; text-decoration: none; padding: 15px 20px; border-radius: 8px; display: inline-block; min-width: 120px;">
+                        <div style="font-size: 1.3rem; font-weight: bold;">1-800-668-6868</div>
+                        <div style="font-size: 0.85rem;">Kids Help Phone</div>
+                    </a>
+                </div>
+                <p style="font-size: 0.85rem; margin-top: 15px; opacity: 0.9;">Text: 988 or 686868 with CONNECT</p>
+            `;
+
+            // Insert at the very top of body
+            if (document.body.firstChild) {
+                document.body.insertBefore(fallback, document.body.firstChild);
+            } else {
+                document.body.appendChild(fallback);
+            }
+
+            console.log('[WE4Free] Emergency fallback injected');
+        }
+
+        // Check crisis box health on load
+        setTimeout(() => {
+            try {
+                ensureCrisisBoxVisible();
+            } catch (e) {
+                console.error('[WE4Free] Crisis box health check failed:', e);
+                injectEmergencyFallback();
+            }
+        }, 1000);
+
+        // Wrap entire initialization in try/catch
+        try {
+            // All initialization code is already executed above
+            console.log('[WE4Free] All systems initialized successfully');
+        } catch (error) {
+            console.error('[WE4Free] Initialization failed:', error);
+            injectEmergencyFallback();
+        }
+</script>
 
         <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; text-align: center;">
             <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;">🇨🇦 Find Your Province</h3>

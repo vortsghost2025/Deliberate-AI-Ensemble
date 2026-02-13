@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Emergency Mental Health Resources - WE4Free</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .emergency-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .status {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .emergency-box {
+            background: #ff6b6b;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .emergency-box h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        .emergency-number {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .emergency-number:active {
+            background: rgba(0,0,0,0.4);
+        }
+        .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .service {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .resources {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .resources h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .resource-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #444;
+        }
+        .resource-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .resource-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .resource-contact {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        a { color: #667eea; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="emergency-container">
+        <h1>🚨 WE4Free - Emergency Mode</h1>
+
+        <div class="status">
+            <strong>⚠️ Offline Mode Active</strong><br>
+            You're viewing cached emergency resources. No internet connection required.
+        </div>
+
+        <div class="emergency-box">
+            <h2>EMERGENCY NUMBERS</h2>
+
+            <a href="tel:911" class="emergency-number">
+                <div class="number">911</div>
+                <div class="service">Immediate Danger</div>
+            </a>
+
+            <a href="tel:988" class="emergency-number">
+                <div class="number">988</div>
+                <div class="service">Suicide Crisis Helpline</div>
+            </a>
+
+            <a href="tel:1-800-668-6868" class="emergency-number">
+                <div class="number">1-800-668-6868</div>
+                <div class="service">Kids Help Phone (Text: CONNECT to 686868)</div>
+            </a>
+        </div>
+
+        <div class="resources">
+            <h3>📞 Canada-Wide Resources</h3>
+
+            <div class="resource-item">
+                <div class="resource-name">Info-Social 811</div>
+                <div class="resource-contact"><a href="tel:811">Dial 811</a></div>
+                <div class="service">24/7 health information and mental health support</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">211 Community Services</div>
+                <div class="resource-contact"><a href="tel:211">Dial 211</a></div>
+                <div class="service">Free 24/7 community and social services referral</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">Kids Help Phone</div>
+                <div class="resource-contact"><a href="tel:1-800-668-6868">1-800-668-6868</a> | Text CONNECT to 686868</div>
+                <div class="service">24/7 support for youth (19 and under)</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">Hope for Wellness (Indigenous)</div>
+                <div class="resource-contact"><a href="tel:1-855-242-3310">1-855-242-3310</a></div>
+                <div class="service">24/7 culturally-safe crisis counseling</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">Trans Lifeline</div>
+                <div class="resource-contact"><a href="tel:1-877-330-6366">1-877-330-6366</a></div>
+                <div class="service">Crisis support for trans and questioning people</div>
+            </div>
+        </div>
+
+        <div class="resources">
+            <h3>🌍 International Resources</h3>
+
+            <div class="resource-item">
+                <div class="resource-name">USA - 988 Lifeline</div>
+                <div class="resource-contact"><a href="tel:988">Call or text 988</a></div>
+                <div class="service">24/7 suicide prevention and crisis support</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">UK - Samaritans</div>
+                <div class="resource-contact"><a href="tel:116123">116 123</a></div>
+                <div class="service">24/7 emotional support</div>
+            </div>
+
+            <div class="resource-item">
+                <div class="resource-name">Australia - Lifeline</div>
+                <div class="resource-contact"><a href="tel:131114">13 11 14</a></div>
+                <div class="service">24/7 crisis support and suicide prevention</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <strong>⚕️ Important:</strong> This information is for informational purposes only.<br>
+                In a life-threatening emergency, call 911 immediately.
+            </p>
+            <p style="margin-top: 15px;">
+                <a href="/resources.html">← Return to full site</a> (requires internet)
+            </p>
+            <p style="margin-top: 10px; font-size: 0.75rem;">
+                WE4Free &copy; 2026 | Free forever, for everyone, everywhere
+            </p>
+        </div>
+    </div>
+
+    <script>
+    // Log that emergency mode is active
+    console.log('[WE4Free] Emergency mode active - offline resources loaded');
+
+    // Store that user accessed emergency mode
+    try {
+        localStorage.setItem('we4free_emergency_accessed', Date.now());
+    } catch (e) {
+        // LocalStorage unavailable, that's OK
+    }
+    </script>
+</body>
+</html>
