@@ -1,6 +1,6 @@
-# Disable caching for HTML files
-<FilesMatch "\.(html)$">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
+# Disable caching for HTML, CSS, and JS files (updated 2026-02-13)
+<FilesMatch "\.(html|htm|php|js|css)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
     Header set Pragma "no-cache"
     Header set Expires 0
 </FilesMatch>
