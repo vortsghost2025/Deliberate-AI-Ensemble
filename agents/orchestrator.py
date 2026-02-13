@@ -55,6 +55,11 @@ class OrchestratorAgent(BaseAgent):
         self.logger.setLevel(logging.DEBUG)
         self.is_paper_trading = config.get('paper_trading', True)
         self._last_daily_reset: Optional[str] = None
+        
+        # Minimum Notional Value Awareness
+        self.consecutive_notional_rejections = 0
+        self.notional_rejection_threshold = 10  # Pause after 10 consecutive rejections
+        self.notional_pause_duration_hours = 1.0  # Suggest 1 hour pause
     
     def register_agent(self, agent: BaseAgent) -> None:
         """
@@ -121,6 +126,75 @@ class OrchestratorAgent(BaseAgent):
         if self.trading_paused:
             return False, self.pause_reason
         return True, None
+    
+    def _handle_notional_rejection(self, rejection_reason: str, risk_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Intelligent handler for minimum notional value rejections.
+        
+        This method demonstrates system self-awareness: the bot understands its own
+        limitations in context and makes strategic decisions rather than just failing.
+        
+        Args:
+            rejection_reason: The rejection reason from risk manager
+            risk_data: Full risk assessment data
+            
+        Returns:
+            Final result message with intelligent handling
+        """
+        self.consecutive_notional_rejections += 1
+        
+        # Extract details from risk data for intelligent logging
+        assessments = risk_data.get('assessments', {})
+        first_pair = list(assessments.keys())[0] if assessments else 'Unknown'
+        pair = assessments.get(first_pair, {}).get('pair', first_pair) if assessments else 'Unknown'
+        account_balance = risk_data.get('account_balance', 0)
+        
+        # Log with intelligence - explain WHY, not just WHAT
+        self.logger.info(
+            f"[INTELLIGENCE] Trade signal valid but position size rejected due to minimum notional constraints. "
+            f"This is expected behavior with current account balance ${account_balance:.2f}. "
+            f"Continuing to monitor. (Consecutive: {self.consecutive_notional_rejections})"
+        )
+        
+        # Adaptive behavior: After repeated rejections, take strategic action
+        if self.consecutive_notional_rejections >= self.notional_rejection_threshold:
+            pause_message = (
+                f"Detected {self.consecutive_notional_rejections} consecutive minimum notional rejections. "
+                f"Account balance (${account_balance:.2f}) is below effective trading threshold for {pair}. "
+                f"RECOMMENDATION: Increase account balance to $500+ or adjust risk parameters. "
+                f"Pausing trading for {self.notional_pause_duration_hours} hour(s) to avoid unnecessary cycles."
+            )
+            self.logger.warning(f"[ADAPTIVE INTELLIGENCE] {pause_message}")
+            
+            # Pause trading strategically
+            self.pause_trading(f"Account too small for minimum notional (${account_balance:.2f})")
+            
+            # Reset counter after taking action
+            self.consecutive_notional_rejections = 0
+            
+            return self.create_message(
+                action='orchestrate_workflow',
+                success=True,
+                data={
+                    'trade_executed': False,
+                    'reason': 'notional_rejection_pause',
+                    'intelligence': pause_message,
+                    'recommendation': 'Increase account balance to $500+ or adjust risk parameters',
+                    'pause_duration_hours': self.notional_pause_duration_hours
+                }
+            )
+        
+        # Normal operation - just monitoring
+        return self.create_message(
+            action='orchestrate_workflow',
+            success=True,
+            data={
+                'trade_executed': False,
+                'reason': 'notional_rejection',
+                'consecutive_count': self.consecutive_notional_rejections,
+                'threshold': self.notional_rejection_threshold
+            }
+        )
     
     def transition_stage(self, new_stage: WorkflowStage, metadata: Optional[Dict] = None) -> None:
         """
@@ -402,6 +476,8 @@ class OrchestratorAgent(BaseAgent):
                 rejection_reason = risk_data.get('rejection_reason')
                 self.logger.warning(f"Position rejected by risk manager: {rejection_reason}")
                 reason_lower = (rejection_reason or '').lower()
+                
+                # Critical risk limits - activate circuit breaker
                 if 'daily loss limit' in reason_lower or 'risk limit' in reason_lower:
                     self.activate_circuit_breaker("Risk limit hit - trading halted")
                     cycle_results['final_result'] = self.create_message(
@@ -410,12 +486,23 @@ class OrchestratorAgent(BaseAgent):
                         error='Risk limit hit - trading halted'
                     )
                     return cycle_results['final_result']
+                
+                # Intelligent handling for minimum notional rejections
+                if 'notional' in reason_lower and 'below minimum' in reason_lower:
+                    cycle_results['final_result'] = self._handle_notional_rejection(rejection_reason, risk_data)
+                    return cycle_results['final_result']
+                
+                # Generic rejection - reset notional counter (different issue)
+                self.consecutive_notional_rejections = 0
                 cycle_results['final_result'] = self.create_message(
                     action='orchestrate_workflow',
                     success=True,
                     data={'trade_executed': False, 'reason': 'risk_rejection'}
                 )
                 return cycle_results['final_result']
+            
+            # Trade approved - reset notional rejection counter
+            self.consecutive_notional_rejections = 0
             
             # Step 5: Execution (Paper Trading by Default)
             self.transition_stage(WorkflowStage.EXECUTING)
