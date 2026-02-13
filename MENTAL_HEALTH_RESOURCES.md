@@ -35,11 +35,31 @@
 
 ## 🇨🇦 **Canada**
 
+### **National Resources**
 | Organization | Contact | Services |
 |--------------|---------|----------|
 | **Canadian Association for Suicide Prevention (CASP)** | [casp.ca](https://www.casp.ca) | National suicide prevention resources and crisis line directory |
 | **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868 | Free 24/7 support for youth (19 and under) |
-| **Ontario Mental Health Helpline** | 1-866-531-2600 | Free 24/7 mental health support for Ontario residents |
+| **Info-Social 811** | Dial 811 | 24/7 health information and mental health support line for all Quebec residents |
+
+### **Montreal & Quebec**
+
+#### Crisis Support
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **Suicide Prevention** | 1-866-APPELLE (1-866-277-3553) | Free 24/7 Quebec suicide prevention hotline; French and English |
+| **Tel-Jeunes** | Call 1-800-263-2266; Text 514-600-1002 | Free support for youth (ages 5-20); bilingual; 8am-12am daily |
+| **AMI-Quebec** | Call 514-486-1448; [amiquebec.org](https://www.amiquebec.org) | Family mental health support, education, and guidance; free programs |
+
+#### Residential Treatment (Dual Diagnosis)
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **Dunham House** | Call (450) 263-3434; [dunhamhouse.ca](https://www.dunhamhouse.ca); admissions@dunhamhouse.ca | Specialized residential treatment for addiction and mental health disorders (dual diagnosis). Programs: 30-day, 90-day, 6-month. **Covered by government for social assistance recipients.** English-speaking, 85-acre campus in Eastern Townships (1.5h from Montreal). Outpatient services in Montreal at Queen Elizabeth Health Complex. Evidence-based therapy including equine therapy, music therapy. |
+
+### **Ontario**
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **Ontario Mental Health Helpline (ConnexOntario)** | 1-866-531-2600 | Free 24/7 mental health support for Ontario residents |
 
 ---
 
