@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>WE4Free - Mental Health Resources</title>
     <meta name="description" content="Free, accessible mental health support for everyone, everywhere. Global directory of crisis lines, counseling services, and peer support.">
     <style>
@@ -243,6 +243,88 @@
                 color: #e0e7ff;
             }
         }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: more) {
+            #crisis-box {
+                border: 3px solid #fff !important;
+            }
+
+            .resource-section {
+                border: 2px solid rgba(255, 255, 255, 0.5);
+            }
+
+            a {
+                text-decoration: underline !important;
+                font-weight: bold;
+            }
+        }
+
+        /* iOS safe area insets */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+            }
+
+            #crisis-box {
+                padding-top: max(25px, env(safe-area-inset-top));
+                padding-left: max(20px, env(safe-area-inset-left));
+                padding-right: max(20px, env(safe-area-inset-right));
+            }
+        }
+
+        /* Tap feedback animation */
+        #crisis-box a:active {
+            transform: scale(0.97) translateY(-2px);
+            transition: transform 0.1s ease;
+        }
+
+        /* Last used emergency number highlight */
+        .emergency-highlight {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { outline-color: #ffd700; }
+            50% { outline-color: #ffed4e; }
+        }
+
+        /* Calm mode - reduced motion and simplified design */
+        body.calm-mode {
+            background: #f5f5f5 !important;
+        }
+
+        body.calm-mode #crisis-box {
+            background: #d32f2f !important;
+            box-shadow: none !important;
+            animation: none !important;
+        }
+
+        body.calm-mode * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        body.calm-mode .resource-section {
+            background: #fff !important;
+            color: #222 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+
+        body.calm-mode a {
+            color: #0066cc !important;
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -252,21 +334,21 @@
             <p class="subtitle">Free, accessible mental health support for everyone, everywhere. You are not alone.</p>
         </header>
 
-        <div id="crisis-box" style="background: #ff6b6b; color: white; padding: 25px 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: sticky; top: 0; z-index: 999;">
+        <div id="crisis-box" role="region" aria-live="polite" aria-label="Emergency Crisis Resources" style="background: #ff6b6b; color: white; padding: 25px 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); position: sticky; top: 0; z-index: 999;">
             <h2 style="margin-top: 0; font-size: 1.6rem; margin-bottom: 18px;">🚨 Need Help Right Now?</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 18px;">
                 <!-- 911 Card -->
-                <a href="tel:911" onclick="return confirmCall('911', 'Immediate Danger');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                <a href="tel:911" data-number="911" onclick="return confirmCall('911', 'Immediate Danger');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">911</p>
                     <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Immediate Danger</p>
                 </a>
                 <!-- 988 Card -->
-                <a href="tel:988" onclick="return confirmCall('988', 'Suicide Crisis');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                <a href="tel:988" data-number="988" onclick="return confirmCall('988', 'Suicide Crisis');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">988</p>
                     <p style="font-size: 0.9rem; margin: 0; opacity: 0.95;">Suicide Crisis</p>
                 </a>
                 <!-- Kids Help Phone Card -->
-                <a href="tel:1-800-668-6868" onclick="return confirmCall('1-800-668-6868', 'Kids Help Phone');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
+                <a href="tel:1-800-668-6868" data-number="1-800-668-6868" onclick="return confirmCall('1-800-668-6868', 'Kids Help Phone');" style="background: rgba(0,0,0,0.2); padding: 20px 15px; border-radius: 10px; min-width: 140px; max-width: 180px; flex: 1; text-decoration: none; color: white; display: block; transition: all 0.2s ease; cursor: pointer; touch-action: manipulation;" onmouseover="this.style.background='rgba(0,0,0,0.35)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.transform='translateY(0)'">
                     <p style="font-size: 1.3rem; font-weight: bold; margin: 0 0 8px 0; line-height: 1.2;">1-800-668-6868</p>
                     <p style="font-size: 0.85rem; margin: 0; opacity: 0.95;">Kids Help Phone<br><span style="font-size: 0.75rem;">(Text: CONNECT to 686868)</span></p>
                 </a>
@@ -275,25 +357,123 @@
         </div>
 
         <script>
-        // Call intent confirmation to prevent accidental taps
+        // ==============================================
+        // ADVANCED MOBILE UX OPTIMIZATIONS
+        // ==============================================
+
+        // 1. Call intent confirmation with tracking
         function confirmCall(number, service) {
             // Skip confirmation on desktop
-            if (window.innerWidth > 768) return true;
+            if (window.innerWidth > 768) {
+                trackEmergencyCall(number);
+                return true;
+            }
 
             // iOS and mobile: show confirmation
             const message = `Call ${service}?\n\n${number}\n\nThis will initiate a phone call.`;
-            return confirm(message);
+            const confirmed = confirm(message);
+
+            if (confirmed) {
+                trackEmergencyCall(number);
+            }
+
+            return confirmed;
         }
 
-        // Dark mode support
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            const crisisBox = document.getElementById('crisis-box');
-            if (crisisBox) {
-                crisisBox.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.6)';
+        // 2. Track last used emergency number
+        function trackEmergencyCall(number) {
+            try {
+                localStorage.setItem('lastEmergencyCall', number);
+                localStorage.setItem('lastEmergencyCallTime', Date.now());
+            } catch (e) {
+                console.warn('[WE4Free] LocalStorage unavailable');
             }
         }
 
-        // Monitor crisis box visibility (simple health check)
+        // 3. Highlight last used emergency number
+        function highlightLastUsed() {
+            try {
+                const lastNumber = localStorage.getItem('lastEmergencyCall');
+                const lastTime = localStorage.getItem('lastEmergencyCallTime');
+
+                if (!lastNumber || !lastTime) return;
+
+                // Only highlight if within last 24 hours
+                const hoursSince = (Date.now() - parseInt(lastTime)) / (1000 * 60 * 60);
+                if (hoursSince > 24) {
+                    localStorage.removeItem('lastEmergencyCall');
+                    localStorage.removeItem('lastEmergencyCallTime');
+                    return;
+                }
+
+                const element = document.querySelector(`[data-number="${lastNumber}"]`);
+                if (element) {
+                    element.classList.add('emergency-highlight');
+                    console.log(`[WE4Free] Highlighting last used: ${lastNumber}`);
+                }
+            } catch (e) {
+                console.warn('[WE4Free] Could not highlight last used number');
+            }
+        }
+
+        // 4. Passive touch event listeners (performance)
+        function setupPassiveListeners() {
+            const touchElements = document.querySelectorAll('#crisis-box a');
+            touchElements.forEach(el => {
+                el.addEventListener('touchstart', () => {}, { passive: true });
+                el.addEventListener('touchmove', () => {}, { passive: true });
+            });
+        }
+
+        // 5. Crisis box visibility heartbeat
+        function startVisibilityHeartbeat() {
+            setInterval(() => {
+                const box = document.getElementById('crisis-box');
+                if (!box) {
+                    console.error('[WE4Free] Crisis box missing from DOM');
+                    return;
+                }
+
+                const rect = box.getBoundingClientRect();
+                const isVisible = rect.height > 0 && rect.width > 0;
+
+                if (!isVisible) {
+                    console.warn('[WE4Free] Crisis box not visible in viewport');
+                }
+            }, 10000); // Check every 10 seconds
+        }
+
+        // 6. Dark mode support
+        function setupDarkMode() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                const crisisBox = document.getElementById('crisis-box');
+                if (crisisBox) {
+                    crisisBox.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.6)';
+                }
+            }
+        }
+
+        // 7. Calm mode toggle (URL parameter or toggle)
+        function setupCalmMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const calmMode = urlParams.get('calm') === '1' ||
+                             localStorage.getItem('calmMode') === 'true';
+
+            if (calmMode) {
+                document.body.classList.add('calm-mode');
+                console.log('[WE4Free] Calm mode activated');
+            }
+
+            // Add toggle capability (accessible via console or future UI)
+            window.toggleCalmMode = function() {
+                document.body.classList.toggle('calm-mode');
+                const isCalm = document.body.classList.contains('calm-mode');
+                localStorage.setItem('calmMode', isCalm);
+                console.log(`[WE4Free] Calm mode ${isCalm ? 'enabled' : 'disabled'}`);
+            };
+        }
+
+        // 8. Monitor crisis box health (enhanced)
         function checkCrisisBoxHealth() {
             const crisisBox = document.getElementById('crisis-box');
             if (!crisisBox) {
@@ -309,19 +489,45 @@
             }
 
             const computedStyle = window.getComputedStyle(crisisBox);
-            const isSticky = computedStyle.position === 'sticky' || computedStyle.position === '-webkit-sticky';
+            const isSticky = computedStyle.position === 'sticky' ||
+                            computedStyle.position === '-webkit-sticky';
 
             if (!isSticky) {
                 console.warn('[WE4Free] Crisis box is not sticky');
             }
 
+            // Check for aria-live
+            const hasAriaLive = crisisBox.getAttribute('aria-live') === 'polite';
+            if (!hasAriaLive) {
+                console.warn('[WE4Free] Crisis box missing aria-live attribute');
+            }
+
             return isVisible && isSticky;
         }
 
-        // Run health check on load
-        window.addEventListener('DOMContentLoaded', function() {
+        // 9. Initialize all features
+        function initializeWE4Free() {
+            console.log('[WE4Free] Initializing advanced mobile UX features...');
+
+            setupDarkMode();
+            setupCalmMode();
+            setupPassiveListeners();
+            highlightLastUsed();
+            startVisibilityHeartbeat();
+
+            // Run initial health check
             setTimeout(checkCrisisBoxHealth, 500);
-        });
+
+            console.log('[WE4Free] Initialization complete');
+            console.log('[WE4Free] TIP: Type toggleCalmMode() to enable/disable calm mode');
+        }
+
+        // Run on DOM load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeWE4Free);
+        } else {
+            initializeWE4Free();
+        }
         </script>
 
         <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; text-align: center;">
