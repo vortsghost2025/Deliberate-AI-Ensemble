@@ -48,8 +48,18 @@
 | Organization | Contact | Services |
 |--------------|---------|----------|
 | **Suicide Prevention** | 1-866-APPELLE (1-866-277-3553) | Free 24/7 Quebec suicide prevention hotline; French and English |
-| **Tel-Jeunes** | Call 1-800-263-2266; Text 514-600-1002 | Free support for youth (ages 5-20); bilingual; 8am-12am daily |
+| **Tel-Jeunes** | Call 1-800-263-2266; Text 514-600-1002 | Free support for youth (ages 5-20); bilingual; 8am-12am daily; [teljeunes.com](https://www.teljeunes.com/Tel-jeunes-en/All-topics/Drugs-and-alcohol) drugs & alcohol support |
 | **AMI-Quebec** | Call 514-486-1448; [amiquebec.org](https://www.amiquebec.org) | Family mental health support, education, and guidance; free programs |
+
+#### Navigator Services (Assessment & Referral)
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **CISSS Montérégie - Centralized Addiction Intake** | Call 450-443-4413; Toll-free 1-866-964-4413; accueil.dependance.cisssmo16@ssss.gouv.qc.ca | **Free centralized processing of all addiction rehabilitation applications** for Montérégie residents and English-speaking Montrealers. Assessment and referral for alcohol, drugs, prescription medications, gambling, compulsive buying, Internet addiction. Youth (17 and under) and Adult (18+) programs. Government of Quebec service. |
+| **Drugs - Help and Referral** | [aidedrogue.ca/en](https://www.aidedrogue.ca/en/) | Quebec drug addiction help and referral information |
+| **Gambling - Help and Referral** | [aidejeu.ca/en](https://aidejeu.ca/en/) | Quebec gambling addiction help and referral information |
+| **Éducalcool** | [educalcool.qc.ca/en](https://www.educalcool.qc.ca/en/home/) | Alcohol education and moderation resources |
+| **Naloxone Resource Finder** | [sante.gouv.qc.ca/en/repertoire-ressources/naloxone](https://sante.gouv.qc.ca/en/repertoire-ressources/naloxone/) | Find resources providing free naloxone kits (opioid overdose reversal) across Quebec |
+| **Drug Free Kids Canada** | [drugfreekidscanada.org](https://drugfreekidscanada.org/prevention/tips-for-parents/what-to-look-for-checklist/) | Parent resources for teen substance use prevention |
 
 #### Residential Treatment (Dual Diagnosis)
 | Organization | Contact | Services |
