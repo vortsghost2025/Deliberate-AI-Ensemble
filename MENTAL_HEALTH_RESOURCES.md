@@ -4,6 +4,24 @@
 
 ---
 
+## ⚠️ EMERGENCY
+
+**If you or someone you know is in immediate danger, please call 911 or go to your nearest emergency department immediately.**
+
+---
+
+## ⚕️ Important Disclaimer
+
+**This information is provided for informational purposes only and should not be used as a substitute for professional medical advice, diagnosis, or treatment.**
+
+All resources listed have been compiled from official government and healthcare websites. However, phone numbers, hours, and services may change. **We recommend verifying information directly with the service provider.**
+
+**If you are experiencing a mental health crisis, please contact a crisis line or emergency services immediately.**
+
+Each provincial section includes source citations to the official government websites where information was obtained.
+
+---
+
 ## 🌍 **Global Mental Health Resources**
 
 | Organization | Contact | Services | How to Use |
@@ -44,6 +62,8 @@
 
 ### **Quebec** (Provincial - All Regions)
 
+**📋 Source:** [quebec.ca](https://www.quebec.ca/sante/problemes-de-sante/sante-mentale-maladie-mentale) | [MSSS Quebec](https://www.msss.gouv.qc.ca)
+
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
 |--------------|---------|----------|
@@ -79,6 +99,8 @@
 | **Dunham House** | Call (450) 263-3434; [dunhamhouse.ca](https://www.dunhamhouse.ca); admissions@dunhamhouse.ca | Specialized residential treatment for addiction and mental health disorders (dual diagnosis). Programs: 30-day, 90-day, 6-month. **Covered by government for social assistance recipients.** English-speaking, 85-acre campus in Eastern Townships (1.5h from Montreal). Outpatient services in Montreal at Queen Elizabeth Health Complex. Evidence-based therapy including equine therapy, music therapy. |
 
 ### **Ontario** (Provincial)
+
+**📋 Source:** [ontario.ca](https://www.ontario.ca/page/find-mental-health-support) | [ConnexOntario](https://www.connexontario.ca)
 
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
@@ -127,7 +149,7 @@
 | **Ontario Works** | [Apply online](https://www.ontario.ca/page/ontario-works) or call local office; [MyBenefits Portal](https://mybenefits.mcss.gov.on.ca/auth/login) | Social assistance providing financial help, health benefits, and employment support; health benefits include mental health and addiction treatment coverage; [Learn more about Ontario Works](https://feedontario.ca/story/ontario-works-5-things-everyone-should-know/) |
 
 ###  **British Columbia** (Provincial)
-
+**📋 Source:** [gov.bc.ca](https://www2.gov.bc.ca/gov/content/health/managing-your-health/mental-health-substance-use) | [HealthLink BC](https://www.healthlinkbc.ca)
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
 |--------------|---------|----------|
@@ -143,6 +165,8 @@
 | **BC Mental Health & Substance Use Services** | [Find services near you](https://www2.gov.bc.ca/gov/content/health/managing-your-health/mental-health-substance-use) | Provincial directory of publicly-funded mental health and substance use services |
 
 ### **Alberta** (Provincial)
+
+**📋 Source:** [Alberta Health Services](https://www.albertahealthservices.ca/info/Page12630.aspx) | [alberta.ca](https://www.alberta.ca/mental-health-help.aspx)
 
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
@@ -161,6 +185,8 @@
 
 ### **Manitoba** (Provincial)
 
+**📋 Source:** [gov.mb.ca](https://www.gov.mb.ca/health/mh/crisis.html) | [211 Manitoba](https://mb.211.ca)
+
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
 |--------------|---------|----------|
@@ -176,6 +202,8 @@
 | **Strongest Families Institute** | [strongestfamilies.com](https://strongestfamilies.com) | Free e-mental health CBT services for children, youth, and adults with mild to moderate mental health concerns; anxiety, depression, disruptive behaviours |
 
 ### **Saskatchewan** (Provincial)
+
+**📋 Source:** [saskatchewan.ca](https://www.saskatchewan.ca/residents/health/accessing-health-care-services/mental-health-and-addictions-support-services)
 
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
@@ -209,6 +237,8 @@
 ---
 
 ### **Nova Scotia** (Provincial)
+
+**📋 Source:** [NS Health Mental Health & Addictions](https://mha.nshealth.ca/en) | [novascotia.ca](https://novascotia.ca)
 
 #### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
