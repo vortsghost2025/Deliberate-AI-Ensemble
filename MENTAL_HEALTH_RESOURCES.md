@@ -159,6 +159,53 @@
 | **Indigenous Support Line** | Call 1-844-944-4744 or 811; [info](https://www.albertahealthservices.ca/info/Page18213.aspx) | Free culturally safe mental health and addiction support for Indigenous peoples |
 | **Child & Adolescent Intake Services** | Call 1-825-402-6799 | Intake for children and youth mental health services |
 
+### **Manitoba** (Provincial)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **988 Suicide Crisis Helpline** | Call or text 988 | 24/7 free suicide prevention support; national service available across Manitoba |
+| **Klinic Crisis Line** | Call 204-786-8686 or 1-888-322-3019; TTY 204-784-4097 | 24/7 free crisis support and suicide prevention|
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [kidshelpphone.ca](https://kidshelpphone.ca) | 24/7 free support for youth; multilingual (100+ languages) |
+
+#### Navigator Services & Support
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **211 Manitoba** | Call 211; [mb.211.ca](https://mb.211.ca) | Free 24/7 confidential mental health and addiction services referral; 150+ languages |
+| **Strongest Families Institute** | [strongestfamilies.com](https://strongestfamilies.com) | Free e-mental health CBT services for children, youth, and adults with mild to moderate mental health concerns; anxiety, depression, disruptive behaviours |
+
+### **Saskatchewan** (Provincial)
+
+#### Provincial Crisis & Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **988 Suicide Crisis Helpline** | Call or text 988 | 24/7 free suicide prevention support; national service available across Saskatchewan |
+| **HealthLine 811** | Call 811 | 24/7 mental health and addictions support by qualified health practitioners |
+| **Mobile Crisis Regina** | Call 306-757-0127 | 24/7 mental health and addictions crisis support |
+| **Mobile Crisis Prince Albert** | Call 306-764-1011 | Mental health and addictions crisis support (Mon-Fri 4-8am; Sat-Sun 24 hours) |
+| **Saskatoon Crisis and Intervention Services** | Call 306-933-6200 | 24/7 mental health and addictions crisis support |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [kidshelpphone.ca](https://kidshelpphone.ca) | 24/7 free support for youth; multilingual (100+ languages) |
+
+#### Specialized Support Lines
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **Hope for Wellness Helpline** | Call 1-855-242-3310; [hopeforwellness.ca](https://www.hopeforwellness.ca) | 24/7 free culturally safe support for all Indigenous peoples across Canada |
+| **Problem Gambling Helpline** | Call 1-800-306-6789 or text 306-400-2785 | 24/7 gambling support (text 7pm-midnight) |
+| **Farm Stress Line** | Call 1-800-667-4442 | 24/7 support for farmers and ranchers |
+| **National Farmer Crisis Line** | Call 1-866-327-6701; [ccaw.ca](https://ccaw.ca/national-farmer-wellness-network/) | 24/7 immediate ag-informed crisis support for farmers, farm families, agricultural workers |
+| **TAO Tel-Aide Francophone** | Call 1-800-567-9699 | 24/7 mental health services for French speakers |
+| **National Overdose Response Service** | Call 1-888-688-6677 | 24/7 hotline for people using drugs alone; peer volunteers can call for help if needed |
+
+#### Regional Crisis Services
+| Region | Organization | Contact |
+|--------|--------------|---------|
+| **Kindersley** | West Central Crisis and Family Support Centre | Call 306-463-1860 (24/7) |
+| **Melfort** | North East Outreach and Support Centre | Call 1-800-611-6349 (24/7) |
+| **Northern SK** | Piwapan Women's Centre | Call 306-425-4090 (24/7) |
+| **Swift Current** | Southwest Crisis Services | Call 1-800-567-3334 (24/7) |
+
 ---
 
 ## 🇬🇧 **United Kingdom**
