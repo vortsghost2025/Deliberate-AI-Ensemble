@@ -78,10 +78,53 @@
 |--------------|---------|----------|
 | **Dunham House** | Call (450) 263-3434; [dunhamhouse.ca](https://www.dunhamhouse.ca); admissions@dunhamhouse.ca | Specialized residential treatment for addiction and mental health disorders (dual diagnosis). Programs: 30-day, 90-day, 6-month. **Covered by government for social assistance recipients.** English-speaking, 85-acre campus in Eastern Townships (1.5h from Montreal). Outpatient services in Montreal at Queen Elizabeth Health Complex. Evidence-based therapy including equine therapy, music therapy. |
 
-### **Ontario**
+### **Ontario** (Provincial)
+
+#### Provincial Crisis & Support Lines
 | Organization | Contact | Services |
 |--------------|---------|----------|
-| **Ontario Mental Health Helpline (ConnexOntario)** | 1-866-531-2600 | Free 24/7 mental health support for Ontario residents |
+| **911** | Dial 911 | Immediate danger to yourself or others |
+| **Ontario Suicide Prevention Helpline** | Call 1-833-456-4566; Text `START` to 45645; [Chat online](https://www.ontariosuicidepreventionhelpline.ca) | 24/7 free suicide prevention support; bilingual; operated by ConnexOntario |
+| **ConnexOntario** | Call 1-866-531-2600; Text `CONNECT` to 686868; [Live Chat](https://www.connexontario.ca/Chat) | 24/7 free confidential help for mental health, addiction, and crisis; alcohol, drugs, mental illness, gambling; bilingual |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [Live Chat](https://kidshelpphone.ca) | 24/7 free support for youth (19 and under); available in over 100 languages; text, phone, and chat |
+| **Distress Centre Ontario** | [Find your regional crisis line](https://www.dcontario.org) | Network of local distress and crisis centers across Ontario |
+
+#### Navigator Services (Assessment & Referral)
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **ConnexOntario** | Call 1-866-531-2600; [Live Chat](https://www.connexontario.ca/Chat); [Email](https://www.connexontario.ca/en-ca/send-email) | Free confidential information and referrals for mental health, addiction, and problem gambling services across Ontario |
+| **211 Ontario** | Call 211 or 1-877-330-3213; [Live Chat](https://211ontario.ca); Email | Free information and referral for community, government, social and health services, including mental health resources across Ontario |
+
+#### Treatment & Support Programs
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **BounceBack Ontario** | Call 1-866-345-0224; [bouncebackontario.ca](https://bouncebackontario.ca) | Free cognitive behavioural therapy (CBT) program with guided self-help for adults and youth 15+; phone coaching available |
+| **Ontario Addiction Treatment Services (OATS)** | Call 1-800-565-8603; [oats.ca](https://www.oats.ca) | Free addiction treatment and support services across Ontario |
+| **Centre for Addiction and Mental Health (CAMH)** | Call 416-535-8501; Emergency 416-535-8505; [camh.ca](https://www.camh.ca) | Mental health and addiction research, treatment, education; [multilingual newcomer resources](https://www.camh.ca/en/health-info/mental-illness-and-addiction-index/information-in-other-languages) |
+| **Ontario Telemedicine Network (OTN)** | Call 1-866-888-6848; [otn.ca](https://www.otn.ca) | Free telehealth mental health services for rural and remote communities |
+| **Ontario Mental Health Foundation (OMHF)** | Call 416-979-6641; [omhf.ca](https://www.omhf.ca) | Mental health education, research, and support services |
+
+#### Youth & Student Resources
+| Organization | Contact | Services |
+|--------------|---------|----------|
+| **One Stop Talk** | Call 1-855-416-8255 (TALK); [onestoptalk.ca](https://onestoptalk.ca) | Free confidential immediate mental health support with registered therapist for children and youth under 18 |
+| **Kids Help Phone** | Call 1-800-668-6868; Text `CONNECT` to 686868; [Chat](https://kidshelpphone.ca) | 24/7 free e-mental health service for all young people; multilingual (100+ languages) |
+| **Good2Talk** | Call 1-866-925-5454; [Live Chat](https://good2talk.ca); Text `CONNECT` to 686868 | 24/7 free confidential multilingual support for post-secondary students; moderated peer message boards |
+| **Youth Wellness Hubs Ontario** | [Find a hub near you](https://ywho.ca/en) | 25 hubs across Ontario providing integrated services for youth ages 12-25; mental health, substance use, primary care, social supports |
+| **Ontario Student Mental Health Association (OSMHA)** | Call 416-925-9009; [osmha.org](https://www.osmha.org) | Mental health support and resources for students and educators |
+| **Youth Mental Health Ontario (YMHO)** | Call 416-979-6641; [ymho.ca](https://www.ymho.ca) | Mental health support and resources for youth ages 12-25 |
+
+#### Regional Resources
+| City/Region | Organization | Contact | Services |
+|-------------|--------------|---------|----------|
+| **Toronto** | Toronto Central LHIN Mental Health Services | Call 416-327-4200; [torontocentral.ca](https://www.torontocentral.ca) | Mental health and addiction services for Toronto residents |
+| **Peel Region** | Peel Region Mental Health Services | Call 905-799-7700; [peelregion.ca](https://www.peelregion.ca) | Mental health and addiction services for Peel Region (Mississauga, Brampton, Caledon) |
+| **York Region** | York Region Mental Health Services | Call 1-800-361-5653; [york.ca](https://www.york.ca) | Mental health and addiction services for York Region |
+
+#### Government Coverage
+| Program | Contact | Coverage |
+|---------|---------|----------|
+| **Ontario Works** | [Apply online](https://www.ontario.ca/page/ontario-works) or call local office; [MyBenefits Portal](https://mybenefits.mcss.gov.on.ca/auth/login) | Social assistance providing financial help, health benefits, and employment support; health benefits include mental health and addiction treatment coverage; [Learn more about Ontario Works](https://feedontario.ca/story/ontario-works-5-things-everyone-should-know/) |
 
 ---
 
