@@ -60,23 +60,27 @@ This paper builds on that insight by showing how collaborative computational sys
 
 The WE Framework is a resilience protocol designed for human-AI collaborative systems. It was developed through empirical work involving session recovery, multi-agent orchestration, fallback pathways, and integrity verification. During this development, certain structural properties were observed to persist across failures, interruptions, and context shifts. These persistent properties behaved analogously to conserved quantities in physical systems.
 
-Three classes of symmetries emerged:
+Four classes of symmetries emerged:
 
-**Time-invariant operations:** Checkpoint and recovery mechanisms behaved consistently across sessions, preserving mission alignment even after interruptions.
+**Time-invariant operations:** Checkpoint and recovery mechanisms behaved consistently across sessions, interruptions, and restarts, preserving mission alignment even after temporal discontinuities.
 
-**Scale-invariant collaboration:** Multiple agents could be added, removed, or substituted without altering the system's core behavior, suggesting a form of structural invariance.
+**Location-invariant access:** Offline-first design ensured that critical resources remained accessible regardless of network conditions, physical location, or platform environment.
 
-**Domain-invariant rules:** The same recovery and fallback logic applied across communication channels (web, SMS, TTY), indicating invariance under changes of medium.
+**Multi-path routing:** Multiple fallback pathways (web → SMS → TTY) each provided equivalent access to core functionality, preserving system capability under changes of communication modality.
+
+**Integrity verification:** SHA-256 hashing ensured that artifacts remained unaltered across transformations such as transmission, storage, and recovery.
 
 Corresponding invariants were identified:
 
-**Mission alignment:** The system consistently preserved the user's goal across interruptions.
+**Mission alignment:** The system consistently preserved the user's goal across interruptions and context switches.
 
-**Resource accessibility:** Offline-first design ensured that critical resources remained available regardless of environment.
+**Resource accessibility:** Critical resources remained available regardless of environmental changes.
 
-**Trust:** Integrity verification using SHA-256 hashing ensured that artifacts remained unaltered across transformations.
+**Optionality:** The system maintained multiple paths to the same functionality, preserving access under channel failures.
 
-These observations suggested that the WE Framework exhibits symmetry-invariant relationships analogous to those described by Noether's theorem. This empirical motivation drives the theoretical development in the remainder of the paper.
+**Trust:** Integrity verification ensured that artifacts could be validated against tampering.
+
+These observations suggested that the WE Framework exhibits symmetry-invariant relationships analogous to those described by Noether's theorem. The four symmetries—time-invariance, location-invariance, modality-invariance, and integrity-preservation—correspond directly to the classical physical symmetries: time translation, spatial translation, rotational symmetry, and gauge symmetry. This empirical motivation drives the theoretical development in the remainder of the paper.
 
 ---
 
@@ -86,7 +90,7 @@ These observations suggested that the WE Framework exhibits symmetry-invariant r
 
 Symmetry in physics refers to a transformation that leaves the action or equations of motion invariant. In computational systems, an analogous notion arises when an operation, state transition, or system behavior remains unchanged under a transformation of context, scale, or representation. These computational symmetries do not require a metric space or differentiable manifold; they require only a well-defined notion of transformation and a property that remains invariant under that transformation.
 
-Three classes of computational symmetries are relevant to collaborative systems such as the WE Framework:
+Four classes of computational symmetries are relevant to collaborative systems such as the WE Framework:
 
 **Time-translation symmetry (computational analogue: time-invariant operations)**
 
