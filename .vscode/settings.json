@@ -1,3 +1,6 @@
 {
-    "chat.agent.maxRequests": 250
+    "chat.agent.maxRequests": 250,
+    "github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions": true,
+    "search.experimental.closedNotebookRichContentResults": true,
+    "rainbow_csv.enable_context_menu_head": true
 }
