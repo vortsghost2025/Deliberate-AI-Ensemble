@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WE4Free Mesh Control Panel</title>
+  <style>
+    /* Mesh Control Panel Styles */
+    .mesh-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .mesh-fab {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .mesh-fab:hover {
+      transform: scale(1.1);
+    }
+
+    .mesh-fab:active {
+      transform: scale(0.95);
+    }
+
+    .mesh-fab.connected {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .mesh-menu {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      padding: 20px;
+      min-width: 300px;
+      max-width: 400px;
+    }
+
+    .mesh-menu.show {
+      display: block;
+      animation: slideUp 0.2s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mesh-header {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .mesh-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .mesh-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+
+    .mesh-status-dot.connected {
+      background: #38ef7d;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .mesh-button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .mesh-button:hover {
+      background: #5568d3;
+    }
+
+    .mesh-button:active {
+      transform: scale(0.98);
+    }
+
+    .mesh-button.secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .mesh-button.secondary:hover {
+      background: #d0d0d0;
+    }
+
+    .mesh-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+      font-size: 12px;
+    }
+
+    .mesh-metric {
+      padding: 8px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .mesh-metric-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .mesh-metric-label {
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* Modal Styles */
+    .mesh-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mesh-modal.show {
+      display: flex;
+    }
+
+    .mesh-modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .mesh-modal-header {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .mesh-qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .mesh-qr-image {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .mesh-code-box {
+      width: 100%;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 10px;
+      word-break: break-all;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .mesh-code-box:hover {
+      background: #e5e5e5;
+    }
+
+    .mesh-video-container {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .mesh-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mesh-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    .mesh-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    /* Toast Notification */
+    .mesh-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 10002;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .mesh-toast.show {
+      display: flex;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .mesh-toast-icon {
+      font-size: 24px;
+    }
+
+    .mesh-toast-text {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .mesh-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mesh-close-btn:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Mesh Control Panel -->
+  <div class="mesh-panel">
+    <button class="mesh-fab" id="meshFab" title="Mesh Network">
+      🌐
+    </button>
+    
+    <div class="mesh-menu" id="meshMenu">
+      <div class="mesh-header">WE4Free Mesh</div>
+      
+      <div class="mesh-status">
+        <div class="mesh-status-dot" id="statusDot"></div>
+        <span id="statusText">Offline</span>
+      </div>
+      
+      <button class="mesh-button" id="connectBtn">
+        📡 Connect to Peer
+      </button>
+      
+      <button class="mesh-button" id="shareBtn">
+        🚀 Share Config
+      </button>
+      
+      <button class="mesh-button secondary" id="metricsBtn">
+        📊 View Metrics
+      </button>
+      
+      <div class="mesh-metrics" id="metricsDisplay" style="display: none;">
+        <div class="mesh-metric">
+          <div class="mesh-metric-value" id="peerCount">0</div>
+          <div class="mesh-metric-label">Peers</div>
+        </div>
+        <div class="mesh-metric">
+          <div class="mesh-metric-value" id="configCount">0</div>
+          <div class="mesh-metric-label">Configs</div>
+        </div>
+        <div class="mesh-metric">
+          <div class="mesh-metric-value" id="messageCount">0</div>
+          <div class="mesh-metric-label">Messages</div>
+        </div>
+        <div class="mesh-metric">
+          <div class="mesh-metric-value" id="hopCount">0</div>
+          <div class="mesh-metric-label">Avg Hops</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Display Modal -->
+  <div class="mesh-modal" id="qrModal">
+    <div class="mesh-modal-content">
+      <button class="mesh-close-btn" id="closeQrModal">×</button>
+      <div class="mesh-modal-header" id="qrModalTitle">Scan This QR Code</div>
+      <div class="mesh-qr-container">
+        <img class="mesh-qr-image" id="qrImage" alt="QR Code">
+        <div class="mesh-code-box" id="manualCode" title="Click to copy">
+          <!-- Manual code will be inserted here -->
+        </div>
+        <p style="font-size: 12px; color: #666; text-align: center;">
+          Have the other peer scan this code, or click to copy manually
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Scanner Modal -->
+  <div class="mesh-modal" id="scanModal">
+    <div class="mesh-modal-content">
+      <button class="mesh-close-btn" id="closeScanModal">×</button>
+      <div class="mesh-modal-header">Scan Peer's QR Code</div>
+      <div class="mesh-video-container">
+        <video class="mesh-video" id="scannerVideo" autoplay playsinline></video>
+      </div>
+      <p style="font-size: 14px; color: #666; text-align: center; margin: 15px 0;">
+        Or paste code manually:
+      </p>
+      <input type="text" class="mesh-input" id="manualInput" placeholder="Paste code here...">
+      <button class="mesh-button" id="submitManualCode">Submit Code</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="mesh-toast" id="meshToast">
+    <span class="mesh-toast-icon" id="toastIcon">✅</span>
+    <span class="mesh-toast-text" id="toastText">Connected to peer</span>
+  </div>
+
+  <!-- Include dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <!-- Include mesh modules -->
+  <script src="webrtc-manager.js"></script>
+  <script src="peer-discovery.js"></script>
+  <script src="mesh-propagation.js"></script>
+
+  <!-- UI Controller -->
+  <script src="mesh-ui-controller.js"></script>
+</body>
+</html>
