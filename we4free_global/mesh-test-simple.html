@@ -334,14 +334,17 @@
     document.getElementById('generateOfferBtn').addEventListener('click', async () => {
       try {
         log('Generating offer...');
-        const offer = await webrtcManager.createOffer();
+        const result = await webrtcManager.createOffer();
+        // result = { peerId, offer }
+        currentPeerId = result.peerId; // Save for later
+        
         // Base64 encode to prevent text corruption during copy/paste
-        const offerString = btoa(JSON.stringify(offer));
+        const offerString = btoa(JSON.stringify(result));
         
         document.getElementById('offerCode').textContent = offerString;
         document.getElementById('offerDisplay').style.display = 'block';
         
-        log('✅ Offer generated! Copy and send to Tab 2.');
+        log(`✅ Offer generated! PeerId: ${currentPeerId}. Copy and send to Tab 2.`);
         showToast('✅ Offer generated!');
       } catch (err) {
         log('❌ Failed to generate offer: ' + err.message);
@@ -358,12 +361,23 @@
         }
         
         // Base64 decode
-        const offer = JSON.parse(atob(offerString));
-        log('Accepting offer...');
+        const offerData = JSON.parse(atob(offerString));
+        // offerData = { peerId, offer }
+        log(`Accepting offer from peer ${offerData.peerId}...`);
         
-        const answer = await webrtcManager.acceptOffer(offer);
+        // acceptOffer expects JUST the offer object
+        const result = await webrtcManager.acceptOffer(offerData.offer);
+        // result = { peerId, answer }
+        
+        // We need to send back BOTH: original peerId + our answer
+        const responseData = {
+          originalPeerId: offerData.peerId, // They need this to acceptAnswer
+          peerId: result.peerId, // Our peer ID
+          answer: result.answer
+        };
+        
         // Base64 encode answer
-        const answerString = btoa(JSON.stringify(answer));
+        const answerString = btoa(JSON.stringify(responseData));
         
         document.getElementById('answerCode').textContent = answerString;
         document.getElementById('answerDisplay').style.display = 'block';
@@ -385,10 +399,12 @@
         }
         
         // Base64 decode
-        const answer = JSON.parse(atob(answerString));
-        log('Accepting answer...');
+        const answerData = JSON.parse(atob(answerString));
+        // answerData = { originalPeerId, peerId, answer }
+        log(`Accepting answer for peer ${answerData.originalPeerId}...`);
         
-        await webrtcManager.acceptAnswer(answer);
+        // acceptAnswer expects (peerId, answerObject)
+        await webrtcManager.acceptAnswer(answerData.originalPeerId, answerData.answer);
         
         log('✅ Connection established!');
         showToast('🎉 Connected to peer!');
