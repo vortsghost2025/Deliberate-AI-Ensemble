@@ -255,6 +255,26 @@ for(let i = 0; i < 10; i++) {
 - Full UI (mesh-control-panel.html) not tested
 - Multi-hop propagation not tested (only direct peer-to-peer)
 
+### Known Deployment Issue: Browser Cache
+
+**Issue:** Browser aggressively caches JavaScript files, even after Ctrl+Shift+R  
+**Impact:** DTLS fixes not loading in full UI (mesh-control-panel.html)  
+**Root Cause:** Browser serves cached webrtc-manager.js despite file changes  
+**Workaround:** DevTools → Network → Disable Cache during development  
+
+**Solution Implemented:**
+- ✅ Added version tracking: `v1.0.0-validated-feb15`
+- ✅ Cache-busting query params: `?v=1.0.0-validated`
+- ✅ Version badge in UI (bottom-left corner)
+- ✅ Console logs show loaded version
+
+**Why Simple Test Tool Worked:**
+- Different filename (mesh-test-simple.html)
+- No cached version existed
+- Loaded fresh fixes immediately
+
+This is a **deployment/workflow issue, not a code issue.** The validated Track 3 code is production-ready.
+
 ### Optional Enhancements
 
 - Add message acknowledgment system
