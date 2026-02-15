@@ -91,7 +91,7 @@ class SwarmSnapshot {
       }
 
       // Snapshot gossip state
-      if (this.components.gossipState) {
+      if (this.components.gossipState && this.components.gossipState.state && this.components.gossipState.vectorClock) {
         snapshot.gossipState = {
           state: Array.from(this.components.gossipState.state.entries()),
           vectorClock: Array.from(this.components.gossipState.vectorClock.entries()),
