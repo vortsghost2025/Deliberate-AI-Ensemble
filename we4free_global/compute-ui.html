@@ -343,6 +343,7 @@
       </div>
 
       <button class="btn btn-primary" onclick="submitJob()">🚀 Submit Job</button>
+      <button class="btn btn-secondary" onclick="loadTestData()">⚡ Load Test Data</button>
       <button class="btn btn-secondary" onclick="showExamples()">📖 Examples</button>
     </div>
 
@@ -554,6 +555,17 @@
           document.getElementById('transform-fn-group').style.display = 'block';
           break;
       }
+    }
+
+    // Load test data for quick testing
+    function loadTestData() {
+      document.getElementById('job-type').value = 'map-reduce';
+      updateJobTypeFields(); // Show correct fields
+      document.getElementById('job-input').value = '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]';
+      document.getElementById('job-map-fn').value = '(x) => x * 2';
+      document.getElementById('job-reduce-fn').value = '(acc, val) => acc + val';
+      saveFormValues(); // Save to localStorage
+      console.log('✅ Test data loaded: [1-10], map x*2, reduce sum (expected: 110)');
     }
 
     // Submit job
