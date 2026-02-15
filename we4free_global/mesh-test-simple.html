@@ -393,6 +393,10 @@
     // Step 3: Accept Answer
     document.getElementById('acceptAnswerBtn').addEventListener('click', async () => {
       try {
+        if (currentPeerId === null) {
+          throw new Error('No offer generated. Please generate offer first (Step 1).');
+        }
+        
         const answerString = document.getElementById('answerInput').value.trim();
         if (!answerString) {
           throw new Error('Please paste answer code');
@@ -401,14 +405,15 @@
         // Base64 decode
         const answerData = JSON.parse(atob(answerString));
         // answerData = { originalPeerId, peerId, answer }
-        log(`Accepting answer for peer ${answerData.originalPeerId}...`);
+        log(`Accepting answer for peer ${currentPeerId}...`);
         
-        // acceptAnswer expects (peerId, answerObject)
-        await webrtcManager.acceptAnswer(answerData.originalPeerId, answerData.answer);
+        // acceptAnswer expects (OUR peerId from Step 1, answerObject)
+        await webrtcManager.acceptAnswer(currentPeerId, answerData.answer);
         
         log('✅ Connection established!');
         showToast('🎉 Connected to peer!');
         updateStatus(true, 1);
+        currentPeerId = null; // Reset for next connection
       } catch (err) {
         log('❌ Failed to accept answer: ' + err.message);
         showToast('❌ Failed to accept answer');
