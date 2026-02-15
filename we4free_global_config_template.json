@@ -1,0 +1,163 @@
+{
+  "_comment": "WE4Free Global Template - Country Configuration",
+  "_version": "1.0.0",
+  "_instructions": "Copy this file, rename to your-country.json, and fill in values",
+  
+  "country": {
+    "code": "XX",
+    "name": "Your Country Name",
+    "languages": ["en"],
+    "emergency_number": "911",
+    "timezone": "UTC"
+  },
+
+  "metadata": {
+    "deployed_by": "Organization Name",
+    "contact_email": "contact@example.com",
+    "last_updated": "2026-02-15",
+    "site_url": "https://crisis.example.com"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "national_suicide",
+      "name": "National Suicide Prevention Line",
+      "description": "24/7 support for anyone in suicidal crisis or emotional distress",
+      "phone": "1-XXX-XXX-XXXX",
+      "sms": "XXXXX",
+      "chat_url": "https://example.com/chat",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "youth_support",
+      "name": "Youth Support Line",
+      "description": "Support for young people under 25",
+      "phone": "1-XXX-XXX-XXXX",
+      "sms": "XXXXX",
+      "hours": "24/7",
+      "languages": ["en"],
+      "age_range": "0-25",
+      "free": true
+    },
+    {
+      "id": "domestic_violence",
+      "name": "Domestic Violence Hotline",
+      "description": "Support for those experiencing domestic abuse",
+      "phone": "1-XXX-XXX-XXXX",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    }
+  ],
+
+  "resources": [
+    {
+      "category": "Mental Health Services",
+      "services": [
+        {
+          "name": "Local Mental Health Clinic",
+          "description": "Walk-in mental health services",
+          "address": "123 Main St, City",
+          "phone": "XXX-XXX-XXXX",
+          "website": "https://example.com",
+          "hours": "Mon-Fri 9am-5pm",
+          "free": false,
+          "accepts_insurance": true
+        }
+      ]
+    },
+    {
+      "category": "Addiction Support",
+      "services": [
+        {
+          "name": "Addiction Support Line",
+          "phone": "XXX-XXX-XXXX",
+          "hours": "24/7",
+          "free": true
+        }
+      ]
+    },
+    {
+      "category": "Housing Support",
+      "services": [
+        {
+          "name": "Emergency Housing Line",
+          "phone": "XXX-XXX-XXXX",
+          "hours": "24/7"
+        }
+      ]
+    }
+  ],
+
+  "translations": {
+    "en": {
+      "site_title": "WE4Free - Crisis Support",
+      "site_description": "Free, confidential crisis support resources. Available 24/7, works offline.",
+      
+      "emergency_header": "Emergency Crisis Support",
+      "emergency_subheader": "If you're in immediate danger, call emergency services",
+      "call_now": "Call Now",
+      "text_now": "Text Now",
+      "chat_now": "Chat Now",
+      
+      "crisis_lines_header": "24/7 Crisis Lines",
+      "crisis_lines_description": "Free, confidential support available now",
+      
+      "resources_header": "Find Help Near You",
+      "resources_description": "Mental health services and support in your area",
+      
+      "offline_notice": "You are offline. This page is still accessible and all crisis numbers are available.",
+      "install_prompt": "Install this app to access crisis resources anytime, even offline.",
+      "install_button": "Install App",
+      
+      "footer_text": "You are not alone. Help is available.",
+      "footer_disclaimer": "This service provides information only. In life-threatening emergencies, call emergency services immediately."
+    }
+  },
+
+  "pwa_settings": {
+    "name": "WE4Free Crisis Support",
+    "short_name": "WE4Free",
+    "description": "Free offline-capable crisis support resources",
+    "theme_color": "#1a73e8",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "/",
+    "scope": "/"
+  },
+
+  "service_worker": {
+    "cache_name": "we4free-v1",
+    "cache_files": [
+      "/",
+      "/emergency.html",
+      "/webchat.html",
+      "/escalate.html",
+      "/resources.html",
+      "/manifest.json",
+      "/icons/icon-192.png",
+      "/icons/icon-512.png"
+    ],
+    "offline_fallback": "/offline.html"
+  },
+
+  "analytics": {
+    "enabled": false,
+    "privacy_first": true,
+    "no_personal_data": true,
+    "comment": "Analytics optional. If enabled, use privacy-respecting tools only (e.g., Plausible, simple.analytics)"
+  },
+
+  "customization": {
+    "primary_color": "#1a73e8",
+    "accent_color": "#34a853",
+    "danger_color": "#ea4335",
+    "font_family": "system-ui, -apple-system, sans-serif",
+    "logo_url": "/images/logo.png"
+  }
+}

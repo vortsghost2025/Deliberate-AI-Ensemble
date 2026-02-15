@@ -1,0 +1,71 @@
+{
+  "country": {
+    "code": "US",
+    "name": "United States",
+    "languages": ["en", "es"],
+    "emergency_number": "911",
+    "timezone": "America/New_York"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "988_lifeline",
+      "name": "988 Suicide & Crisis Lifeline",
+      "description": "24/7 support for people in suicidal crisis or emotional distress",
+      "phone": "988",
+      "sms": "988",
+      "chat_url": "https://988lifeline.org/chat/",
+      "hours": "24/7",
+      "languages": ["en", "es"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "crisis_text_line",
+      "name": "Crisis Text Line",
+      "description": "Free, 24/7 support via text",
+      "sms": "741741",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "trevor_project",
+      "name": "The Trevor Project (LGBTQ Youth)",
+      "description": "Crisis support for LGBTQ young people",
+      "phone": "1-866-488-7386",
+      "sms": "678678",
+      "hours": "24/7",
+      "age_range": "13-24",
+      "free": true
+    },
+    {
+      "id": "veterans_crisis",
+      "name": "Veterans Crisis Line",
+      "description": "Support for veterans and their families",
+      "phone": "988",
+      "sms": "838255",
+      "chat_url": "https://www.veteranscrisisline.net/",
+      "hours": "24/7",
+      "free": true
+    },
+    {
+      "id": "samhsa_national",
+      "name": "SAMHSA National Helpline",
+      "description": "Mental health and substance abuse support",
+      "phone": "1-800-662-4357",
+      "hours": "24/7",
+      "languages": ["en", "es"],
+      "free": true,
+      "confidential": true
+    }
+  ],
+
+  "pwa_settings": {
+    "name": "WE4Free USA",
+    "short_name": "WE4Free US",
+    "theme_color": "#0052B4",
+    "background_color": "#ffffff"
+  }
+}

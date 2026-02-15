@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United Kingdom Crisis Support</title>
+    <meta name="description" content="Free, confidential crisis support available 24/7">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#012169">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #012169 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            animation: fadeIn 0.6s ease-in;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1.2em; opacity: 0.95; }
+        .emergency-banner {
+            background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(234, 67, 53, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .emergency-banner h2 { margin-bottom: 10px; font-size: 1.5em; }
+        .emergency-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+        .emergency-number a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .emergency-number a:hover { transform: scale(1.05); }
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 0.8s ease-in;
+        }
+        .content h2 {
+            color: #012169;
+            margin-bottom: 15px;
+            font-size: 2em;
+            border-bottom: 3px solid #012169;
+            padding-bottom: 10px;
+        }
+        .crisis-lines { margin: 30px 0; }
+        .crisis-line {
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        .crisis-line:hover {
+            border-color: #012169;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .crisis-line h3 {
+            color: #012169;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+        .crisis-line p { margin: 10px 0; color: #555; }
+        .contact-methods {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1em;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #34a853 0%, #2d8e47 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 168, 83, 0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 168, 83, 0.4);
+        }
+        .btn-tertiary {
+            background: linear-gradient(135deg, #fbbc04 0%, #f29900 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(251, 188, 4, 0.3);
+        }
+        .btn-tertiary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 188, 4, 0.4);
+        }
+        .hours {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hours::before { content: "🕐"; }
+        .languages {
+            display: inline-flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .language-tag {
+            background: #012169;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .offline-notice {
+            background: linear-gradient(135deg, #fbbc04 0%, #f29900 100%);
+            color: #333;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(251, 188, 4, 0.3);
+        }
+        .offline-notice::before { content: "⚠️ "; }
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        .footer p { margin: 10px 0; opacity: 0.95; }
+        .footer a { color: white; text-decoration: underline; }
+        .install-prompt {
+            background: white;
+            border: 2px solid #012169;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        .install-prompt.show { display: block; animation: fadeIn 0.6s; }
+        .install-prompt button {
+            background: #012169;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.9em; }
+            .emergency-number { font-size: 2.5em; }
+            .contact-methods { flex-direction: column; }
+            .btn { width: 100%; }
+            .content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🫂 United Kingdom Crisis Support</h1>
+            <p>Free, confidential crisis support available 24/7</p>
+        </div>
+
+        <div class="emergency-banner">
+            <h2>⚠️ ⚠️ Life-Threatening Emergency</h2>
+            <p>If you are in immediate danger, call emergency services</p>
+            <div class="emergency-number">
+                <a href="tel:999">999</a>
+            </div>
+        </div>
+
+        <div class="offline-notice" id="offlineNotice">
+            You are offline. All crisis numbers are still accessible.
+        </div>
+
+        <div class="install-prompt" id="installPrompt">
+            <h3>📱 Install This App</h3>
+            <p>Access crisis support instantly, even offline</p>
+            <button id="installButton">Install Now</button>
+        </div>
+
+        <div class="content">
+            <h2>24/7 Crisis Lines</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">Free, confidential support available now</p>
+            
+            <div class="crisis-lines">
+                
+    <div class="crisis-line">
+      <h3>Samaritans</h3>
+      <p>24/7 support for anyone struggling to cope</p>
+      <div class="contact-methods">
+        <a href="tel:116123" class="btn btn-primary">📞 Call 116123</a>
+        
+        
+        <a href="mailto:jo@samaritans.org" class="btn btn-secondary">✉️ Email</a>
+      </div>
+      <p class="hours">24/7 • Free & Confidential</p>
+      <div class="languages"><span class="language-tag">EN</span></div>
+    </div>
+  
+
+    <div class="crisis-line">
+      <h3>Shout Crisis Text Line</h3>
+      <p>Free, confidential support via text</p>
+      <div class="contact-methods">
+        
+        <a href="sms:85258" class="btn btn-secondary">💬 Text 85258</a>
+        
+        
+      </div>
+      <p class="hours">24/7 • Free & Confidential</p>
+      <div class="languages"><span class="language-tag">EN</span></div>
+    </div>
+  
+
+    <div class="crisis-line">
+      <h3>Childline</h3>
+      <p>Support for children and young people</p>
+      <div class="contact-methods">
+        <a href="tel:0800 1111" class="btn btn-primary">📞 Call 0800 1111</a>
+        
+        <a href="https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/" class="btn btn-tertiary" target="_blank" rel="noopener">💻 Chat Online</a>
+        
+      </div>
+      <p class="hours">24/7 • Free & Confidential</p>
+      
+    </div>
+  
+
+    <div class="crisis-line">
+      <h3>NHS 111 Mental Health</h3>
+      <p>Get mental health support from NHS</p>
+      <div class="contact-methods">
+        <a href="tel:111" class="btn btn-primary">📞 Call 111</a>
+        
+        
+        
+      </div>
+      <p class="hours">24/7 • Free & Confidential</p>
+      
+    </div>
+  
+
+    <div class="crisis-line">
+      <h3>PAPYRUS HOPELINEUK</h3>
+      <p>Suicide prevention for young people</p>
+      <div class="contact-methods">
+        <a href="tel:0800 068 4141" class="btn btn-primary">📞 Call 0800 068 4141</a>
+        <a href="sms:07860 039967" class="btn btn-secondary">💬 Text 07860 039967</a>
+        
+        <a href="mailto:pat@papyrus-uk.org" class="btn btn-secondary">✉️ Email</a>
+      </div>
+      <p class="hours">9am-midnight • Free & Confidential</p>
+      
+    </div>
+  
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 1.2em; font-weight: 600;">You are not alone. Help is available.</p>
+            <p style="font-size: 0.95em; margin-top: 15px;">This service provides information only. In life-threatening emergencies, call emergency services immediately.</p>
+            <p style="margin-top: 25px; font-size: 0.85em;">
+                Built with ❤️ by <a href="https://deliberateensemble.works">Deliberate Ensemble</a> • 
+                <a href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble">Open Source</a> • 
+                <a href="https://doi.org/10.17605/OSF.IO/N3TYA">Research</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('✅ Service Worker registered'))
+                    .catch(err => console.error('❌ SW registration failed:', err));
+            });
+        }
+
+        // Offline detection
+        function updateOnlineStatus() {
+            const notice = document.getElementById('offlineNotice');
+            if (!navigator.onLine) {
+                notice.style.display = 'block';
+            } else {
+                notice.style.display = 'none';
+            }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // PWA Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').classList.add('show');
+        });
+
+        document.getElementById('installButton')?.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Install prompt outcome: ${outcome}`);
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

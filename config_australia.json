@@ -1,0 +1,68 @@
+{
+  "country": {
+    "code": "AU",
+    "name": "Australia",
+    "languages": ["en"],
+    "emergency_number": "000",
+    "timezone": "Australia/Sydney"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "lifeline",
+      "name": "Lifeline Australia",
+      "description": "24/7 crisis support and suicide prevention",
+      "phone": "13 11 14",
+      "chat_url": "https://www.lifeline.org.au/crisis-chat/",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "beyond_blue",
+      "name": "Beyond Blue",
+      "description": "Support for anxiety, depression and suicide prevention",
+      "phone": "1300 22 4636",
+      "chat_url": "https://www.beyondblue.org.au/get-support/get-immediate-support",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true
+    },
+    {
+      "id": "kids_helpline_au",
+      "name": "Kids Helpline",
+      "description": "Support for young people aged 5-25",
+      "phone": "1800 55 1800",
+      "chat_url": "https://kidshelpline.com.au/",
+      "hours": "24/7",
+      "age_range": "5-25",
+      "free": true
+    },
+    {
+      "id": "mensline",
+      "name": "MensLine Australia",
+      "description": "Support for men",
+      "phone": "1300 78 99 78",
+      "hours": "24/7",
+      "free": true
+    },
+    {
+      "id": "1800respect",
+      "name": "1800RESPECT",
+      "description": "Support for sexual, domestic and family violence",
+      "phone": "1800 737 732",
+      "chat_url": "https://www.1800respect.org.au/",
+      "hours": "24/7",
+      "free": true,
+      "confidential": true
+    }
+  ],
+
+  "pwa_settings": {
+    "name": "WE4Free Australia",
+    "short_name": "WE4Free AU",
+    "theme_color": "#012169",
+    "background_color": "#ffffff"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "country": {
+    "code": "CA",
+    "name": "Canada",
+    "languages": ["en", "fr"],
+    "emergency_number": "911",
+    "timezone": "America/Toronto"
+  },
+
+  "metadata": {
+    "deployed_by": "deliberate Ensemble",
+    "contact_email": "ai@deliberateensemble.works",
+    "last_updated": "2026-02-15",
+    "site_url": "https://deliberateensemble.works"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "canada_suicide",
+      "name": "Canada Suicide Prevention Service",
+      "description": "24/7 support for anyone in suicidal crisis or emotional distress",
+      "phone": "1-833-456-4566",
+      "sms": "45645",
+      "hours": "24/7",
+      "languages": ["en", "fr"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "kids_help_phone",
+      "name": "Kids Help Phone",
+      "description": "Support for young people under 30",
+      "phone": "1-800-668-6868",
+      "sms": "686868",
+      "chat_url": "https://kidshelpphone.ca/live-chat/",
+      "hours": "24/7",
+      "languages": ["en", "fr"],
+      "age_range": "0-30",
+      "free": true
+    },
+    {
+      "id": "talk_suicide_canada",
+      "name": "Talk Suicide Canada",
+      "description": "Free, confidential support via phone or text",
+      "phone": "1-833-456-4566",
+      "sms": "45645",
+      "hours": "24/7",
+      "languages": ["en", "fr"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "indigenous_hope",
+      "name": "Hope for Wellness Helpline (Indigenous)",
+      "description": "Mental health support for Indigenous peoples",
+      "phone": "1-855-242-3310",
+      "chat_url": "https://www.hopeforwellness.ca/",
+      "hours": "24/7",
+      "languages": ["en", "fr", "cree", "ojibway", "inuktitut"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "trans_lifeline",
+      "name": "Trans Lifeline",
+      "description": "Support for transgender people",
+      "phone": "1-877-330-6366",
+      "hours": "9am-3am EST",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    }
+  ],
+
+  "translations": {
+    "en": {
+      "site_title": "WE4Free Canada - Crisis Support",
+      "emergency_header": "Emergency Crisis Support",
+      "call_now": "Call Now",
+      "offline_notice": "You are offline. This page is still accessible and all crisis numbers are available."
+    },
+    "fr": {
+      "site_title": "WE4Free Canada - Soutien en Crise",
+      "emergency_header": "Soutien d'Urgence en Crise",
+      "call_now": "Appelez Maintenant",
+      "offline_notice": "Vous êtes hors ligne. Cette page est toujours accessible et tous les numéros de crise sont disponibles."
+    }
+  },
+
+  "pwa_settings": {
+    "name": "WE4Free Canada",
+    "short_name": "WE4Free CA",
+    "theme_color": "#FF0000",
+    "background_color": "#ffffff"
+  }
+}

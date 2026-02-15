@@ -1,0 +1,69 @@
+{
+  "country": {
+    "code": "IN",
+    "name": "India",
+    "languages": ["en", "hi"],
+    "emergency_number": "112",
+    "timezone": "Asia/Kolkata"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "kiran",
+      "name": "KIRAN Mental Health Helpline",
+      "description": "24/7 support for mental health issues",
+      "phone": "1800-599-0019",
+      "hours": "24/7",
+      "languages": ["en", "hi"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "vandrevala",
+      "name": "Vandrevala Foundation Helpline",
+      "description": "Mental health support and counseling",
+      "phone": "1860-2662-345",
+      "sms": "SPEAK to 9820466726",
+      "hours": "247",
+      "languages": ["en", "hi"],
+      "free": true
+    },
+    {
+      "id": "sumaitri",
+      "name": "SUMAITRI (Delhi)",
+      "description": "Crisis intervention center",
+      "phone": "011-23389090",
+      "hours": "2pm-10pm",
+      "languages": ["en", "hi"],
+      "free": true
+    },
+    {
+      "id": "aasra",
+      "name": "Aasra (Mumbai)",
+      "description": "Suicide prevention helpline",
+      "phone": "91-9820466726",
+      "email": "aasrahelpline@yahoo.com",
+      "hours": "24/7",
+      "languages": ["en", "hi"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "icall",
+      "name": "iCall (TISS)",
+      "description": "Psychosocial helpline",
+      "phone": "9152987821",
+      "email": "icall@tiss.edu",
+      "hours": "Mon-Sat 8am-10pm",
+      "languages": ["en", "hi"],
+      "free": true
+    }
+  ],
+
+  "pwa_settings": {
+    "name": "WE4Free India",
+    "short_name": "WE4Free IN",
+    "theme_color": "#FF9933",
+    "background_color": "#ffffff"
+  }
+}
