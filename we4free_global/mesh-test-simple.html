@@ -335,7 +335,8 @@
       try {
         log('Generating offer...');
         const offer = await webrtcManager.createOffer();
-        const offerString = JSON.stringify(offer);
+        // Base64 encode to prevent text corruption during copy/paste
+        const offerString = btoa(JSON.stringify(offer));
         
         document.getElementById('offerCode').textContent = offerString;
         document.getElementById('offerDisplay').style.display = 'block';
@@ -356,11 +357,13 @@
           throw new Error('Please paste offer code');
         }
         
-        const offer = JSON.parse(offerString);
+        // Base64 decode
+        const offer = JSON.parse(atob(offerString));
         log('Accepting offer...');
         
         const answer = await webrtcManager.acceptOffer(offer);
-        const answerString = JSON.stringify(answer);
+        // Base64 encode answer
+        const answerString = btoa(JSON.stringify(answer));
         
         document.getElementById('answerCode').textContent = answerString;
         document.getElementById('answerDisplay').style.display = 'block';
@@ -381,7 +384,8 @@
           throw new Error('Please paste answer code');
         }
         
-        const answer = JSON.parse(answerString);
+        // Base64 decode
+        const answer = JSON.parse(atob(answerString));
         log('Accepting answer...');
         
         await webrtcManager.acceptAnswer(answer);
