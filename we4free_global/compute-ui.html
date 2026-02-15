@@ -523,6 +523,8 @@
           averageLatency: 0
         })
       };
+      
+      console.log('✅ Compute interface initialized (using postMessage)');
     }
 
     // Submit job to parent window via postMessage
@@ -562,9 +564,6 @@
           reject(new Error('Job submission timeout'));
         }, 5000);
       });
-    }
-      
-      console.log('✅ Compute interface initialized (using postMessage)');
     }
 
     // Update job form based on type
