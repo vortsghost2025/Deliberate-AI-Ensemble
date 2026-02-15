@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-02-15",
+  "fallback_mode": true,
+  "country": "International",
+  "code": "INTL",
+  "site_title": "WE4Free — Global Crisis Resources",
+  "site_description": "Free, offline-capable mental health crisis resources for anywhere in the world",
+  "theme_color": "#667EEA",
+  "emergency_header": "⚠️ If you're in immediate danger",
+  "emergency_description": "Contact local emergency services or visit the nearest hospital. This page provides crisis support resources but is not a substitute for emergency care.",
+  "emergency_number": "Your local emergency number",
+  "crisis_lines_header": "🌍 Global Crisis Support Directories",
+  "crisis_lines_description": "We don't have specific crisis lines for your location yet, but these international organizations can help you find local resources.",
+  "crisis_lines": [
+    {
+      "id": "befrienders-worldwide",
+      "name": "Befrienders Worldwide",
+      "description": "Global network of emotional support centers. Find your local Befrienders center for crisis support in your language.",
+      "type": "directory",
+      "website": "https://www.befrienders.org/",
+      "languages": ["en", "multiple"],
+      "available_in": "160+ centers worldwide",
+      "contact_methods": ["website"]
+    },
+    {
+      "id": "iasp-directory",
+      "name": "International Association for Suicide Prevention (IASP)",
+      "description": "Global directory of suicide prevention and crisis centers. Search by country to find resources near you.",
+      "type": "directory",
+      "website": "https://www.iasp.info/resources/Crisis_Centres/",
+      "languages": ["en"],
+      "contact_methods": ["website"]
+    },
+    {
+      "id": "findahelpline",
+      "name": "Findahelpline.com",
+      "description": "International directory of mental health helplines. Search by country and language.",
+      "type": "directory",
+      "website": "https://findahelpline.com/",
+      "languages": ["en", "multiple"],
+      "contact_methods": ["website"]
+    },
+    {
+      "id": "wikipedia-crisis-lines",
+      "name": "Wikipedia: List of Suicide Crisis Lines",
+      "description": "Comprehensive list of crisis lines by country maintained by the Wikipedia community.",
+      "type": "directory",
+      "website": "https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines",
+      "languages": ["en"],
+      "contact_methods": ["website"]
+    }
+  ],
+  "footer_main": "💙 This is a global fallback page. Help us add crisis resources for your country!",
+  "footer_disclaimer": "This site provides information about crisis support services. If you're experiencing a mental health emergency, please contact local emergency services or visit a hospital.",
+  "contribute": {
+    "message": "🌍 Help us add your country to WE4Free",
+    "description": "We're building a free, offline-capable mental health crisis resource for every country in the world. If you know crisis lines for your region, we need your help!",
+    "github_url": "https://github.com/vortsghost2025/Deliberate-AI-Ensemble",
+    "email": "ai@deliberateensemble.works",
+    "instructions": "Visit our GitHub repository or email us with crisis line information for your country. We'll help you create a configuration file."
+  },
+  "pwa_settings": {
+    "name": "WE4Free Global",
+    "short_name": "WE4Free",
+    "description": "Global mental health crisis resources",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#ffffff",
+    "theme_color": "#667EEA"
+  },
+  "_meta": {
+    "purpose": "Phase 2 Unlock: Global safety net when country config doesn't exist",
+    "behavior": [
+      "If user's country has no config, load this instead",
+      "If offline and country config missing, serve cached international.json",
+      "Service worker must ALWAYS cache this file as critical resource",
+      "Shows international directories instead of direct crisis lines"
+    ],
+    "guarantees": [
+      "No user ever sees blank screen",
+      "Works in war zones, refugee camps, disaster areas",
+      "Always functional offline after first load",
+      "Safe degradation when specific resources unavailable"
+    ],
+    "implementation": [
+      "Build process: Try config_<country>.json → if missing → international.json",
+      "Service worker: Cache international.json with highest priority",
+      "UI: Show contribute banner when in fallback mode",
+      "Detection: Browser language/timezone hints which region to emphasize"
+    ],
+    "future_enhancement": "Regional variants (international_africa.json, international_asia.json) for more specific fallbacks"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WE4Free Language Pack Schema",
+  "description": "Universal schema for multilingual crisis resource configurations. This unlocks Phase 1: Structural Multilingualism.",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "language_code": {
+      "type": "string",
+      "description": "ISO 639-1 two-letter language code (e.g., 'en', 'ar', 'hi')",
+      "pattern": "^[a-z]{2}$",
+      "examples": ["en", "ar", "hi", "fr", "es"]
+    },
+    "language_name": {
+      "type": "string",
+      "description": "Native name of the language (e.g., 'English', 'العربية', 'हिन्दी')",
+      "examples": ["English", "العربية", "हिन्दी", "Français", "Español"]
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["ltr", "rtl"],
+      "description": "Text direction: 'ltr' (left-to-right) or 'rtl' (right-to-left)",
+      "default": "ltr"
+    },
+    "script": {
+      "type": "string",
+      "description": "Writing system (e.g., 'Latin', 'Arabic', 'Devanagari')",
+      "examples": ["Latin", "Arabic", "Devanagari", "Simplified Chinese", "Cyrillic"]
+    },
+    "font": {
+      "type": "object",
+      "description": "Font configuration for proper rendering",
+      "properties": {
+        "family": {
+          "type": "string",
+          "description": "Primary font family name",
+          "examples": ["Noto Sans Arabic", "Noto Sans Devanagari", "Roboto"]
+        },
+        "fallbacks": {
+          "type": "array",
+          "description": "Fallback fonts for compatibility",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["Arabic Typesetting", "Geeza Pro", "sans-serif"]]
+        },
+        "subset_url": {
+          "type": "string",
+          "description": "URL to optimized font subset (for offline caching)",
+          "format": "uri-reference",
+          "examples": ["/fonts/arabic-subset.woff2"]
+        },
+        "size_kb": {
+          "type": "number",
+          "description": "Font file size in kilobytes (for cache planning)"
+        }
+      },
+      "required": ["family"]
+    },
+    "translations": {
+      "type": "object",
+      "description": "All UI text translations for this language",
+      "properties": {
+        "site_title": {
+          "type": "string",
+          "description": "Page title (appears in browser tab)",
+          "examples": ["WE4Free Canada", "WE4Free مصر"]
+        },
+        "site_description": {
+          "type": "string",
+          "description": "Meta description for SEO and sharing"
+        },
+        "emergency_header": {
+          "type": "string",
+          "description": "Emergency section heading",
+          "examples": ["⚠️ Emergency", "⚠️ الطوارئ"]
+        },
+        "emergency_description": {
+          "type": "string",
+          "description": "Emergency instruction text"
+        },
+        "crisis_lines_header": {
+          "type": "string",
+          "description": "Crisis lines section heading"
+        },
+        "crisis_lines_description": {
+          "type": "string",
+          "description": "Introduction to crisis lines section"
+        },
+        "offline_notice": {
+          "type": "string",
+          "description": "Message shown when user is offline"
+        },
+        "install_prompt": {
+          "type": "string",
+          "description": "PWA installation prompt text"
+        },
+        "footer_main": {
+          "type": "string",
+          "description": "Main footer message"
+        },
+        "footer_disclaimer": {
+          "type": "string",
+          "description": "Disclaimer text"
+        },
+        "button_call": {
+          "type": "string",
+          "description": "Call button label",
+          "examples": ["Call", "اتصل", "कॉल करें"]
+        },
+        "button_text": {
+          "type": "string",
+          "description": "Text/SMS button label"
+        },
+        "button_chat": {
+          "type": "string",
+          "description": "Chat button label"
+        },
+        "button_email": {
+          "type": "string",
+          "description": "Email button label"
+        },
+        "label_free": {
+          "type": "string",
+          "description": "Label for free services"
+        },
+        "label_confidential": {
+          "type": "string",
+          "description": "Label for confidential services"
+        },
+        "label_24_7": {
+          "type": "string",
+          "description": "Label for 24/7 services"
+        }
+      },
+      "required": [
+        "site_title",
+        "emergency_header",
+        "crisis_lines_header"
+      ]
+    },
+    "cultural_notes": {
+      "type": "object",
+      "description": "Cultural considerations for this language/region",
+      "properties": {
+        "crisis_terminology": {
+          "type": "string",
+          "enum": ["direct", "indirect", "culturally_sensitive"],
+          "description": "How to approach crisis terminology (e.g., 'suicide' may require indirect language in some cultures)"
+        },
+        "preferred_contact_method": {
+          "type": "string",
+          "enum": ["phone", "text", "chat", "email"],
+          "description": "Most culturally appropriate contact method"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional cultural considerations"
+        }
+      }
+    }
+  },
+  "required": [
+    "language_code",
+    "language_name",
+    "direction",
+    "translations"
+  ],
+  "examples": [
+    {
+      "language_code": "ar",
+      "language_name": "العربية",
+      "direction": "rtl",
+      "script": "Arabic",
+      "font": {
+        "family": "Noto Sans Arabic",
+        "fallbacks": ["Arabic Typesetting", "Geeza Pro", "sans-serif"],
+        "subset_url": "/fonts/arabic-subset.woff2",
+        "size_kb": 45
+      },
+      "translations": {
+        "site_title": "WE4Free مصر",
+        "emergency_header": "⚠️ الطوارئ",
+        "emergency_description": "إذا كنت في خطر فوري، اتصل بخدمات الطوارئ",
+        "crisis_lines_header": "خطوط الأزمات",
+        "button_call": "اتصل",
+        "button_text": "رسالة نصية",
+        "label_free": "مجاني",
+        "label_confidential": "سري",
+        "label_24_7": "٢٤/٧"
+      },
+      "cultural_notes": {
+        "crisis_terminology": "culturally_sensitive",
+        "preferred_contact_method": "phone",
+        "notes": "Avoid direct translation of 'suicide' - use 'life difficulties' or 'emotional distress'. Family context is important."
+      }
+    }
+  ],
+  "_meta": {
+    "purpose": "Phase 1 Unlock: This schema enables structural multilingualism",
+    "usage": "Add language packs to country configs under 'languages' key",
+    "next_steps": [
+      "Generate language selector UI from available languages",
+      "Auto-set dir and lang attributes from direction and language_code",
+      "Cache font subsets in service worker",
+      "Implement runtime language switching"
+    ],
+    "contribution": "To add a language, copy this schema and fill in translations with native speaker review"
+  }
+}
