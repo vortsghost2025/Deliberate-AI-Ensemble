@@ -52,9 +52,11 @@ class EventEmitter {
 // ============================================================================
 
 class PeerConnection extends EventEmitter {
-  constructor(peerId, isInitiator = false) {
+  constructor(peerId, isInitiator = false, fromId = null, toId = null) {
     super();
     this.peerId = peerId;
+    this.fromId = fromId; // Stable agent ID (initiator)
+    this.toId = toId; // Stable agent ID (responder)
     this.isInitiator = isInitiator;
     this.pc = null;
     this.dataChannel = null;
@@ -303,19 +305,25 @@ class PeerConnection extends EventEmitter {
 // ============================================================================
 
 class WebRTCManager extends EventEmitter {
-  constructor() {
+  constructor(registry = null) {
     super();
     this.peers = new Map(); // peerId -> PeerConnection
     this.nextPeerId = 0;
+    this.registry = registry; // Optional SwarmRegistry for connection state tracking
   }
 
   // Create an offer to send to another peer (initiator side)
-  async createOffer() {
+  async createOffer(fromId = null, toId = null) {
     const peerId = this.nextPeerId++;
-    const peer = new PeerConnection(peerId, true);
+    const peer = new PeerConnection(peerId, true, fromId, toId);
     
     this.setupPeerEvents(peer);
     this.peers.set(peerId, peer);
+    
+    // Report connecting state to registry
+    if (this.registry && fromId && toId) {
+      this.registry.setConnectionState(fromId, toId, window.ConnectionState?.CONNECTING || 'connecting');
+    }
 
     const offer = await peer.createOffer();
     
@@ -326,12 +334,17 @@ class WebRTCManager extends EventEmitter {
   }
 
   // Accept an offer from another peer (responder side)
-  async acceptOffer(offerData) {
+  async acceptOffer(offerData, fromId = null, toId = null) {
     const peerId = this.nextPeerId++;
-    const peer = new PeerConnection(peerId, false);
+    const peer = new PeerConnection(peerId, false, fromId, toId);
     
     this.setupPeerEvents(peer);
     this.peers.set(peerId, peer);
+    
+    // Report connecting state to registry
+    if (this.registry && fromId && toId) {
+      this.registry.setConnectionState(fromId, toId, window.ConnectionState?.CONNECTING || 'connecting');
+    }
 
     const answer = await peer.acceptOffer(offerData);
     
@@ -404,11 +417,21 @@ class WebRTCManager extends EventEmitter {
     peer.on('connected', () => {
       console.log(`✅ Connected to peer ${peer.peerId}`);
       this.emit('peer-connected', peer.peerId);
+      
+      // Report to registry if available
+      if (this.registry && peer.fromId && peer.toId) {
+        this.registry.setConnectionState(peer.fromId, peer.toId, window.ConnectionState?.CONNECTED || 'connected');
+      }
     });
 
     peer.on('disconnected', () => {
       console.log(`❌ Disconnected from peer ${peer.peerId}`);
       this.emit('peer-disconnected', peer.peerId);
+      
+      // Report to registry if available
+      if (this.registry && peer.fromId && peer.toId) {
+        this.registry.setConnectionState(peer.fromId, peer.toId, window.ConnectionState?.DISCONNECTED || 'disconnected');
+      }
     });
 
     peer.on('message', (data) => {
@@ -417,6 +440,11 @@ class WebRTCManager extends EventEmitter {
 
     peer.on('error', (error) => {
       this.emit('error', error, peer.peerId);
+      
+      // Report to registry if available
+      if (this.registry && peer.fromId && peer.toId) {
+        this.registry.setConnectionState(peer.fromId, peer.toId, window.ConnectionState?.FAILED || 'failed');
+      }
     });
   }
 }

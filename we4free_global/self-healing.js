@@ -108,8 +108,9 @@ class HealthMetrics {
 
 // SELF-HEALING MONITOR
 class SelfHealingMonitor {
-  constructor(agentId) {
+  constructor(agentId, registry = null) {
     this.agentId = agentId;
+    this.registry = registry; // Optional SwarmRegistry for connection state tracking
     this.peerHealth = new Map(); // peerId -> HealthMetrics
     this.reconnectQueue = new Set(); // Peers to reconnect
     this.eventHandlers = new Map();
@@ -122,10 +123,41 @@ class SelfHealingMonitor {
       failedThreshold: 5 // consecutive failures
     };
     
+    // Subscribe to registry events if available
+    if (this.registry) {
+      this._setupRegistryListeners();
+    }
+    
     // Start monitoring
     this.monitorInterval = setInterval(() => this._runHealthCheck(), this.config.healthCheckInterval);
     
     console.log(`🏥 Self-Healing Monitor initialized for ${this.agentId}`);
+  }
+
+  /**
+   * Setup listeners for registry events
+   */
+  _setupRegistryListeners() {
+    this.registry.on('connection:changed', (fromId, toId, state, oldState) => {
+      // React to connection state changes
+      if (state === 'disconnected' || state === 'failed') {
+        // Schedule reconnection if within retry limits
+        if (this.registry.shouldRetryConnection(fromId, toId)) {
+          this._queueReconnect(`${fromId}-${toId}`);
+        }
+      } else if (state === 'connected') {
+        // Clear any pending reconnections
+        this.reconnectQueue.delete(`${fromId}-${toId}`);
+      }
+    });
+
+    this.registry.on('agent:inactive', (agentId) => {
+      console.warn(`⚠️ Agent ${agentId} marked inactive by registry`);
+    });
+
+    this.registry.on('agent:quarantined', (agentId) => {
+      console.error(`🚫 Agent ${agentId} quarantined by registry`);
+    });
   }
 
   /**
@@ -279,15 +311,28 @@ class SelfHealingMonitor {
     }
 
     this.reconnectQueue.forEach(peerId => {
+      // If using registry, check if reconnection should be attempted
+      if (this.registry) {
+        const [fromId, toId] = peerId.split('-');
+        if (!this.registry.shouldRetryConnection(fromId, toId)) {
+          this.reconnectQueue.delete(peerId);
+          return;
+        }
+      }
+      
       const metrics = this.peerHealth.get(peerId);
       if (!metrics) {
         this.reconnectQueue.delete(peerId);
         return;
       }
 
-      // Check if enough time has passed since last attempt
+      // Check if enough time has passed since last attempt (exponential backoff)
       const timeSinceLastSeen = Date.now() - metrics.lastSeen;
-      if (timeSinceLastSeen < this.config.reconnectDelay) {
+      const backoffDelay = this.registry 
+        ? this.registry.calculateBackoff(metrics.reconnectAttempts)
+        : this.config.reconnectDelay * Math.pow(2, metrics.reconnectAttempts);
+      
+      if (timeSinceLastSeen < backoffDelay) {
         return;
       }
 
@@ -301,7 +346,7 @@ class SelfHealingMonitor {
         maxAttempts: this.config.maxReconnectAttempts 
       });
       
-      console.log(`🔄 Reconnecting to peer ${peerId} (attempt ${metrics.reconnectAttempts}/${this.config.maxReconnectAttempts})`);
+      console.log(`🔄 Reconnecting to peer ${peerId} (attempt ${metrics.reconnectAttempts}/${this.config.maxReconnectAttempts}, backoff: ${backoffDelay}ms)`);
       
       // Remove from queue (will be re-queued if reconnect fails)
       this.reconnectQueue.delete(peerId);

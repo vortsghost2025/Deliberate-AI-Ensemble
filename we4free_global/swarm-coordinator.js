@@ -24,6 +24,7 @@ class SwarmCoordinator {
   constructor(coordinatorId) {
     this.coordinatorId = coordinatorId;
     this.agents = new Map(); // agentId -> Agent instance
+    this.registry = null; // SwarmRegistry instance
     this.taskQueue = null; // TaskQueue instance
     this.gossipState = null; // GossipState instance
     this.healthMonitor = null; // SelfHealingMonitor instance
@@ -48,9 +49,18 @@ class SwarmCoordinator {
    * Initialize coordinator with dependencies
    */
   initialize(options = {}) {
+    // Create registry if not provided
+    this.registry = options.registry || (window.SwarmRegistry ? new window.SwarmRegistry() : null);
+    
     this.taskQueue = options.taskQueue;
     this.gossipState = options.gossipState;
     this.healthMonitor = options.healthMonitor;
+    
+    // Pass registry to health monitor if both exist
+    if (this.healthMonitor && this.registry) {
+      this.healthMonitor.registry = this.registry;
+      this.healthMonitor._setupRegistryListeners?.();
+    }
     
     if (this.taskQueue) {
       this._setupTaskQueueListeners();
@@ -72,10 +82,20 @@ class SwarmCoordinator {
   registerAgent(agent) {
     this.agents.set(agent.id, agent);
     
+    // Register with registry if available
+    if (this.registry) {
+      this.registry.registerAgent(agent.id, agent.role);
+    }
+    
     // Listen for agent events
     agent.on('task:completed', (data) => {
       this.metrics.tasksCompleted++;
       this._updateThroughput();
+      
+      // Touch agent in registry
+      if (this.registry) {
+        this.registry.touchAgent(agent.id);
+      }
     });
     
     agent.on('task:failed', (data) => {
@@ -94,6 +114,12 @@ class SwarmCoordinator {
    */
   unregisterAgent(agentId) {
     this.agents.delete(agentId);
+    
+    // Unregister from registry if available
+    if (this.registry) {
+      this.registry.unregisterAgent(agentId);
+    }
+    
     console.log(`➖ Agent ${agentId} unregistered`);
   }
 
@@ -137,11 +163,19 @@ class SwarmCoordinator {
    * Select agent based on load balancing strategy
    */
   _selectAgent() {
-    const workers = Array.from(this.agents.values())
+    let workers = Array.from(this.agents.values())
       .filter(a => a.hasCapability(window.AgentCapability?.PERFORM_TASKS))
       .filter(a => a.state !== 'degraded' && a.state !== 'shutdown');
     
+    // Further filter by registry if available
+    if (this.registry) {
+      const activeAgents = this.registry.getActiveAgents();
+      const activeIds = new Set(activeAgents.map(a => a.id));
+      workers = workers.filter(w => activeIds.has(w.id));
+    }
+    
     if (workers.length === 0) {
+      console.error('❌ No available agents for task assignment');
       return null;
     }
     

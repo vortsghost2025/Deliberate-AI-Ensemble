@@ -596,6 +596,7 @@
   <script src="agent-roles.js?v=2.0.0"></script>
   <script src="gossip-state.js?v=2.0.0"></script>
   <script src="task-queue.js?v=2.0.0"></script>
+  <script src="swarm-registry.js?v=2.0.0"></script>
   <script src="self-healing.js?v=2.0.0"></script>
   <script src="swarm-coordinator.js?v=2.0.0"></script>
   <script src="meta-agent.js?v=2.0.0"></script>
@@ -635,6 +636,9 @@
       // Create factory
       agentFactory = new AgentFactory();
       
+      // Create SwarmRegistry (Track 6C Fix: Stable connection state tracking)
+      const swarmRegistry = new SwarmRegistry();
+      
       // Create coordinator
       swarmCoordinator = new SwarmCoordinator('swarm-0');
       
@@ -644,8 +648,8 @@
       // Create task queue
       taskQueue = new TaskQueue('queue-0');
       
-      // Create health monitor
-      healthMonitor = new SelfHealingMonitor('health-0');
+      // Create health monitor with registry
+      healthMonitor = new SelfHealingMonitor('health-0', swarmRegistry);
       
       // Create gossip state
       gossipState = new GossipState('gossip-0');
@@ -671,8 +675,9 @@
       // Start periodic snapshots (every 60 seconds)
       swarmSnapshot.startPeriodicSnapshots(60000);
       
-      // Initialize coordinator
+      // Initialize coordinator with registry
       swarmCoordinator.initialize({
+        registry: swarmRegistry,
         taskQueue,
         gossipState,
         healthMonitor
@@ -695,7 +700,7 @@
         routers: routers
       });
       
-      // Register agents with coordinator
+      // Register agents with coordinator (and registry)
       Object.values(swarm).forEach(agent => {
         swarmCoordinator.registerAgent(agent);
         healthMonitor.registerPeer(agent.id);
