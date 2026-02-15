@@ -614,29 +614,27 @@
         
         switch (jobType) {
           case 'map-reduce':
-            const mapFn = eval(document.getElementById('job-map-fn').value);
-            const reduceFn = eval(document.getElementById('job-reduce-fn').value);
-            await computeEngine.submitMapReduce(input, mapFn, reduceFn);
+            // Send function STRINGS, not evaluated functions (postMessage can't serialize functions)
+            const mapFnStr = document.getElementById('job-map-fn').value;
+            const reduceFnStr = document.getElementById('job-reduce-fn').value;
+            await computeEngine.submitMapReduce(input, mapFnStr, reduceFnStr);
             break;
             
           case 'pipeline':
             const stagesText = document.getElementById('job-stages').value;
+            // Send stages with function STRINGS, not evaluated
             const stages = JSON.parse(stagesText);
-            const stagesWithFns = stages.map(s => ({
-              name: s.name,
-              fn: eval(s.fn)
-            }));
-            await computeEngine.submitPipeline(input, stagesWithFns);
+            await computeEngine.submitPipeline(input, stages);
             break;
             
           case 'batch':
-            const processFn = eval(document.getElementById('job-process-fn').value);
-            await computeEngine.submitBatch(input, processFn);
+            const processFnStr = document.getElementById('job-process-fn').value;
+            await computeEngine.submitBatch(input, processFnStr);
             break;
             
           case 'transform':
-            const transformFn = eval(document.getElementById('job-transform-fn').value);
-            await computeEngine.submitTransform(input, transformFn);
+            const transformFnStr = document.getElementById('job-transform-fn').value;
+            await computeEngine.submitTransform(input, transformFnStr);
             break;
         }
         

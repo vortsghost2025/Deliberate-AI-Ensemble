@@ -748,19 +748,25 @@
               throw new Error('Compute engine not initialized');
             }
             
+            // Functions come as strings from postMessage, eval them here
             let result;
             switch (jobType) {
               case 'map-reduce':
-                result = await computeEngine.submitMapReduce(input, mapFn, reduceFn);
+                result = await computeEngine.submitMapReduce(input, eval(mapFn), eval(reduceFn));
                 break;
               case 'pipeline':
-                result = await computeEngine.submitPipeline(input, stages);
+                // Eval function strings in stages
+                const stagesWithFns = stages.map(s => ({
+                  name: s.name,
+                  fn: eval(s.fn)
+                }));
+                result = await computeEngine.submitPipeline(input, stagesWithFns);
                 break;
               case 'batch':
-                result = await computeEngine.submitBatch(input, processFn);
+                result = await computeEngine.submitBatch(input, eval(processFn));
                 break;
               case 'transform':
-                result = await computeEngine.submitTransform(input, transformFn);
+                result = await computeEngine.submitTransform(input, eval(transformFn));
                 break;
               default:
                 throw new Error(`Unknown job type: ${jobType}`);
