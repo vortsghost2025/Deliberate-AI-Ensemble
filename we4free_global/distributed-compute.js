@@ -191,6 +191,7 @@ class DistributedCompute {
       const task = {
         id: `${job.id}-map-${idx}`,
         type: 'map',
+        status: 'pending',
         data: { chunk, mapFn: mapFn.toString() },
         priority: job.config.priority || 0,
         timeout: job.config.timeout
@@ -244,6 +245,7 @@ class DistributedCompute {
     const task = {
       id: `${job.id}-reduce`,
       type: 'reduce',
+      status: 'pending',
       data: { results: mapResults, reduceFn: reduceFn.toString() },
       priority: job.config.priority || 0,
       timeout: job.config.timeout
@@ -309,6 +311,7 @@ class DistributedCompute {
           const tasks = currentData.map((item, idx) => ({
             id: `${job.id}-stage${i}-${idx}`,
             type: 'pipeline-stage',
+            status: 'pending',
             data: { item, stageFn: stage.fn.toString() },
             priority: job.config.priority || 0
           }));
@@ -324,6 +327,7 @@ class DistributedCompute {
           const task = {
             id: `${job.id}-stage${i}`,
             type: 'pipeline-stage',
+            status: 'pending',
             data: { input: currentData, stageFn: stage.fn.toString() },
             priority: job.config.priority || 0
           };
@@ -407,6 +411,7 @@ class DistributedCompute {
         const tasks = batch.map((item, idx) => ({
           id: `${job.id}-batch${i}-${idx}`,
           type: 'batch-item',
+          status: 'pending',
           data: { item, processFn: processFn.toString() },
           priority: job.config.priority || 0
         }));
@@ -489,6 +494,7 @@ class DistributedCompute {
         const tasks = chunks.map((chunk, idx) => ({
           id: `${job.id}-chunk-${idx}`,
           type: 'transform',
+          status: 'pending',
           data: { chunk, transformFn: transformFn.toString() },
           priority: job.config.priority || 0
         }));
@@ -515,6 +521,7 @@ class DistributedCompute {
         const task = {
           id: `${job.id}-single`,
           type: 'transform',
+          status: 'pending',
           data: { item: input, transformFn: transformFn.toString() },
           priority: job.config.priority || 0
         };

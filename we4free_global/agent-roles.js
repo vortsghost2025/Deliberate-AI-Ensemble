@@ -271,22 +271,27 @@ class Agent {
         // Deserialize and execute map function
         const mapFn = new Function('return ' + task.data.mapFn)();
         result = task.data.chunk.map(mapFn);
-        
+
       } else if (task.type === 'reduce' && task.data) {
         // Deserialize and execute reduce function
         const reduceFn = new Function('return ' + task.data.reduceFn)();
-        result = task.data.input.reduce(reduceFn);
-        
-      } else if (task.type === 'pipeline' && task.data) {
+        result = task.data.results.reduce(reduceFn);
+
+      } else if (task.type === 'pipeline-stage' && task.data) {
         // Execute pipeline stage
-        const fn = new Function('return ' + task.data.fn)();
-        result = fn(task.data.input);
-        
-      } else if (task.type === 'batch' && task.data) {
+        const fn = new Function('return ' + task.data.stageFn)();
+        result = task.data.item ? fn(task.data.item) : fn(task.data.input);
+
+      } else if (task.type === 'batch-item' && task.data) {
         // Execute batch function
-        const fn = new Function('return ' + task.data.fn)();
+        const fn = new Function('return ' + task.data.processFn)();
         result = await fn(task.data.item);
-        
+
+      } else if (task.type === 'transform' && task.data) {
+        // Execute transform function
+        const fn = new Function('return ' + task.data.transformFn)();
+        result = task.data.chunk ? task.data.chunk.map(fn) : fn(task.data.item);
+
       } else if (task._run) {
         // Test tasks with custom _run function
         result = await task._run();

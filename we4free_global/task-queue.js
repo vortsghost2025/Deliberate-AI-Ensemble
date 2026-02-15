@@ -198,7 +198,7 @@ class TaskQueue {
     this.emit('task:claimed', { taskId, agentId });
     
     console.log(`✋ Task ${taskId} claimed by ${agentId}`);
-    return { success: true, task: task.clone() };
+    return { success: true, task: typeof task.clone === 'function' ? task.clone() : Object.assign({}, task) };
   }
 
   /**

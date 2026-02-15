@@ -496,12 +496,20 @@
         alert('Please open this window from the Swarm Cockpit');
         return;
       }
-      
-      // We'll use postMessage to submit jobs to parent's coordinator
-      // No direct object access needed - fixes window isolation issue
-      console.log('✅ Connected to parent swarm window via postMessage');
-      
-      // Create dummy compute engine that proxies to parent via postMessage
+
+      // Try direct access first (same-origin), fall back to postMessage
+      try {
+        const parentEngine = window.opener.computeEngine;
+        if (parentEngine && typeof parentEngine.submitMapReduce === 'function') {
+          computeEngine = parentEngine;
+          console.log('✅ Direct access to parent compute engine');
+          return;
+        }
+      } catch (e) {
+        console.warn('⚠️ Direct access blocked, falling back to postMessage:', e.message);
+      }
+
+      // Fallback: proxy via postMessage
       computeEngine = {
         submitMapReduce: async (input, mapFn, reduceFn) => {
           return submitJobToParent('map-reduce', { input, mapFn, reduceFn });
@@ -523,8 +531,8 @@
           averageLatency: 0
         })
       };
-      
-      console.log('✅ Compute interface initialized (using postMessage)');
+
+      console.log('✅ Compute interface initialized (using postMessage fallback)');
     }
 
     // Submit job to parent window via postMessage

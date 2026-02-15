@@ -1013,6 +1013,8 @@
         logEvent('ERROR', 'Initialize swarm first');
         return;
       }
+      // Expose compute engine on window so child popup can access directly
+      window.computeEngine = computeEngine;
       window.open('compute-ui.html', 'compute', 'width=1400,height=900');
       logEvent('SYSTEM', 'Opened distributed compute interface');
     }
