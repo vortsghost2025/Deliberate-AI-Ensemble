@@ -11,6 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const ConfigValidator = require('./validate.js');
 
 // Load country config
 function loadConfig(configPath) {
@@ -21,6 +22,37 @@ function loadConfig(configPath) {
     console.error(`❌ Error loading config: ${error.message}`);
     process.exit(1);
   }
+}
+
+// Validate config before building
+function validateConfig(configPath) {
+  const validator = new ConfigValidator();
+  const result = validator.validate(configPath);
+  
+  if (!result.valid) {
+    console.error('❌ Config validation failed:\n');
+    result.errors.forEach(error => {
+      console.error(`   ❌ ${error}`);
+    });
+    if (result.warnings.length > 0) {
+      console.log('\n⚠️  Warnings:');
+      result.warnings.forEach(warning => {
+        console.log(`   ⚠️  ${warning}`);
+      });
+    }
+    console.error('\n🛑 Build aborted. Fix errors and try again.');
+    process.exit(1);
+  }
+  
+  if (result.warnings.length > 0) {
+    console.log('⚠️  Config has warnings (build will continue):\n');
+    result.warnings.forEach(warning => {
+      console.log(`   ⚠️  ${warning}`);
+    });
+    console.log('');
+  }
+  
+  return result;
 }
 
 // Simple template engine (replace {{key}} with values)
@@ -186,6 +218,11 @@ function generateIndexHTML(config) {
 function build(configPath, outputDir = 'dist') {
   console.log('🌍 WE4Free Global Builder v1.0.0');
   console.log(`📁 Loading config: ${configPath}`);
+  
+  // PHASE 5: Validate before building
+  console.log('🔍 Validating config...');
+  validateConfig(configPath);
+  console.log('✅ Config valid\n');
   
   const config = loadConfig(configPath);
   const countryCode = config.country.code;
