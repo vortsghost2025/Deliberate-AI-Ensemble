@@ -490,13 +490,19 @@
     // Initialize compute engine
     function initializeCompute() {
       // Use parent window's taskQueue and swarmCoordinator (Track 6C fix)
-      if (window.opener && window.opener.taskQueue && window.opener.swarmCoordinator) {
-        taskQueue = window.opener.taskQueue;
-        swarmCoordinator = window.opener.swarmCoordinator;
-        console.log(`✅ Using parent swarm coordinator with ${swarmCoordinator.agents.size} agents`);
-      } else {
-        // Fallback: create local instances (shouldn't happen)
-        console.warn('⚠️ Parent window not available, creating local coordinator');
+      // Wrap in try-catch to handle CORS errors when using file:// protocol
+      try {
+        if (window.opener && window.opener.taskQueue && window.opener.swarmCoordinator) {
+          taskQueue = window.opener.taskQueue;
+          swarmCoordinator = window.opener.swarmCoordinator;
+          console.log(`✅ Using parent swarm coordinator with ${swarmCoordinator.agents.size} agents`);
+        } else {
+          throw new Error('Parent window not available');
+        }
+      } catch (e) {
+        // Fallback: create local instances (happens with file:// protocol or no parent)
+        console.warn('⚠️ Cannot access parent window (CORS restriction or no parent), creating local coordinator');
+        console.warn('💡 Tip: Use a local web server (http://localhost) instead of file:// protocol for full functionality');
         taskQueue = new TaskQueue('compute-queue');
         swarmCoordinator = new SwarmCoordinator('compute-swarm');
         swarmCoordinator.initialize({ taskQueue });
