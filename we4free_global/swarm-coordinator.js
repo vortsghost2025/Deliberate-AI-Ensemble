@@ -163,17 +163,29 @@ class SwarmCoordinator {
    * Select agent based on load balancing strategy
    */
   _selectAgent() {
-    const workers = Array.from(this.agents.values())
+    // Get all agents with task capability
+    let workers = Array.from(this.agents.values())
       .filter(a => a.hasCapability(window.AgentCapability?.PERFORM_TASKS))
       .filter(a => a.state !== 'degraded' && a.state !== 'shutdown');
+    
+    // DEFENSIVE: If no workers found, try without state filtering (maybe all marked degraded)
+    if (workers.length === 0) {
+      console.warn('⚠️ No non-degraded workers, trying all workers with capability...');
+      workers = Array.from(this.agents.values())
+        .filter(a => a.hasCapability(window.AgentCapability?.PERFORM_TASKS));
+    }
     
     // Note: For local agents (same-tab), agent.state is sufficient
     // Registry filtering is only needed for distributed WebRTC agents
     
     if (workers.length === 0) {
       console.error('❌ No available agents for task assignment');
+      console.error('   Total agents:', this.agents.size);
+      console.error('   Agent IDs:', Array.from(this.agents.keys()));
       return null;
     }
+    
+    console.log(`✅ Found ${workers.length} available workers`);
     
     switch (this.loadBalancingStrategy) {
       case LoadBalancingStrategy.ROUND_ROBIN:
