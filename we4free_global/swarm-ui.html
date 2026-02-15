@@ -498,6 +498,49 @@
     </div>
   </div>
 
+  <!-- Diagnostics Panel - Track 6A -->
+  <div class="card" id="diagnostics-panel" style="display:none;">
+    <h2>🔬 Diagnostics</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin-bottom:15px;">
+      <div class="metric">
+        <span class="metric-label">Avg Latency</span>
+        <span class="metric-value" id="diag-latency-avg">-</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">P95 Latency</span>
+        <span class="metric-value" id="diag-latency-p95">-</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Tasks/sec</span>
+        <span class="metric-value good" id="diag-throughput">0</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Errors</span>
+        <span class="metric-value critical" id="diag-errors">0</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Jobs Profiled</span>
+        <span class="metric-value" id="diag-jobs">0</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Events Traced</span>
+        <span class="metric-value" id="diag-events">0</span>
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <strong>Recent Errors:</strong>
+      <div class="event-log" id="diag-error-log" style="max-height:120px; overflow-y:auto; font-size:0.85em;">
+        <div style="color:#666; padding:5px;">No errors</div>
+      </div>
+    </div>
+    <div>
+      <strong>Job Profiles:</strong>
+      <div id="diag-job-profiles" style="max-height:100px; overflow-y:auto; font-size:0.85em;">
+        <div style="color:#666; padding:5px;">No jobs profiled yet</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Event Log -->
   <div class="card">
     <h2>📜 Event Log</h2>
@@ -537,6 +580,9 @@
       </button>
       <button class="btn btn-primary" onclick="optimizeSwarm()">
         🔧 Optimize Swarm
+      </button>
+      <button class="btn btn-primary" onclick="dumpDiagnostics()">
+        🔬 Dump Diagnostics
       </button>
       <button class="btn btn-danger" onclick="shutdownSwarm()">
         🛑 Shutdown All
@@ -606,6 +652,9 @@
   <script src="swarm-snapshot.js?v=4.0.0"></script>
   <script src="restore-manager.js?v=4.0.0"></script>
 
+  <!-- Include Track 6A module (Diagnostics) -->
+  <script src="swarm-diagnostics.js?v=4.0.0"></script>
+
   <!-- Include Track 6C module (Distributed Compute) -->
   <script src="distributed-compute.js?v=4.0.0"></script>
 
@@ -625,6 +674,7 @@
     let swarmSnapshot = null;
     let restoreManager = null;
     let computeEngine = null;
+    let diagnostics = null;
 
     // Initialize swarm
     function initializeSwarm(workers = 4, routers = 1, observers = 1) {
@@ -726,12 +776,23 @@
         logEvent('COMPUTE', `Job ${job.id} progress: ${job.progress}%`);
       };
       
+      // Initialize Track 6A diagnostics
+      diagnostics = new SwarmDiagnostics();
+      diagnostics.attach({
+        coordinator: swarmCoordinator,
+        taskQueue,
+        registry: swarmRegistry,
+        healthMonitor,
+        computeEngine
+      });
+      document.getElementById('diagnostics-panel').style.display = '';
+
       // Start UI updates
       updateInterval = setInterval(updateUI, 1000);
-      
+
       // Setup cross-window job submission listener
       setupComputeWindowListener();
-      
+
       logEvent('SYSTEM', `Swarm initialized with ${Object.keys(swarm).length} agents`);
       updateUI();
     }
@@ -1001,10 +1062,20 @@
         logEvent('ERROR', 'Initialize swarm first');
         return;
       }
-      
+
       swarmCoordinator.optimize();
       logEvent('COORDINATOR', 'Swarm optimized');
       updateUI();
+    }
+
+    function dumpDiagnostics() {
+      if (!diagnostics) {
+        logEvent('ERROR', 'Initialize swarm first');
+        return;
+      }
+      const snapshot = diagnostics.getSnapshot();
+      console.log('🔬 DIAGNOSTICS SNAPSHOT:', snapshot);
+      logEvent('DIAG', `Snapshot dumped to console — ${snapshot.errors.total} errors, latency avg ${snapshot.latency.avg}ms, p95 ${snapshot.latency.p95}ms`);
     }
 
     // Open compute interface - Track 6C
@@ -1054,13 +1125,19 @@
         agentFactory.shutdownAll();
       }
       
+      if (diagnostics) {
+        diagnostics.shutdown();
+      }
+
       agentFactory = null;
       swarmCoordinator = null;
       metaAgent = null;
       taskQueue = null;
       healthMonitor = null;
       gossipState = null;
-      
+      diagnostics = null;
+
+      document.getElementById('diagnostics-panel').style.display = 'none';
       logEvent('SYSTEM', 'Swarm shutdown complete');
       updateUI();
     }
@@ -1154,6 +1231,41 @@
         const height = (value / maxThroughput) * 100;
         return `<div class="chart-bar" style="height: ${height}%"></div>`;
       }).join('');
+
+      // Track 6A: Diagnostics panel
+      if (diagnostics) {
+        const latency = diagnostics.getLatencyStats();
+        const recentThroughput = diagnostics.getThroughputHistory(10);
+        const avgTps = recentThroughput.length > 0
+          ? (recentThroughput.reduce((s, t) => s + t.completed, 0) / recentThroughput.length).toFixed(1)
+          : '0';
+
+        document.getElementById('diag-latency-avg').textContent = latency.count > 0 ? latency.avg + 'ms' : '-';
+        document.getElementById('diag-latency-p95').textContent = latency.count > 0 ? latency.p95 + 'ms' : '-';
+        document.getElementById('diag-throughput').textContent = avgTps;
+        document.getElementById('diag-errors').textContent = diagnostics.errors.size;
+        document.getElementById('diag-jobs').textContent = diagnostics.jobProfiles.size;
+        document.getElementById('diag-events').textContent = diagnostics.events.size;
+
+        // Recent errors
+        const errors = diagnostics.getErrors(5);
+        const errorLogEl = document.getElementById('diag-error-log');
+        if (errors.length > 0) {
+          errorLogEl.innerHTML = errors.reverse().map(e => {
+            const ts = new Date(e.timestamp).toLocaleTimeString();
+            return `<div class="event-item"><span class="event-timestamp">[${ts}]</span> <span class="event-type error">${e.category}</span> ${e.message}${e.detail ? ' — ' + e.detail : ''}</div>`;
+          }).join('');
+        }
+
+        // Job profiles
+        const jobs = diagnostics.getJobProfiles(5);
+        const jobEl = document.getElementById('diag-job-profiles');
+        if (jobs.length > 0) {
+          jobEl.innerHTML = jobs.reverse().map(j =>
+            `<div style="padding:2px 5px; border-bottom:1px solid #333;">${j.jobId} — ${j.type} — ${j.duration}ms — ${j.completedSubtasks}/${j.subtasks} subtasks</div>`
+          ).join('');
+        }
+      }
     }
 
     // Event log
