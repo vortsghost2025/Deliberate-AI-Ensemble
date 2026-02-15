@@ -144,7 +144,14 @@ class PeerConnection extends EventEmitter {
     }
 
     const offer = await this.pc.createOffer();
-    await this.pc.setLocalDescription(offer);
+    
+    // Fix SDP setup attribute for DTLS (offerer should use actpass)
+    const fixedOffer = {
+      type: offer.type,
+      sdp: this.fixSetupAttribute(offer.sdp, 'actpass')
+    };
+    
+    await this.pc.setLocalDescription(fixedOffer);
 
     // Wait for ICE gathering to complete
     await this.waitForICE();
@@ -180,7 +187,14 @@ class PeerConnection extends EventEmitter {
 
     // Create answer
     const answer = await this.pc.createAnswer();
-    await this.pc.setLocalDescription(answer);
+    
+    // Fix SDP setup attribute for DTLS (answerer should use active)
+    const fixedAnswer = {
+      type: answer.type,
+      sdp: this.fixSetupAttribute(answer.sdp, 'active')
+    };
+    
+    await this.pc.setLocalDescription(fixedAnswer);
 
     // Wait for ICE gathering
     await this.waitForICE();
@@ -222,6 +236,39 @@ class PeerConnection extends EventEmitter {
 
     const json = JSON.stringify(data);
     this.dataChannel.send(json);
+  }
+
+  fixSetupAttribute(sdp, setupValue) {
+    // Fix DTLS setup attribute in SDP
+    // This ensures proper setup:actpass (offerer) and setup:active (answerer)
+    const lines = sdp.split('\r\n');
+    const fixedLines = lines.map(line => {
+      if (line.startsWith('a=setup:')) {
+        return `a=setup:${setupValue}`;
+      }
+      return line;
+    });
+    
+    // If no setup attribute found, add it after the first m= line
+    let foundSetup = false;
+    for (let i = 0; i < fixedLines.length; i++) {
+      if (fixedLines[i].startsWith('a=setup:')) {
+        foundSetup = true;
+        break;
+      }
+    }
+    
+    if (!foundSetup) {
+      for (let i = 0; i < fixedLines.length; i++) {
+        if (fixedLines[i].startsWith('m=')) {
+          // Insert setup attribute after m= line
+          fixedLines.splice(i + 1, 0, `a=setup:${setupValue}`);
+          break;
+        }
+      }
+    }
+    
+    return fixedLines.join('\r\n');
   }
 
   close() {
