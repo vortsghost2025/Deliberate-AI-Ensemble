@@ -520,6 +520,9 @@
       <button class="btn btn-success" onclick="restoreSwarm()">
         🔄 Restore Swarm
       </button>
+      <button class="btn btn-primary" onclick="openCompute()">
+        💻 Open Compute
+      </button>
       <button class="btn btn-primary" onclick="toggleAutonomous()">
         🤖 Toggle Autonomous
       </button>
@@ -579,6 +582,9 @@
   <script src="swarm-snapshot.js?v=2.0.0"></script>
   <script src="restore-manager.js?v=2.0.0"></script>
 
+  <!-- Include Track 6C module (Distributed Compute) -->
+  <script src="distributed-compute.js?v=2.0.0"></script>
+
   <script>
     // Global swarm state
     let agentFactory = null;
@@ -594,6 +600,7 @@
     let persistence = null;
     let swarmSnapshot = null;
     let restoreManager = null;
+    let computeEngine = null;
 
     // Initialize swarm
     function initializeSwarm() {
@@ -673,6 +680,18 @@
       
       // Start gossip
       gossipState.startGossip(2000);
+      
+      // Initialize Track 6C compute engine
+      computeEngine = new DistributedCompute(swarmCoordinator, taskQueue);
+      computeEngine.onJobComplete = (job) => {
+        logEvent('COMPUTE', `Job ${job.id} completed in ${job.getDuration()}ms`);
+      };
+      computeEngine.onJobFailed = (job) => {
+        logEvent('ERROR', `Job ${job.id} failed: ${job.error}`);
+      };
+      computeEngine.onProgress = (job) => {
+        logEvent('COMPUTE', `Job ${job.id} progress: ${job.progress}%`);
+      };
       
       // Start UI updates
       updateInterval = setInterval(updateUI, 1000);
@@ -866,6 +885,16 @@
       swarmCoordinator.optimize();
       logEvent('COORDINATOR', 'Swarm optimized');
       updateUI();
+    }
+
+    // Open compute interface - Track 6C
+    function openCompute() {
+      if (!computeEngine) {
+        logEvent('ERROR', 'Initialize swarm first');
+        return;
+      }
+      window.open('compute-ui.html', 'compute', 'width=1400,height=900');
+      logEvent('SYSTEM', 'Opened distributed compute interface');
     }
 
     // Shutdown swarm
