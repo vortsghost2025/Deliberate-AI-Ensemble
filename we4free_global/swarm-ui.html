@@ -514,7 +514,7 @@
   <div class="card">
     <h2>🎮 Controls</h2>
     <div class="controls">
-      <button class="btn btn-success" onclick="initializeSwarm()">
+      <button class="btn btn-success" onclick="openInitModal()">
         ✨ Initialize Swarm
       </button>
       <button class="btn btn-success" onclick="restoreSwarm()">
@@ -547,6 +547,29 @@
   <!-- Version Badge -->
   <div class="version-badge">
     v2.0.0-swarm
+  </div>
+
+  <!-- Initialize Modal -->
+  <div class="modal" id="init-modal">
+    <div class="modal-content">
+      <h3>✨ Initialize Swarm</h3>
+      <div class="form-group">
+        <label>Workers</label>
+        <input type="number" id="init-workers" value="4" min="1" max="20">
+      </div>
+      <div class="form-group">
+        <label>Routers</label>
+        <input type="number" id="init-routers" value="1" min="1" max="10">
+      </div>
+      <div class="form-group">
+        <label>Observers</label>
+        <input type="number" id="init-observers" value="1" min="1" max="10">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-success" onclick="confirmInit()">Initialize</button>
+        <button class="btn btn-warning" onclick="closeInitModal()">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <!-- Spawn Modal -->
@@ -603,7 +626,7 @@
     let computeEngine = null;
 
     // Initialize swarm
-    function initializeSwarm() {
+    function initializeSwarm(workers = 4, routers = 1, observers = 1) {
       if (agentFactory) {
         logEvent('SYSTEM', 'Swarm already initialized');
         return;
@@ -664,12 +687,12 @@
         taskQueue
       });
       
-      // Spawn initial agents
+      // Spawn initial agents with user-specified counts
       const swarm = agentFactory.spawnSwarm({
         coordinators: 1,
-        workers: 4,
-        observers: 1,
-        routers: 1
+        workers: workers,
+        observers: observers,
+        routers: routers
       });
       
       // Register agents with coordinator
@@ -822,6 +845,30 @@
       }
       
       updateUI();
+    }
+
+    // Init modal
+    function openInitModal() {
+      if (agentFactory) {
+        logEvent('SYSTEM', 'Swarm already initialized');
+        return;
+      }
+      document.getElementById('init-modal').classList.add('active');
+    }
+
+    function closeInitModal() {
+      document.getElementById('init-modal').classList.remove('active');
+    }
+
+    function confirmInit() {
+      const workers = parseInt(document.getElementById('init-workers').value) || 4;
+      const routers = parseInt(document.getElementById('init-routers').value) || 1;
+      const observers = parseInt(document.getElementById('init-observers').value) || 1;
+      
+      closeInitModal();
+      initializeSwarm(workers, routers, observers);
+      
+      logEvent('SYSTEM', `Swarm initialized: ${workers}W, ${routers}R, ${observers}O`);
     }
 
     // Spawn modal
