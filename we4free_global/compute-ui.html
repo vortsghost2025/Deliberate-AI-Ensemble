@@ -436,12 +436,18 @@
 
     // Initialize compute engine
     function initializeCompute() {
-      // Create task queue
-      taskQueue = new TaskQueue('compute-queue');
-      
-      // Create swarm coordinator
-      swarmCoordinator = new SwarmCoordinator('compute-swarm');
-      swarmCoordinator.initialize({ taskQueue });
+      // Use parent window's taskQueue and swarmCoordinator (Track 6C fix)
+      if (window.opener && window.opener.taskQueue && window.opener.swarmCoordinator) {
+        taskQueue = window.opener.taskQueue;
+        swarmCoordinator = window.opener.swarmCoordinator;
+        console.log(`✅ Using parent swarm coordinator with ${swarmCoordinator.agents.size} agents`);
+      } else {
+        // Fallback: create local instances (shouldn't happen)
+        console.warn('⚠️ Parent window not available, creating local coordinator');
+        taskQueue = new TaskQueue('compute-queue');
+        swarmCoordinator = new SwarmCoordinator('compute-swarm');
+        swarmCoordinator.initialize({ taskQueue });
+      }
       
       // Create compute engine
       computeEngine = new DistributedCompute(swarmCoordinator, taskQueue);
