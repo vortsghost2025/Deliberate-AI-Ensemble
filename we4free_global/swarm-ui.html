@@ -729,8 +729,65 @@
       // Start UI updates
       updateInterval = setInterval(updateUI, 1000);
       
+      // Setup cross-window job submission listener
+      setupComputeWindowListener();
+      
       logEvent('SYSTEM', `Swarm initialized with ${Object.keys(swarm).length} agents`);
       updateUI();
+    }
+
+    // Listen for job submissions from compute window (via postMessage)
+    function setupComputeWindowListener() {
+      window.addEventListener('message', async (event) => {
+        // Security: verify origin (in production, check event.origin)
+        if (event.data.type === 'SUBMIT_JOB') {
+          const { jobType, input, mapFn, reduceFn, processFn, transformFn, stages } = event.data.payload;
+          
+          try {
+            if (!computeEngine) {
+              throw new Error('Compute engine not initialized');
+            }
+            
+            let result;
+            switch (jobType) {
+              case 'map-reduce':
+                result = await computeEngine.submitMapReduce(input, mapFn, reduceFn);
+                break;
+              case 'pipeline':
+                result = await computeEngine.submitPipeline(input, stages);
+                break;
+              case 'batch':
+                result = await computeEngine.submitBatch(input, processFn);
+                break;
+              case 'transform':
+                result = await computeEngine.submitTransform(input, transformFn);
+                break;
+              default:
+                throw new Error(`Unknown job type: ${jobType}`);
+            }
+            
+            // Send success response
+            event.source.postMessage({
+              type: 'JOB_SUBMITTED',
+              success: true
+            }, '*');
+            
+            logEvent('COMPUTE', `Job submitted from compute window: ${jobType}`);
+            
+          } catch (error) {
+            // Send error response
+            event.source.postMessage({
+              type: 'JOB_SUBMITTED',
+              success: false,
+              error: error.message
+            }, '*');
+            
+            logEvent('ERROR', `Job submission failed: ${error.message}`);
+          }
+        }
+      });
+      
+      console.log('✅ Cross-window compute listener ready');
     }
 
     // Restore swarm from saved state - Track 5

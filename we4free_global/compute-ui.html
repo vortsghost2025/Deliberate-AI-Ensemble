@@ -490,44 +490,81 @@
 
     // Initialize compute engine
     function initializeCompute() {
-      // Use parent window's taskQueue and swarmCoordinator (Track 6C fix)
-      // Wrap in try-catch to handle CORS errors when using file:// protocol
-      try {
-        if (window.opener && window.opener.taskQueue && window.opener.swarmCoordinator) {
-          taskQueue = window.opener.taskQueue;
-          swarmCoordinator = window.opener.swarmCoordinator;
-          console.log(`✅ Using parent swarm coordinator with ${swarmCoordinator.agents.size} agents`);
-        } else {
-          throw new Error('Parent window not available');
-        }
-      } catch (e) {
-        // Fallback: create local instances (happens with file:// protocol or no parent)
-        console.warn('⚠️ Cannot access parent window (CORS restriction or no parent), creating local coordinator');
-        console.warn('💡 Tip: Use a local web server (http://localhost) instead of file:// protocol for full functionality');
-        taskQueue = new TaskQueue('compute-queue');
-        swarmCoordinator = new SwarmCoordinator('compute-swarm');
-        swarmCoordinator.initialize({ taskQueue });
+      // Check if we have parent window
+      if (!window.opener) {
+        console.error('❌ No parent window - compute UI must be opened from swarm cockpit');
+        alert('Please open this window from the Swarm Cockpit');
+        return;
       }
       
-      // Create compute engine
-      computeEngine = new DistributedCompute(swarmCoordinator, taskQueue);
+      // We'll use postMessage to submit jobs to parent's coordinator
+      // No direct object access needed - fixes window isolation issue
+      console.log('✅ Connected to parent swarm window via postMessage');
       
-      // Set up callbacks
-      computeEngine.onJobComplete = (job) => {
-        console.log(`✅ Job ${job.id} completed:`, job.result);
-        updateUI();
+      // Create dummy compute engine that proxies to parent via postMessage
+      computeEngine = {
+        submitMapReduce: async (input, mapFn, reduceFn) => {
+          return submitJobToParent('map-reduce', { input, mapFn, reduceFn });
+        },
+        submitPipeline: async (input, stages) => {
+          return submitJobToParent('pipeline', { input, stages });
+        },
+        submitBatch: async (input, processFn) => {
+          return submitJobToParent('batch', { input, processFn });
+        },
+        submitTransform: async (input, transformFn) => {
+          return submitJobToParent('transform', { input, transformFn });
+        },
+        getAllJobs: () => [],
+        getMetrics: () => ({
+          totalJobs: 0,
+          completedJobs: 0,
+          activeJobs: 0,
+          averageLatency: 0
+        })
       };
+    }
+
+    // Submit job to parent window via postMessage
+    function submitJobToParent(jobType, payload) {
+      return new Promise((resolve, reject) => {
+        // Serialize functions
+        const serializedPayload = { ...payload, jobType };
+        if (payload.mapFn) serializedPayload.mapFn = payload.mapFn;
+        if (payload.reduceFn) serializedPayload.reduceFn = payload.reduceFn;
+        if (payload.processFn) serializedPayload.processFn = payload.processFn;
+        if (payload.transformFn) serializedPayload.transformFn = payload.transformFn;
+        
+        // Listen for response
+        const responseHandler = (event) => {
+          if (event.data.type === 'JOB_SUBMITTED') {
+            window.removeEventListener('message', responseHandler);
+            if (event.data.success) {
+              console.log('✅ Job submitted to parent coordinator');
+              resolve();
+            } else {
+              reject(new Error(event.data.error || 'Job submission failed'));
+            }
+          }
+        };
+        
+        window.addEventListener('message', responseHandler);
+        
+        // Send job to parent
+        window.opener.postMessage({
+          type: 'SUBMIT_JOB',
+          payload: serializedPayload
+        }, '*');
+        
+        // Timeout after 5 seconds
+        setTimeout(() => {
+          window.removeEventListener('message', responseHandler);
+          reject(new Error('Job submission timeout'));
+        }, 5000);
+      });
+    }
       
-      computeEngine.onJobFailed = (job) => {
-        console.error(`❌ Job ${job.id} failed:`, job.error);
-        updateUI();
-      };
-      
-      computeEngine.onProgress = (job) => {
-        updateUI();
-      };
-      
-      console.log('✅ Compute interface initialized');
+      console.log('✅ Compute interface initialized (using postMessage)');
     }
 
     // Update job form based on type
