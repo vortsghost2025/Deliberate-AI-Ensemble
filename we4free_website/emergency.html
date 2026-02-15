@@ -210,6 +210,13 @@
     } catch (e) {
         // LocalStorage unavailable, that's OK
     }
+
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('[WE4Free] Service Worker registered:', registration.scope))
+            .catch(error => console.error('[WE4Free] Service Worker registration failed:', error));
+    }
     </script>
 </body>
 </html>

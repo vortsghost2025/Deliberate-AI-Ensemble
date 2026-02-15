@@ -301,6 +301,13 @@
 
     console.log('[WE4Free Escalation] Escalation UI loaded');
     console.log('[WE4Free Escalation] Fallback chain:', fallbackChain.map(c => c.name));
+
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('[WE4Free] Service Worker registered:', registration.scope))
+            .catch(error => console.error('[WE4Free] Service Worker registration failed:', error));
+    }
     </script>
 </body>
 </html>
