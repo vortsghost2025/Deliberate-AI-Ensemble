@@ -493,6 +493,62 @@ class MetaAgent {
   }
 
   /**
+   * Save swarm state snapshot - Track 5
+   */
+  async saveStateSnapshot() {
+    if (!this.swarmSnapshot) {
+      console.warn('⚠️ Swarm snapshot manager not configured');
+      return null;
+    }
+
+    try {
+      const snapshot = await this.swarmSnapshot.takeSnapshot();
+      console.log('✅ Meta-Agent saved swarm state snapshot');
+      return snapshot;
+    } catch (error) {
+      console.error('❌ Failed to save snapshot:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Restore swarm state from snapshot - Track 5
+   */
+  async restoreState() {
+    if (!this.restoreManager) {
+      console.warn('⚠️ Restore manager not configured');
+      return false;
+    }
+
+    try {
+      const restored = await this.restoreManager.restoreSwarm();
+      if (restored) {
+        console.log('✅ Meta-Agent restored swarm state');
+        // Emit event for UI update
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('swarm-restored', { 
+            detail: this.restoreManager.getProgress() 
+          }));
+        }
+      }
+      return restored;
+    } catch (error) {
+      console.error('❌ Failed to restore state:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Configure Track 5 persistence modules
+   */
+  configurePersistence(persistence, snapshot, restoreManager) {
+    this.persistence = persistence;
+    this.swarmSnapshot = snapshot;
+    this.restoreManager = restoreManager;
+    console.log('✅ Track 5 persistence configured');
+  }
+
+  /**
    * Shutdown meta-agent
    */
   shutdown() {

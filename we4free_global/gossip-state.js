@@ -326,6 +326,122 @@ class GossipState {
   }
 
   /**
+   * Persist gossip state to IndexedDB - Track 5
+   */
+  async persistToIndexedDB(dbName = 'we4free-swarm') {
+    try {
+      const db = await this._openDB(dbName);
+      const transaction = db.transaction(['gossip-state'], 'readwrite');
+      const store = transaction.objectStore('gossip-state');
+
+      const stateData = {
+        id: 'gossip-state',
+        agentId: this.agentId,
+        state: Array.from(this.state.entries()).map(([key, entry]) => [
+          key,
+          {
+            value: entry.value,
+            agentId: entry.agentId,
+            timestamp: entry.timestamp,
+            vectorClock: entry.vectorClock
+          }
+        ]),
+        timestamp: Date.now()
+      };
+
+      return new Promise((resolve, reject) => {
+        const request = store.put(stateData);
+        request.onsuccess = () => {
+          console.log('✅ Gossip state persisted to IndexedDB');
+          resolve(true);
+        };
+        request.onerror = () => {
+          console.error('❌ Failed to persist gossip state:', request.error);
+          reject(request.error);
+        };
+      });
+    } catch (error) {
+      console.error('❌ Failed to open IndexedDB:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Load gossip state from IndexedDB - Track 5
+   */
+  async loadFromIndexedDB(dbName = 'we4free-swarm') {
+    try {
+      const db = await this._openDB(dbName);
+      const transaction = db.transaction(['gossip-state'], 'readonly');
+      const store = transaction.objectStore('gossip-state');
+
+      return new Promise((resolve, reject) => {
+        const request = store.get('gossip-state');
+        
+        request.onsuccess = () => {
+          const stateData = request.result;
+          if (stateData) {
+            // Restore state
+            this.agentId = stateData.agentId;
+            this.state.clear();
+            
+            stateData.state.forEach(([key, entryData]) => {
+              const entry = new StateEntry(
+                key,
+                entryData.value,
+                entryData.agentId,
+                entryData.timestamp
+              );
+              entry.vectorClock = entryData.vectorClock;
+              this.state.set(key, entry);
+            });
+            
+            console.log(`✅ Gossip state loaded from IndexedDB (${this.state.size} entries)`);
+            resolve(true);
+          } else {
+            console.log('⚠️ No saved gossip state found');
+            resolve(false);
+          }
+        };
+        
+        request.onerror = () => {
+          console.error('❌ Failed to load gossip state:', request.error);
+          reject(request.error);
+        };
+      });
+    } catch (error) {
+      console.error('❌ Failed to open IndexedDB:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Open IndexedDB connection - Track 5 helper
+   */
+  async _openDB(dbName) {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(dbName, 1);
+      
+      request.onsuccess = (event) => {
+        resolve(event.target.result);
+      };
+      
+      request.onerror = () => {
+        reject(request.error);
+      };
+      
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        
+        // Create gossip-state object store if it doesn't exist
+        if (!db.objectStoreNames.contains('gossip-state')) {
+          db.createObjectStore('gossip-state', { keyPath: 'id' });
+        }
+      };
+    });
+  }
+
+  /**
    * Shutdown
    */
   shutdown() {

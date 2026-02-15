@@ -517,6 +517,9 @@
       <button class="btn btn-success" onclick="initializeSwarm()">
         ✨ Initialize Swarm
       </button>
+      <button class="btn btn-success" onclick="restoreSwarm()">
+        🔄 Restore Swarm
+      </button>
       <button class="btn btn-primary" onclick="toggleAutonomous()">
         🤖 Toggle Autonomous
       </button>
@@ -571,6 +574,11 @@
   <script src="swarm-coordinator.js?v=2.0.0"></script>
   <script src="meta-agent.js?v=2.0.0"></script>
 
+  <!-- Include Track 5 modules (Persistent Agent Environment) -->
+  <script src="agent-persistence.js?v=2.0.0"></script>
+  <script src="swarm-snapshot.js?v=2.0.0"></script>
+  <script src="restore-manager.js?v=2.0.0"></script>
+
   <script>
     // Global swarm state
     let agentFactory = null;
@@ -581,6 +589,11 @@
     let gossipState = null;
     let updateInterval = null;
     let throughputHistory = [];
+
+    // Track 5: Persistence
+    let persistence = null;
+    let swarmSnapshot = null;
+    let restoreManager = null;
 
     // Initialize swarm
     function initializeSwarm() {
@@ -606,6 +619,27 @@
       
       // Create gossip state
       gossipState = new GossipState('gossip-0');
+      
+      // Initialize Track 5 persistence
+      persistence = new AgentPersistence('we4free-swarm');
+      swarmSnapshot = new SwarmSnapshot(persistence);
+      restoreManager = new RestoreManager(persistence, swarmSnapshot);
+      
+      // Register components with Track 5
+      restoreManager.registerComponents({
+        webrtcManager: null, // No WebRTC in this UI
+        swarmCoordinator,
+        metaAgent,
+        gossipState,
+        taskQueue,
+        selfHealing: healthMonitor
+      });
+      
+      // Configure persistence in meta-agent
+      metaAgent.configurePersistence(persistence, swarmSnapshot, restoreManager);
+      
+      // Start periodic snapshots (every 60 seconds)
+      swarmSnapshot.startPeriodicSnapshots(60000);
       
       // Initialize coordinator
       swarmCoordinator.initialize({
@@ -645,6 +679,107 @@
       
       logEvent('SYSTEM', `Swarm initialized with ${Object.keys(swarm).length} agents`);
       updateUI();
+    }
+
+    // Restore swarm from saved state - Track 5
+    async function restoreSwarm() {
+      if (agentFactory) {
+        logEvent('SYSTEM', 'Swarm already initialized. Shutdown first to restore.');
+        return;
+      }
+
+      logEvent('SYSTEM', '🔄 Attempting to restore swarm from saved state...');
+
+      try {
+        // Initialize Track 5 components
+        persistence = new AgentPersistence('we4free-swarm');
+        await persistence.initialize();
+        
+        swarmSnapshot = new SwarmSnapshot(persistence);
+        restoreManager = new RestoreManager(persistence, swarmSnapshot);
+
+        // Create basic components for restoration
+        agentFactory = new AgentFactory();
+        swarmCoordinator = new SwarmCoordinator('swarm-0');
+        metaAgent = new MetaAgent('meta-0');
+        taskQueue = new TaskQueue('queue-0');
+        healthMonitor = new SelfHealingMonitor('health-0');
+        gossipState = new GossipState('gossip-0');
+
+        // Initialize coordinator
+        swarmCoordinator.initialize({
+          taskQueue,
+          gossipState,
+          healthMonitor
+        });
+
+        // Initialize meta-agent
+        metaAgent.initialize({
+          agentFactory,
+          swarmCoordinator,
+          healthMonitor,
+          gossipState,
+          taskQueue
+        });
+
+        // Register components with restore manager
+        restoreManager.registerComponents({
+          webrtcManager: null,
+          swarmCoordinator,
+          metaAgent,
+          gossipState,
+          taskQueue,
+          selfHealing: healthMonitor
+        });
+
+        // Configure persistence in meta-agent
+        metaAgent.configurePersistence(persistence, swarmSnapshot, restoreManager);
+
+        // Attempt restore
+        const restored = await restoreManager.restoreSwarm();
+
+        if (restored) {
+          // Start periodic snapshots
+          swarmSnapshot.startPeriodicSnapshots(60000);
+          
+          // Start gossip
+          gossipState.startGossip(2000);
+          
+          // Start UI updates
+          updateInterval = setInterval(updateUI, 1000);
+          
+          const progress = restoreManager.getProgress();
+          logEvent('SYSTEM', `✅ Swarm restored! Agents: ${progress.agentsRestored}, Tasks: ${progress.tasksRestored}`);
+          
+          if (progress.errors.length > 0) {
+            logEvent('WARN', `Restore had ${progress.errors.length} error(s)`);
+          }
+        } else {
+          logEvent('WARN', 'No saved state found. Use Initialize Swarm instead.');
+          
+          // Clean up
+          agentFactory = null;
+          swarmCoordinator = null;
+          metaAgent = null;
+          taskQueue = null;
+          healthMonitor = null;
+          gossipState = null;
+        }
+
+        updateUI();
+
+      } catch (error) {
+        logEvent('ERROR', `Restore failed: ${error.message}`);
+        console.error('Restore error:', error);
+        
+        // Clean up on error
+        agentFactory = null;
+        swarmCoordinator = null;
+        metaAgent = null;
+        taskQueue = null;
+        healthMonitor = null;
+        gossipState = null;
+      }
     }
 
     // Toggle autonomous mode
