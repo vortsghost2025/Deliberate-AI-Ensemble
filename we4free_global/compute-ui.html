@@ -428,9 +428,62 @@
     let taskQueue = null;
     let updateInterval = null;
 
+    // Save form values to localStorage
+    function saveFormValues() {
+      const formData = {
+        jobType: document.getElementById('job-type').value,
+        jobInput: document.getElementById('job-input').value,
+        jobMapFn: document.getElementById('job-map-fn').value,
+        jobReduceFn: document.getElementById('job-reduce-fn').value,
+        jobProcessFn: document.getElementById('job-process-fn').value,
+        jobTransformFn: document.getElementById('job-transform-fn').value,
+        jobStages: document.getElementById('job-stages').value
+      };
+      localStorage.setItem('we4free-compute-form', JSON.stringify(formData));
+    }
+
+    // Restore form values from localStorage
+    function restoreFormValues() {
+      const saved = localStorage.getItem('we4free-compute-form');
+      if (saved) {
+        try {
+          const formData = JSON.parse(saved);
+          document.getElementById('job-type').value = formData.jobType || 'map-reduce';
+          document.getElementById('job-input').value = formData.jobInput || '';
+          document.getElementById('job-map-fn').value = formData.jobMapFn || '';
+          document.getElementById('job-reduce-fn').value = formData.jobReduceFn || '';
+          document.getElementById('job-process-fn').value = formData.jobProcessFn || '';
+          document.getElementById('job-transform-fn').value = formData.jobTransformFn || '';
+          document.getElementById('job-stages').value = formData.jobStages || '';
+          updateJobForm(); // Update visibility of form groups
+          console.log('✅ Form values restored from localStorage');
+        } catch (e) {
+          console.warn('⚠️ Failed to restore form values:', e);
+        }
+      }
+    }
+
+    // Auto-save on input change
+    function setupAutoSave() {
+      const fields = [
+        'job-type', 'job-input', 'job-map-fn', 'job-reduce-fn',
+        'job-process-fn', 'job-transform-fn', 'job-stages'
+      ];
+      
+      fields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+          element.addEventListener('input', saveFormValues);
+          element.addEventListener('change', saveFormValues);
+        }
+      });
+    }
+
     // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
       initializeCompute();
+      restoreFormValues();
+      setupAutoSave();
       updateInterval = setInterval(updateUI, 1000);
     });
 
@@ -534,6 +587,7 @@
         }
         
         console.log('✅ Job submitted successfully');
+        saveFormValues(); // Save current values after successful submission
         
       } catch (error) {
         console.error('❌ Job submission failed:', error);
