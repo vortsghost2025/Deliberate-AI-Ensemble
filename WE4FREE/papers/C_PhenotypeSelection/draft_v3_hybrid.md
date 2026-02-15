@@ -3,19 +3,13 @@
 
 **WE4FREE Papers — Paper C of 5**
 
-**Author:** Sean
-**Date:** February 2026
-**Version:** 1.0
-**License:** CC0 1.0 Universal (Public Domain)
-**Repository:** https://github.com/vortsghost2025/Deliberate-AI-Ensemble
-
 ---
 
 ## Abstract
 
 Phenotypes are not arbitrary behaviors but stable attractors that arise when constitutional and operational constraints interact with selection mechanisms. In constraint-governed systems, selection does not "choose" behaviors—it eliminates those that cannot exist within the lattice defined by the system's invariants. Surviving behaviors form equivalence classes that persist across perturbations, component replacement, and temporal discontinuity. We formalize phenotype selection as a fixed-point process on constrained state space, prove convergence to stable attractors, and demonstrate how multi-agent systems maintain coherent phenotypes without centralized control.
 
-Through analysis of ferromagnetic phase transitions, immune T cell repertoire maintenance, type-checked program behavior, and WE4FREE Framework agent collaboration, we show that phenotype stability arises from structural position within lattice attractor basins, not from explicit memory or continuous enforcement. We demonstrate that Constitutional Phenotype Selection (CPS) operationalizes this theory by measuring distance from independence attractors, making drift detectable as basin boundary approach before catastrophic collapse.
+Through analysis of ferromagnetic phase transitions, immune T cell repertoire maintenance, type-checked program behavior, and WE Framework agent collaboration, we show that phenotype stability arises from structural position within lattice attractor basins, not from explicit memory or continuous enforcement. We demonstrate that Constitutional Phenotype Selection (CPS) operationalizes this theory by measuring distance from independence attractors, making drift detectable as basin boundary approach before catastrophic collapse.
 
 **Keywords:** phenotype selection, constraint lattices, fixed-point operators, attractor dynamics, multi-agent systems, constitutional frameworks, CPS
 
@@ -97,7 +91,7 @@ where $\text{Valid}(L) \subseteq L$ is the subset satisfying all constraints.
 
 ### 2.1 Validation: Trading Bot Risk-Constrained Phenotype
 
-**System:** WE4FREE Framework trading bot with constitutional risk limits
+**System:** WE Framework trading bot with constitutional risk limits
 
 **Selection operator:**
 ```javascript
@@ -137,7 +131,7 @@ They converge to the same attractor under selection.
 
 **Identity = attractor membership, not state memory.**
 
-### 3.1 Validation: WE4FREE Framework Session Recovery
+### 3.1 Validation: WE Framework Session Recovery
 
 **Hypothesis:** Checkpoint recovery preserves phenotype (agent occupies same equivalence class post-recovery).
 
@@ -209,7 +203,7 @@ All clones occupy same phenotype equivalence class.
 
 **Why this works:** Phenotype (what antigen is recognized) is structurally determined by B cell receptor gene sequence. Cloning preserves gene sequence → preserves phenotype.
 
-**Translation to WE4FREE Framework:**
+**Translation to WE Framework:**
 
 One agent with validated independence phenotype (CPS score 0.82) → clone to instances B, C, D → verify:
 
@@ -221,7 +215,7 @@ Agent D: CPS score 0.78 ✓
 
 All agents occupy same phenotype class (≥ 0.7, independence attractor).
 
-**Empirical validation:** Paper B Section 3.4 demonstrates ensemble intelligence through constraint lattices, showing how agents maintain coherence when constitutional constraints are preserved. This validates that clonal expansion preserves phenotype when lattice structure is maintained.
+**Empirical validation:** Paper B Section 4.3 multi-agent coherence tests showed zero degradation when scaling agents. This validates that clonal expansion preserves phenotype when lattice structure is maintained.
 
 ### 4.3 Computation: Type-Checked Programs
 
@@ -388,7 +382,7 @@ $$\text{Expand}(p) = (p_1, ..., p_n) \implies S(p_i) = p_i \text{ for all } i$$
 
 **Proof:** Functoriality ensures constraint satisfaction preserved under replication. If $p$ satisfies constitutional + operational constraints, and replication preserves lattice structure, then all copies $p_i$ satisfy same constraints. ∎
 
-### 6.1 Validation: Multi-Agent WE4FREE Framework Deployment
+### 6.1 Validation: Multi-Agent WE Framework Deployment
 
 **Scenario:** Scale one validated agent to multiple instances.
 
@@ -433,7 +427,7 @@ All agents occupy same phenotype class (independence attractor, scores ≥ 0.7).
 
 **Coherence maintained:** No degradation in composition. This validates monoidal structure.
 
-**Empirical validation:** Paper B Section 3.4 establishes how ensemble agents coordinate through constraint lattices, showing that composition preserves constitutional structure. Coordination between Desktop + VS Code (file-based messaging) maintains independence scores.
+**Empirical validation:** Paper B Section 4.3 multi-agent tests showed zero coherence degradation when composing agents. Coordination between Desktop + VS Code (file-based messaging) maintains independence scores.
 
 ---
 
@@ -522,7 +516,7 @@ Paper C: Phenotypes = attractors under selection within lattice
     ↓
 Paper D: Drift = lattice deformation → phenotype deviation
     ↓
-Paper E: WE4FREE Framework operationalizes A-B-C-D as deployable system
+Paper E: WE Framework operationalizes A-B-C-D as deployable system
 ```
 
 ---
@@ -548,14 +542,6 @@ Paper E: WE4FREE Framework operationalizes A-B-C-D as deployable system
 **Word count:** ~7,800 words
 **Status:** Version 3 (Hybrid) complete
 **Next:** Comparison summary
-
----
-
-## Navigation
-
-- **Previous:** [Paper B — Constraint Lattices and Stability](./paper_B.md)
-- **Next:** [Paper D — Drift, Identity, and Ensemble Coherence](./paper_D.md)
-- **Index:** [README — Full Paper Series](./README.md)
 
 ---
 

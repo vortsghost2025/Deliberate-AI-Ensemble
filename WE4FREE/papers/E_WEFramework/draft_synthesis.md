@@ -3,12 +3,6 @@
 
 **WE4FREE Papers — Paper E of 5**
 
-**Author:** Sean
-**Date:** February 2026
-**Version:** 1.0
-**License:** CC0 1.0 Universal (Public Domain)
-**Repository:** https://github.com/vortsghost2025/Deliberate-AI-Ensemble
-
 ---
 
 ## 0. How to Use This Paper
@@ -148,7 +142,7 @@ constitutional_constraints:
 
   constraint_2:
     name: "zero_profit"
-    description: "No individual profit from WE4FREE Framework"
+    description: "No individual profit from WE Framework"
     enforcement_layer: "constitutional"
     violation_severity: "critical"
 
@@ -180,7 +174,7 @@ metadata:
 
 **This is not documentation. This is executable specification.**
 
-### 2.3 Example: WE4FREE Framework Constitutional File
+### 2.3 Example: WE Framework Constitutional File
 
 ```yaml
 # WE4FREE Constitutional Constraints
@@ -1532,14 +1526,6 @@ WE4FREE/
 **Word count:** ~11,400 words
 **Status:** Paper E complete (synthesis version)
 **Structure:** Theory→system mapping + builder's guide
-
----
-
-## Navigation
-
-- **Previous:** [Paper D — Drift, Identity, and Ensemble Coherence](./paper_D.md)
-- **Next:** None (This is Paper E — the final paper in the series)
-- **Index:** [README — Full Paper Series](./README.md)
 
 ---
 

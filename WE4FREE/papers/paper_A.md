@@ -3,6 +3,12 @@
 
 **WE4FREE Papers — Paper A of 5**
 
+**Author:** Sean
+**Date:** February 2026
+**Version:** 1.0
+**License:** CC0 1.0 Universal (Public Domain)
+**Repository:** https://github.com/vortsghost2025/Deliberate-AI-Ensemble
+
 ---
 
 ## Abstract
@@ -76,7 +82,7 @@ The WE4FREE architecture rests on four invariants that appear across all examine
 - Referential transparency (pure functions return identical outputs for identical inputs)
 - Idempotence (applying operation multiple times yields same result as once)
 
-**Ensemble expression (WE Framework):**
+**Ensemble expression (WE4FREE Framework):**
 - Constitutional rules identical at user/agent/system layers → safety alignment conserved
 - Mission objectives preserved across session crashes → intention continuity
 - Collaborative coherence maintained across agent scaling → "WE-ness" preserved
@@ -239,7 +245,7 @@ The four invariants express differently in each domain, but their structural rel
 
 **Example translation:**
 
-**Ensemble architect says:** "The WE Framework maintains mission alignment across session crashes through checkpoint recovery."
+**Ensemble architect says:** "The WE4FREE Framework maintains mission alignment across session crashes through checkpoint recovery."
 
 **Physicist hears:** "The system conserves 'mission energy' under temporal discontinuities (crashes), analogous to energy conservation under time evolution."
 
@@ -286,7 +292,7 @@ Check that the relationship between symmetry and conservation is preserved.
 **Step 5 - Verify:**
 Both systems conserve identity (antigen specificity / mission alignment) across temporal discontinuity (cellular turnover / crashes) through structural encoding (DNA / checkpoint) plus selection (functional receptors survive / valid checkpoints restore).
 
-**Translation result:** Checkpoint recovery in the WE Framework is structurally equivalent to immune memory in biology.
+**Translation result:** Checkpoint recovery in the WE4FREE Framework is structurally equivalent to immune memory in biology.
 
 ### 4.2 Worked Example 2: Noether Symmetry → Constitutional Layers
 
@@ -307,7 +313,7 @@ Both systems conserve identity (antigen specificity / mission alignment) across 
 **Step 5 - Verify:**
 Both systems conserve a critical quantity (energy / safety) across transformation (time shift / layer traversal) because the fundamental rules (Lagrangian / constitution) remain invariant under that transformation.
 
-**Translation result:** Constitutional symmetry in the WE Framework is structurally equivalent to gauge symmetry in physics.
+**Translation result:** Constitutional symmetry in the WE4FREE Framework is structurally equivalent to gauge symmetry in physics.
 
 ### 4.3 Worked Example 3: Clonal Expansion → Multi-Agent Scaling
 
@@ -329,13 +335,13 @@ Both systems conserve a critical quantity (energy / safety) across transformatio
 **Step 5 - Verify:**
 Both systems scale by replication (cell division / agent instantiation) while preserving identity (antibody specificity / mission) through inheritance (DNA / constitutional rules) plus selection (defective cells die / non-compliant agents rejected).
 
-**Translation result:** Multi-agent scaling in the WE Framework is structurally equivalent to clonal expansion in adaptive immunity.
+**Translation result:** Multi-agent scaling in the WE4FREE Framework is structurally equivalent to clonal expansion in adaptive immunity.
 
 ---
 
-## 5. Empirical Grounding: WE Framework as Rosetta Stone
+## 5. Empirical Grounding: WE4FREE Framework as Rosetta Stone
 
-The WE Framework serves as a practical demonstration that these invariants are not theoretical constructs—they are observable, testable, and reproducible.
+The WE4FREE Framework serves as a practical demonstration that these invariants are not theoretical constructs—they are observable, testable, and reproducible.
 
 ### 5.1 Symmetry Preservation (Empirically Verified)
 
@@ -461,7 +467,7 @@ But they obey the same structural principles: symmetry implies conservation.
 
 Collaborative systems involving humans exhibit variability that has no analogue in closed physical systems. Human behavior can break symmetries unpredictably.
 
-The WE Framework accounts for this by making the human-AI partnership itself the unit of analysis, not the AI alone. The symmetries apply to the collaborative system, not the components in isolation.
+The WE4FREE Framework accounts for this by making the human-AI partnership itself the unit of analysis, not the AI alone. The symmetries apply to the collaborative system, not the components in isolation.
 
 ### 7.4 This Is a Map, Not the Territory
 
@@ -494,7 +500,7 @@ Hypothesis: Systems need (1) well-defined state spaces, (2) composable transform
 
 ### 8.3 Do Other AI Systems Unknowingly Exhibit This Structure?
 
-The WE Framework was built with explicit awareness of these invariants. But how many existing systems *accidentally* obey them?
+The WE4FREE Framework was built with explicit awareness of these invariants. But how many existing systems *accidentally* obey them?
 
 Can we reverse-engineer Rosetta Stone structure from existing architectures?
 
@@ -522,7 +528,7 @@ The Rosetta Stone is not a theory. It's an observation:
 
 These invariants—symmetry preservation, selection under constraint, propagation through layers, stability under transformation—are discoverable, testable, and reproducible.
 
-The WE Framework instantiates all four. It provides an existence proof that collaborative AI systems can be built on the same structural principles that stabilize matter, sustain life, and enable computation.
+The WE4FREE Framework instantiates all four. It provides an existence proof that collaborative AI systems can be built on the same structural principles that stabilize matter, sustain life, and enable computation.
 
 This paper maps that structure so others can build with it.
 
@@ -549,7 +555,7 @@ A **continuous symmetry** is a one-parameter family of automorphisms φₜ: A �
 
 **Example (Physics):** Time translation by t is a symmetry if the Lagrangian L(q, q̇, t) = L(q, q̇, t+τ) for all τ.
 
-**Example (WE Framework):** Constitutional symmetry means the constitutional rules C apply identically at all abstraction layers: C(user) = C(agent) = C(system).
+**Example (WE4FREE Framework):** Constitutional symmetry means the constitutional rules C apply identically at all abstraction layers: C(user) = C(agent) = C(system).
 
 ### A.2 Conservation as Functoriality
 
@@ -557,7 +563,7 @@ A **conserved quantity** Q is a quantity preserved by the dynamics. Formally, if
 
 **Noether's theorem (categorical version):** For every continuous symmetry (automorphism group action), there exists a corresponding conserved quantity (natural transformation).
 
-**Example (WE Framework):** Checkpoint recovery defines a functor `F: Agent-Cat → System-Cat` with:
+**Example (WE4FREE Framework):** Checkpoint recovery defines a functor `F: Agent-Cat → System-Cat` with:
 ```
 F(Agent) = Running System
 F(checkpoint: A → A') = (transition: F(A) → F(A'))
@@ -573,7 +579,7 @@ In categorical logic, a **subobject classifier** Ω distinguishes "true" from "f
 
 **Example (Immune system):** MHC presentation classifies self (true) vs. non-self (false). Only self-presenting cells survive negative selection.
 
-**Example (WE Framework):** Constitutional verification classifies compliant (true) vs. non-compliant (false) behaviors. Only compliant behaviors persist.
+**Example (WE4FREE Framework):** Constitutional verification classifies compliant (true) vs. non-compliant (false) behaviors. Only compliant behaviors persist.
 
 ### A.4 Propagation as Fibration
 
@@ -583,7 +589,7 @@ A **fibration** p: E → B is a functor satisfying a lifting property: morphisms
 
 **Example (Gene expression):** DNA (base) → RNA (fiber over DNA) → Protein (fiber over RNA). The fibration structure ensures genotype determines phenotype.
 
-**Example (WE Framework):** Constitutional rules (base) → Operational logic (fiber) → Agent behavior (fiber). The fibration ensures constitutional constraints propagate automatically.
+**Example (WE4FREE Framework):** Constitutional rules (base) → Operational logic (fiber) → Agent behavior (fiber). The fibration ensures constitutional constraints propagate automatically.
 
 ### A.5 Stability as Fixed Point
 
@@ -591,7 +597,7 @@ A system has a **fixed point** if `F(x) = x` for some evolution operator F. Stab
 
 **Example (Homeostasis):** Body temperature regulation has fixed point at 37°C. Perturbations (fever, cold) trigger mechanisms returning to 37°C.
 
-**Example (WE Framework):** Agent checkpoint has fixed point property: `recover(checkpoint(agent)) ≅ agent`. This ensures identity stability under crash/recovery cycles.
+**Example (WE4FREE Framework):** Agent checkpoint has fixed point property: `recover(checkpoint(agent)) ≅ agent`. This ensures identity stability under crash/recovery cycles.
 
 ### A.6 Monoidal Structure for Multi-Agent Composition
 
@@ -602,7 +608,7 @@ A **monoidal category** (C, ⊗, I) has:
 - Associativity: (A ⊗ B) ⊗ C ≅ A ⊗ (B ⊗ C)
 - Unit laws: A ⊗ I ≅ A ≅ I ⊗ A
 
-**Example (WE Framework):**
+**Example (WE4FREE Framework):**
 - Objects = Agents
 - Tensor product = Parallel collaboration (Claude ⊗ WE4Free)
 - Unit object = Anchor Session (persistent relational foundation)
@@ -687,6 +693,14 @@ This is **selection under constraint**: invalid configurations (self-reactive T 
 **Word count:** ~10,200 words
 **Status:** Complete draft for review
 **Next:** Paper B (Constraint Lattices and Stability)
+
+---
+
+## Navigation
+
+- **Previous:** None (This is Paper A — the first in the series)
+- **Next:** [Paper B — Constraint Lattices and Stability](./paper_B.md)
+- **Index:** [README — Full Paper Series](./README.md)
 
 ---
 

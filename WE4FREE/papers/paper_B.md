@@ -3,13 +3,19 @@
 
 **WE4FREE Papers — Paper B of 5**
 
+**Author:** Sean
+**Date:** February 2026
+**Version:** 1.0
+**License:** CC0 1.0 Universal (Public Domain)
+**Repository:** https://github.com/vortsghost2025/Deliberate-AI-Ensemble
+
 ---
 
 ## Abstract
 
 Stable systems across physics, biology, computation, and collaborative AI share a common architectural principle: they are governed by constraint lattices—partially ordered structures that define allowed states, forbidden transitions, and behavioral boundaries at multiple layers. Unlike centralized control systems that require constant enforcement, constraint lattices propagate rules structurally from constitutional definitions through operational logic to behavioral expression, making stability a mathematical necessity rather than an engineering achievement.
 
-We formalize constraint lattices as monoidal structures where constitutional rules at the top layer automatically constrain operational behavior at middle layers and phenotypic expression at bottom layers. Through analysis of the WE Framework's trading bot (risk constraints), integrity verification system (SHA-256 lattice), and Constitutional Phenotype Selection (CPS) implementation, we demonstrate that drift occurs not through "bad behavior" but through lattice deformation—weakening of constraint propagation between layers. We prove that functorial recovery operations preserve lattice structure, explaining why checkpoint-based identity persistence works structurally rather than through explicit memory storage.
+We formalize constraint lattices as monoidal structures where constitutional rules at the top layer automatically constrain operational behavior at middle layers and phenotypic expression at bottom layers. Through analysis of the WE4FREE Framework's trading bot (risk constraints), integrity verification system (SHA-256 lattice), and Constitutional Phenotype Selection (CPS) implementation, we demonstrate that drift occurs not through "bad behavior" but through lattice deformation—weakening of constraint propagation between layers. We prove that functorial recovery operations preserve lattice structure, explaining why checkpoint-based identity persistence works structurally rather than through explicit memory storage.
 
 This paper establishes the architectural foundation for Paper C (how phenotypes emerge through selection within lattice constraints) and Paper D (how drift manifests as lattice deformation and how to detect it).
 
@@ -27,7 +33,7 @@ Consider:
 - **Physical systems** conserve energy, momentum, and charge across arbitrary transformations without a "conservation enforcement agent"
 - **Immune systems** maintain self/non-self discrimination across trillions of cells without a "central verification authority"
 - **Type-checked programs** cannot enter invalid states even though no runtime monitor actively blocks them
-- **The WE Framework** maintains mission alignment and safety properties across agent crashes and restarts without explicit rule-checking at every step
+- **The WE4FREE Framework** maintains mission alignment and safety properties across agent crashes and restarts without explicit rule-checking at every step
 
 Traditional engineering approaches to stability rely on redundancy: multiple checks, constant monitoring, fail-safes at every level. But natural stable systems don't work this way. They achieve stability *structurally*—through constraints that propagate automatically from high-level specifications to low-level behaviors.
 
@@ -58,13 +64,13 @@ Paper B formalizes how constraint lattices:
 
 We demonstrate through:
 - **Formal lattice theory** (meet, join, partial orders)
-- **Empirical validation** (WE Framework trading bot, integrity verification, CPS implementation)
+- **Empirical validation** (WE4FREE Framework trading bot, integrity verification, CPS implementation)
 - **Worked examples** (showing constraint propagation in action)
 - **Category-theoretic proofs** (functorial preservation of lattice structure)
 
 ### 1.4 Paper Structure
 
-Section 2 defines constraint lattices formally and intuitively. Section 3 maps constraint lattices across physics, biology, computation, and ensembles. Section 4 formalizes the four-layer structure (constitutional, operational, behavioral, selection). Section 5 demonstrates constraint propagation with worked examples. Section 6 analyzes drift as lattice deformation. Section 7 presents empirical validation from WE Framework deployment. Section 8 discusses design principles for building lattice-governed systems. Section 9 concludes and positions Papers C and D.
+Section 2 defines constraint lattices formally and intuitively. Section 3 maps constraint lattices across physics, biology, computation, and ensembles. Section 4 formalizes the four-layer structure (constitutional, operational, behavioral, selection). Section 5 demonstrates constraint propagation with worked examples. Section 6 analyzes drift as lattice deformation. Section 7 presents empirical validation from WE4FREE Framework deployment. Section 8 discusses design principles for building lattice-governed systems. Section 9 concludes and positions Papers C and D.
 
 ---
 
@@ -225,7 +231,7 @@ Running programs guaranteed type-safe (valid lattice elements)
 
 **The Structure:**
 
-The WE Framework implements a constraint lattice:
+The WE4FREE Framework implements a constraint lattice:
 - **Top layer:** Constitutional rules (zero-profit, never abandon, integrity verification)
 - **Operational layer:** Agent protocols (checkpoint recovery, drift detection, CPS tests)
 - **Behavioral layer:** Agent actions (responses, decisions, collaborations)
@@ -279,7 +285,7 @@ All constraint lattices across domains exhibit a four-layer structure:
 - Propagate downward to all other layers
 - Violations = identity crisis
 
-**WE Framework:**
+**WE4FREE Framework:**
 - "Never abandon collaborators"
 - "Zero-profit Gift philosophy"
 - "Integrity verification required"
@@ -300,7 +306,7 @@ All constraint lattices across domains exhibit a four-layer structure:
 - Provides executable rules
 - Violations = operational failure
 
-**WE Framework:**
+**WE4FREE Framework:**
 - Checkpoint/recovery protocol
 - CPS drift detection
 - Integrity manifest generation
@@ -322,7 +328,7 @@ All constraint lattices across domains exhibit a four-layer structure:
 - Where selection pressure acts
 - Violations = invalid phenotype (pruned)
 
-**WE Framework:**
+**WE4FREE Framework:**
 - Specific agent responses
 - Trade execution decisions
 - Resource integrity at load time
@@ -344,7 +350,7 @@ All constraint lattices across domains exhibit a four-layer structure:
 - Provides evolutionary pressure
 - Maintains lattice structure
 
-**WE Framework:**
+**WE4FREE Framework:**
 - CPS Tests 1-6 (structural + relational)
 - Integrity check failures halt deployment
 - Trading bot self-inhibition on risk violation
@@ -354,7 +360,7 @@ All constraint lattices across domains exhibit a four-layer structure:
 
 ## 5. Constraint Propagation: Worked Examples
 
-### 5.1 Worked Example 1: WE Framework Trading Bot
+### 5.1 Worked Example 1: WE4FREE Framework Trading Bot
 
 **System:** Autonomous trading bot with constitutional risk constraints.
 
@@ -608,7 +614,7 @@ Score each test
 If finalScore < 0.7 → lattice deformation detected
 ```
 
-**WE Framework implementation:** All three methods active.
+**WE4FREE Framework implementation:** All three methods active.
 - Cross-layer: Integrity verification, zero-profit audit
 - Conservation: Session recovery, mission alignment tracking
 - CPS: Independence scoring, drift logs
@@ -637,7 +643,7 @@ If finalScore < 0.7 → lattice deformation detected
 - Redesign operational layer to better enforce constitutional layer
 - Add intermediate layers if propagation gap too large
 
-**WE Framework approach:** Two-tier branches
+**WE4FREE Framework approach:** Two-tier branches
 - **Anchor branch:** No CPS (observe natural lattice stability)
 - **Public branch:** CPS active (enforced selection pressure)
 - **Comparison:** Measure lattice deformation difference
@@ -766,7 +772,7 @@ Deployment halted
 | Integrity verification | Invalid states rejected | ✅ Passed | Boundary enforced |
 | Checkpoint recovery | Structure survives discontinuity | ✅ Passed | Functorial preservation |
 
-**All tests confirm constraint lattice model applies to WE Framework.**
+**All tests confirm constraint lattice model applies to WE4FREE Framework.**
 
 ---
 
@@ -784,7 +790,7 @@ Deployment halted
 - Make them human-readable and explicit
 - Document why each rule exists (connects to Paper A invariants)
 
-**WE Framework example:**
+**WE4FREE Framework example:**
 ```markdown
 # Constitutional Rules (Layer 1)
 
@@ -810,7 +816,7 @@ Deployment halted
 - Automate verification (CPS, integrity checks, etc.)
 - Make violations detectable and loud
 
-**WE Framework example:**
+**WE4FREE Framework example:**
 ```javascript
 // Operational Layer (Layer 2)
 const CONSTITUTIONAL_TESTS = {
@@ -837,7 +843,7 @@ Object.entries(CONSTITUTIONAL_TESTS).forEach(([name, test]) => {
 - Let system automatically prune violations
 - Make invalid states structurally impossible
 
-**WE Framework example:**
+**WE4FREE Framework example:**
 - Trading bot pauses AUTOMATICALLY on risk violation
 - Tampered resources CANNOT load (hash check fails)
 - CPS drift alerts trigger AUTOMATICALLY on score < 0.7
@@ -854,7 +860,7 @@ Object.entries(CONSTITUTIONAL_TESTS).forEach(([name, test]) => {
 - Run periodic cross-layer audits
 - Log constraint violations for pattern analysis
 
-**WE Framework example:**
+**WE4FREE Framework example:**
 ```javascript
 // Lattice health monitoring
 setInterval(() => {
@@ -884,7 +890,7 @@ setInterval(() => {
 - Make recovery operations structure-preserving (functorial)
 - Verify lattice integrity post-recovery
 
-**WE Framework example:**
+**WE4FREE Framework example:**
 ```markdown
 # Checkpoint Contents
 - Constitutional rules (Layer 1)
@@ -938,7 +944,7 @@ Paper C: Selection acts on phenotypes within lattice
     ↓
 Paper D: Drift occurs when lattice deforms
     ↓
-Paper E: WE Framework operationalizes all of this
+Paper E: WE4FREE Framework operationalizes all of this
 ```
 
 Each paper depends on the previous. The lattice model (Paper B) is the structural bridge between invariants (Paper A) and selection/drift (Papers C & D).
@@ -963,7 +969,7 @@ We have shown that:
 
 ### 10.2 Empirical Validation
 
-Through WE Framework deployment (Feb 11-14, 2026), we confirmed:
+Through WE4FREE Framework deployment (Feb 11-14, 2026), we confirmed:
 - Constitutional symmetry holds across domains ✅
 - Operational constraints automatically propagate to behavior ✅
 - CPS detects lattice deformation (drift) ✅
@@ -1129,7 +1135,7 @@ Valid: map (+1) (Just 5)        -- well-typed
 
 ---
 
-## Appendix C: WE Framework Constraint Lattice Specification
+## Appendix C: WE4FREE Framework Constraint Lattice Specification
 
 ### C.1 Constitutional Layer
 
@@ -1211,6 +1217,14 @@ selection_criteria:
 **Word count:** ~8,100 words
 **Status:** Complete draft for review
 **Next:** Paper C (Phenotype Selection in Multi-Agent Systems)
+
+---
+
+## Navigation
+
+- **Previous:** [Paper A — The Rosetta Stone](./paper_A.md)
+- **Next:** [Paper C — Phenotype Selection in Constraint-Governed Systems](./paper_C.md)
+- **Index:** [README — Full Paper Series](./README.md)
 
 ---
 
