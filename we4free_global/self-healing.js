@@ -271,6 +271,13 @@ class SelfHealingMonitor {
    */
   _runHealthCheck() {
     this.peerHealth.forEach((metrics, peerId) => {
+      // SKIP health checking for local agents (same-tab JavaScript objects)
+      // Only check health for WebRTC peer connections (format: "fromId-toId")
+      // Local agents use their internal state, not network health metrics
+      if (!peerId.includes('-agent-')) {
+        return; // Skip local agents
+      }
+      
       // Check for stale peers
       if (metrics.isStale(this.config.staleTimeout) && 
           metrics.status !== HealthStatus.DISCONNECTED) {
