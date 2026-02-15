@@ -163,16 +163,12 @@ class SwarmCoordinator {
    * Select agent based on load balancing strategy
    */
   _selectAgent() {
-    let workers = Array.from(this.agents.values())
+    const workers = Array.from(this.agents.values())
       .filter(a => a.hasCapability(window.AgentCapability?.PERFORM_TASKS))
       .filter(a => a.state !== 'degraded' && a.state !== 'shutdown');
     
-    // Further filter by registry if available
-    if (this.registry) {
-      const activeAgents = this.registry.getActiveAgents();
-      const activeIds = new Set(activeAgents.map(a => a.id));
-      workers = workers.filter(w => activeIds.has(w.id));
-    }
+    // Note: For local agents (same-tab), agent.state is sufficient
+    // Registry filtering is only needed for distributed WebRTC agents
     
     if (workers.length === 0) {
       console.error('❌ No available agents for task assignment');
