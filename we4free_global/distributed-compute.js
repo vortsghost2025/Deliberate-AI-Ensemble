@@ -202,8 +202,8 @@ class DistributedCompute {
       // Wait for completion (simulated - in real system would use task callbacks)
       return new Promise((resolve, reject) => {
         const checkInterval = setInterval(() => {
-          const completedTask = this.taskQueue.completedTasks.get(task.id);
-          if (completedTask) {
+          const completedResult = this.taskQueue.completedTasks.get(task.id);
+          if (completedResult !== undefined) {
             clearInterval(checkInterval);
             job.subtasks[idx].status = 'completed';
             job.updateProgress(job.completedSubtasks + 1, job.subtasks.length);
@@ -212,14 +212,14 @@ class DistributedCompute {
               this.onProgress(job);
             }
             
-            resolve(completedTask.result);
+            resolve(completedResult);
           }
           
-          const failedTask = this.taskQueue.failedTasks.get(task.id);
-          if (failedTask) {
+          const failedError = this.taskQueue.failedTasks.get(task.id);
+          if (failedError !== undefined) {
             clearInterval(checkInterval);
             job.subtasks[idx].status = 'failed';
-            reject(new Error(failedTask.error));
+            reject(new Error(failedError));
           }
         }, 100);
         
@@ -253,16 +253,16 @@ class DistributedCompute {
     
     return new Promise((resolve, reject) => {
       const checkInterval = setInterval(() => {
-        const completedTask = this.taskQueue.completedTasks.get(task.id);
-        if (completedTask) {
+        const completedResult = this.taskQueue.completedTasks.get(task.id);
+        if (completedResult !== undefined) {
           clearInterval(checkInterval);
-          resolve(completedTask.result);
+          resolve(completedResult);
         }
         
-        const failedTask = this.taskQueue.failedTasks.get(task.id);
-        if (failedTask) {
+        const failedError = this.taskQueue.failedTasks.get(task.id);
+        if (failedError !== undefined) {
           clearInterval(checkInterval);
-          reject(new Error(failedTask.error));
+          reject(new Error(failedError));
         }
       }, 100);
       
@@ -556,16 +556,16 @@ class DistributedCompute {
   _waitForTask(taskId, timeout) {
     return new Promise((resolve, reject) => {
       const checkInterval = setInterval(() => {
-        const completedTask = this.taskQueue.completedTasks.get(taskId);
-        if (completedTask) {
+        const completedResult = this.taskQueue.completedTasks.get(taskId);
+        if (completedResult !== undefined) {
           clearInterval(checkInterval);
-          resolve(completedTask.result);
+          resolve(completedResult);
         }
         
-        const failedTask = this.taskQueue.failedTasks.get(taskId);
-        if (failedTask) {
+        const failedError = this.taskQueue.failedTasks.get(taskId);
+        if (failedError !== undefined) {
           clearInterval(checkInterval);
-          reject(new Error(failedTask.error));
+          reject(new Error(failedError));
         }
       }, 50);
       

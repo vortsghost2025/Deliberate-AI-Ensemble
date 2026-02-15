@@ -198,10 +198,139 @@ class Agent {
   }
 
   /**
+   * Start task execution loop (for workers)
+   */
+  startTaskExecution(taskQueue) {
+    if (!this.hasCapability(AgentCapability.PERFORM_TASKS)) {
+      console.warn(`Agent ${this.id} cannot perform tasks (role: ${this.role})`);
+      return;
+    }
+    
+    this.taskQueue = taskQueue;
+    this.executionActive = true;
+    
+    // Start the execution loop
+    this._taskExecutionLoop();
+    
+    console.log(`🔄 Agent ${this.id} started task execution loop`);
+  }
+  
+  /**
+   * Stop task execution loop
+   */
+  stopTaskExecution() {
+    this.executionActive = false;
+    console.log(`⏹️ Agent ${this.id} stopped task execution loop`);
+  }
+  
+  /**
+   * Task execution loop - claims and executes tasks
+   */
+  async _taskExecutionLoop() {
+    while (this.executionActive && this.state !== 'shutdown') {
+      try {
+        // Try to claim a task
+        const pendingTasks = Array.from(this.taskQueue.tasks.values())
+          .filter(t => t.status === 'pending')
+          .sort((a, b) => b.priority - a.priority); // Highest priority first
+        
+        if (pendingTasks.length > 0) {
+          const task = pendingTasks[0];
+          const claimResult = this.taskQueue.claimTask(task.id, this.id);
+          
+          if (claimResult.success) {
+            // Execute the task
+            await this._executeComputeTask(claimResult.task);
+          }
+        }
+        
+        // Wait before next iteration
+        await this._sleep(100);
+        
+      } catch (error) {
+        console.error(`Agent ${this.id} execution error:`, error);
+        await this._sleep(1000); // Wait longer on error
+      }
+    }
+  }
+  
+  /**
+   * Execute a compute task (map/reduce/etc)
+   */
+  async _executeComputeTask(task) {
+    try {
+      this.state = 'working';
+      this.metrics.tasksInProgress++;
+      this.metrics.lastActivity = Date.now();
+      this.updateWorkload(this.workload + 10);
+      
+      let result = null;
+      
+      // Execute based on task type
+      if (task.type === 'map' && task.data) {
+        // Deserialize and execute map function
+        const mapFn = new Function('return ' + task.data.mapFn)();
+        result = task.data.chunk.map(mapFn);
+        
+      } else if (task.type === 'reduce' && task.data) {
+        // Deserialize and execute reduce function
+        const reduceFn = new Function('return ' + task.data.reduceFn)();
+        result = task.data.input.reduce(reduceFn);
+        
+      } else if (task.type === 'pipeline' && task.data) {
+        // Execute pipeline stage
+        const fn = new Function('return ' + task.data.fn)();
+        result = fn(task.data.input);
+        
+      } else if (task.type === 'batch' && task.data) {
+        // Execute batch function
+        const fn = new Function('return ' + task.data.fn)();
+        result = await fn(task.data.item);
+        
+      } else if (task._run) {
+        // Test tasks with custom _run function
+        result = await task._run();
+      } else {
+        throw new Error(`Unknown task type: ${task.type}`);
+      }
+      
+      // Mark task complete
+      this.taskQueue.completeTask(task.id, result);
+      
+      this.metrics.tasksCompleted++;
+      this.metrics.tasksInProgress--;
+      this.state = 'idle';
+      this.updateWorkload(Math.max(0, this.workload - 10));
+      
+      this.emit('task:completed', { taskId: task.id, result });
+      
+    } catch (error) {
+      console.error(`Agent ${this.id} failed task ${task.id}:`, error);
+      
+      this.taskQueue.failTask(task.id, error.message);
+      
+      this.metrics.tasksFailed++;
+      this.metrics.tasksInProgress--;
+      this.state = 'idle';
+      this.updateWorkload(Math.max(0, this.workload - 10));
+      
+      this.emit('task:failed', { taskId: task.id, error: error.message });
+    }
+  }
+  
+  /**
+   * Sleep utility
+   */
+  _sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
    * Mark as degraded (self-healing uses this)
    */
   markDegraded(reason) {
     this.state = 'degraded';
+    this.executionActive = false; // Stop task execution
     this.emit('agent:degraded', { agentId: this.id, reason });
     console.warn(`⚠️ Agent ${this.id} degraded: ${reason}`);
   }

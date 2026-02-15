@@ -135,6 +135,7 @@ class TaskQueue {
     this.tasks = new Map(); // taskId -> Task
     this.claimedTasks = new Map(); // taskId -> agentId
     this.completedTasks = new Map(); // taskId -> result
+    this.failedTasks = new Map(); // taskId -> error
     this.peers = new Set(); // Connected peer queues
     this.eventHandlers = new Map();
     this.metrics = {
@@ -271,6 +272,8 @@ class TaskQueue {
       console.log(`🔄 Task ${taskId} retry ${task.retries}/${task.maxRetries}`);
       this.emit('task:retry', { taskId, retries: task.retries });
     } else {
+      // Store in failedTasks Map for polling
+      this.failedTasks.set(taskId, error);
       console.error(`❌ Task ${taskId} failed permanently: ${error}`);
       this.emit('task:failed', { taskId, error });
     }

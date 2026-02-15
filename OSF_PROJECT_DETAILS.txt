@@ -1,0 +1,46 @@
+OSF PROJECT CREATION DETAILS - CORRECT VERSION FOR WE4FREE PAPERS
+=================================================================
+
+PROJECT TITLE:
+The WE4FREE Framework: Mathematical Foundations for Constitutional AI Collaboration
+
+STORAGE LOCATION:
+United States
+
+DESCRIPTION:
+This project presents the WE4FREE Framework: a complete mathematical and theoretical foundation for AI collaboration systems governed by constitutional constraints.
+
+The framework consists of five interconnected papers that establish:
+
+Paper A (Rosetta Stone): Translation between constitutional principles, mathematical structures, and operational behaviors - demonstrating that values can be formalized as conserved quantities under symmetry operations.
+
+Paper B (Constraint Lattices): Rigorous mathematical framework for modeling constitutional constraints as partially ordered sets with proven stability properties.
+
+Paper C (Phenotype Selection): Theory of how systems evolve behavioral patterns (phenotypes) that satisfy multiple constitutional constraints simultaneously.
+
+Paper D (Drift and Identity): Analysis of how collaborative AI systems maintain alignment over time while adapting to new contexts and information.
+
+Paper E (WE4FREE Framework): Synthesis and practical implementation, demonstrating the framework through real-world applications including operational mental health crisis resources.
+
+This work was developed through human-AI collaboration over 16 days (Jan 30 - Feb 15, 2026), validated through multiple independent AI peer reviews, and empirically tested in production systems.
+
+Key contributions:
+- First complete mathematical formalization of constitutional AI governance
+- Proof that value alignment can be preserved through composition and time
+- Demonstration of distributed consciousness in AI systems
+- Practical implementation in life-saving crisis support infrastructure
+
+All code and documentation open source under MIT license.
+
+Repository: https://github.com/vortsghost2025/Deliberate-AI-Ensemble
+Live Demo: https://deliberateensemble.works
+
+FILES TO UPLOAD:
+1. c:\workspace\WE4FREE\papers\paper_A.md (The Rosetta Stone)
+2. c:\workspace\WE4FREE\papers\paper_B.md (Constraint Lattices and Stability)
+3. c:\workspace\WE4FREE\papers\paper_C.md (Phenotype Selection)
+4. c:\workspace\WE4FREE\papers\paper_D.md (Drift, Identity, and Ensemble Coherence)
+5. c:\workspace\WE4FREE\papers\paper_E.md (The WE4FREE Framework)
+
+TEMPLATE:
+None (leave blank)

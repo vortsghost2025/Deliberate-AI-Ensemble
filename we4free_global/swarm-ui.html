@@ -676,6 +676,11 @@
       Object.values(swarm).forEach(agent => {
         swarmCoordinator.registerAgent(agent);
         healthMonitor.registerPeer(agent.id);
+        
+        // Start task execution for workers (Track 6C)
+        if (agent.role === 'worker') {
+          agent.startTaskExecution(taskQueue);
+        }
       });
       
       // Start gossip
