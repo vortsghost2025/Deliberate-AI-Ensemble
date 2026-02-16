@@ -289,6 +289,7 @@
   <!-- Dependencies -->
   <script src="swarm-registry.js?v=4.0.0"></script>
   <script src="task-queue.js?v=4.0.0"></script>
+  <script src="swarm-coordinator.js?v=4.0.0"></script>
   <script src="distributed-compute.js?v=4.0.0"></script>
   <script src="genomics-agent-roles.js?v=7.0.0"></script>
   <script src="genomics-workflows.js?v=7.0.0"></script>
@@ -300,6 +301,7 @@
 
     let taskQueue;
     let registry;
+    let swarmCoordinator;
     let computeEngine;
     let workflowOrchestrator;
     let genomicsAgents = [];
@@ -314,10 +316,11 @@
     function init() {
       log('🚀 Initializing WE4FREE Genomics Platform...');
 
-      // Create swarm infrastructure
+      // Create swarm infrastructure (respect the architectural invariant!)
       registry = new SwarmRegistry();
       taskQueue = new TaskQueue(registry);
-      computeEngine = new DistributedCompute(null, taskQueue); // swarmCoordinator not needed for genomics
+      swarmCoordinator = new SwarmCoordinator(registry, taskQueue);
+      computeEngine = new DistributedCompute(swarmCoordinator, taskQueue);
 
       // Create genomics agents
       const agentRoles = [
