@@ -61,6 +61,7 @@ class GenomicsWorkflowOrchestrator {
       const phenotypeTask = {
         id: `${workflowId}-phenotype`,
         type: GenomicsTaskType.PHENOTYPE_EXTRACTION,
+        status: 'pending',
         data: {
           clinicalNotes: patientData.clinicalNotes,
           structuredData: patientData.structuredData
@@ -81,6 +82,7 @@ class GenomicsWorkflowOrchestrator {
       const variantTask = {
         id: `${workflowId}-variants`,
         type: GenomicsTaskType.VARIANT_CALLING,
+        status: 'pending',
         data: {
           reads: patientData.sequencingData,
           reference: 'GRCh38',
@@ -102,6 +104,7 @@ class GenomicsWorkflowOrchestrator {
       const prioritizationTask = {
         id: `${workflowId}-prioritization`,
         type: GenomicsTaskType.VARIANT_PRIORITIZATION,
+        status: 'pending',
         data: {
           variants: variantResult.result.variants,
           hpoTerms: phenotypeResult.result.hpoTerms
@@ -122,6 +125,7 @@ class GenomicsWorkflowOrchestrator {
       const interpretationTask = {
         id: `${workflowId}-interpretation`,
         type: GenomicsTaskType.XAI_EXPLANATION,
+        status: 'pending',
         data: {
           prediction: prioritizationResult.result.topCandidate,
           features: prioritizationResult.result.candidateGenes,
@@ -205,6 +209,7 @@ class GenomicsWorkflowOrchestrator {
         const trainingTasks = participantData.map((participant, idx) => ({
           id: `${workflowId}-train-r${round}-p${idx}`,
           type: GenomicsTaskType.MODEL_TRAINING,
+          status: 'pending',
           data: {
             modelWeights: currentWeights,
             trainingData: participant.data, // Data stays local
@@ -225,6 +230,7 @@ class GenomicsWorkflowOrchestrator {
         const aggregationTask = {
           id: `${workflowId}-aggregate-r${round}`,
           type: GenomicsTaskType.FEDERATED_AGGREGATION,
+          status: 'pending',
           data: {
             updates: trainingResults.map(r => r.result)
           },
