@@ -378,6 +378,17 @@ class TaskQueue {
   }
 
   /**
+   * Get task result (for completed tasks)
+   */
+  getTaskResult(taskId) {
+    const task = this.tasks.get(taskId);
+    if (task && task.status === TaskStatus.COMPLETED) {
+      return task.result;
+    }
+    return null;
+  }
+
+  /**
    * Clear completed tasks
    */
   clearCompleted() {
