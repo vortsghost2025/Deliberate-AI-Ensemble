@@ -317,7 +317,7 @@
       // Create swarm infrastructure
       registry = new SwarmRegistry();
       taskQueue = new TaskQueue(registry);
-      computeEngine = new DistributedComputeEngine(taskQueue, registry);
+      computeEngine = new DistributedCompute(taskQueue, registry);
 
       // Create genomics agents
       const agentRoles = [
@@ -354,8 +354,8 @@
       setInterval(() => {
         genomicsAgents.forEach(async agent => {
           if (agent.state === 'idle') {
-            // Claim task for this agent's role
-            const claim = taskQueue.claimTask(agent.agentId);
+            // Claim next available task
+            const claim = taskQueue.claimNextTask(agent.agentId);
             if (claim.success) {
               const task = claim.task;
               log(`🔄 ${agent.role} processing: ${task.type}`);
