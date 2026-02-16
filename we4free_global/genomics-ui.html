@@ -361,23 +361,44 @@
             const claim = taskQueue.claimNextTask(agent.agentId);
             if (claim.success) {
               const task = claim.task;
-              log(`🔄 ${agent.role} processing: ${task.type}`);
 
-              // Update UI
-              updateAgentStatus(agent.role, 'active');
+              // Check if agent can handle this task type (role-based filtering)
+              if (canAgentHandleTask(agent, task)) {
+                log(`🔄 ${agent.role} processing: ${task.type}`);
 
-              // Process task
-              const result = await agent.processTask(task);
+                // Update UI
+                updateAgentStatus(agent.role, 'active');
 
-              // Complete task
-              taskQueue.completeTask(task.id, result);
+                // Process task
+                const result = await agent.processTask(task);
 
-              // Update UI
-              updateAgentStatus(agent.role, 'idle');
+                // Complete task
+                taskQueue.completeTask(task.id, result);
+
+                // Update UI
+                updateAgentStatus(agent.role, 'idle');
+              } else {
+                // Agent can't handle this task - release it back to queue
+                taskQueue.releaseTask(task.id);
+              }
             }
           }
         });
       }, 100);
+    }
+
+    function canAgentHandleTask(agent, task) {
+      // Map agent roles to task types they can handle
+      const roleTaskMap = {
+        [GenomicsAgentRole.VARIANT_CALLER]: [GenomicsTaskType.VARIANT_CALLING],
+        [GenomicsAgentRole.PHENOTYPE_EXTRACTOR]: [GenomicsTaskType.PHENOTYPE_EXTRACTION],
+        [GenomicsAgentRole.VARIANT_PRIORITIZER]: [GenomicsTaskType.VARIANT_PRIORITIZATION],
+        [GenomicsAgentRole.FEDERATED_LEARNER]: [GenomicsTaskType.MODEL_TRAINING, GenomicsTaskType.FEDERATED_AGGREGATION],
+        [GenomicsAgentRole.INTERPRETABILITY]: [GenomicsTaskType.XAI_EXPLANATION]
+      };
+
+      const allowedTasks = roleTaskMap[agent.role] || [];
+      return allowedTasks.includes(task.type);
     }
 
     function updateAgentStatus(role, status) {

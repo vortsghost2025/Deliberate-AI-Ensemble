@@ -202,6 +202,32 @@ class TaskQueue {
   }
 
   /**
+   * Release a claimed task back to pending (for role mismatch)
+   */
+  releaseTask(taskId) {
+    const task = this.tasks.get(taskId);
+
+    if (!task) {
+      return false;
+    }
+
+    if (task.status !== TaskStatus.CLAIMED) {
+      console.warn(`Cannot release task ${taskId}: not claimed (status: ${task.status})`);
+      return false;
+    }
+
+    // Release it back to pending
+    task.status = TaskStatus.PENDING;
+    task.claimedBy = null;
+    this.claimedTasks.delete(taskId);
+
+    this.emit('task:released', { taskId });
+
+    console.log(`🔓 Task ${taskId} released back to queue`);
+    return true;
+  }
+
+  /**
    * Get next available task (by priority)
    */
   getNextTask() {
