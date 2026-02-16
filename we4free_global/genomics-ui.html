@@ -317,7 +317,7 @@
       // Create swarm infrastructure
       registry = new SwarmRegistry();
       taskQueue = new TaskQueue(registry);
-      computeEngine = new DistributedCompute(taskQueue, registry);
+      computeEngine = new DistributedCompute(null, taskQueue); // swarmCoordinator not needed for genomics
 
       // Create genomics agents
       const agentRoles = [
