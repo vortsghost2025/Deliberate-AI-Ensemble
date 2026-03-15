@@ -390,5 +390,25 @@
         <p class="footer-motto">WE never gives up on WE</p>
         <p class="footer-copyright">© 2026 WE4Free | All code open-source | Built with 💙 by humans and AI</p>
     </footer>
+
+    <script>
+        // Register Service Worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('[WE4Free] Service Worker registered:', registration.scope);
+                        
+                        // Check for updates periodically
+                        setInterval(() => {
+                            registration.update();
+                        }, 60000); // Every minute
+                    })
+                    .catch(error => {
+                        console.error('[WE4Free] Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -311,6 +311,7 @@ def main():
             'max_daily_loss': 0.05,  # 5% max daily loss
             'min_signal_strength': 0.10,  # 10% minimum signal strength
             'min_win_rate': 0.45,  # 45% minimum win rate
+            'min_notional_usd': 1.0,  # Minimum trade notional value (from config.py)
             'min_position_size_units': 0.01,  # Minimum 0.01 SOL
             'min_position_size_by_pair': {
                 'SOL/USDT': 0.01,  # 0.01 SOL minimum

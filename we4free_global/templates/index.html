@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{site_title}}</title>
+    <meta name="description" content="{{site_description}}">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="{{theme_color}}">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, {{theme_color}} 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            animation: fadeIn 0.6s ease-in;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1.2em; opacity: 0.95; }
+        .emergency-banner {
+            background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(234, 67, 53, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .emergency-banner h2 { margin-bottom: 10px; font-size: 1.5em; }
+        .emergency-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+        .emergency-number a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .emergency-number a:hover { transform: scale(1.05); }
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin: 20px 0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 0.8s ease-in;
+        }
+        .content h2 {
+            color: {{theme_color}};
+            margin-bottom: 15px;
+            font-size: 2em;
+            border-bottom: 3px solid {{theme_color}};
+            padding-bottom: 10px;
+        }
+        .crisis-lines { margin: 30px 0; }
+        .crisis-line {
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        .crisis-line:hover {
+            border-color: {{theme_color}};
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .crisis-line h3 {
+            color: {{theme_color}};
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+        .crisis-line p { margin: 10px 0; color: #555; }
+        .contact-methods {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1em;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #34a853 0%, #2d8e47 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 168, 83, 0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 168, 83, 0.4);
+        }
+        .btn-tertiary {
+            background: linear-gradient(135deg, #fbbc04 0%, #f29900 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(251, 188, 4, 0.3);
+        }
+        .btn-tertiary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 188, 4, 0.4);
+        }
+        .hours {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hours::before { content: "🕐"; }
+        .languages {
+            display: inline-flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .language-tag {
+            background: {{theme_color}};
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .offline-notice {
+            background: linear-gradient(135deg, #fbbc04 0%, #f29900 100%);
+            color: #333;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(251, 188, 4, 0.3);
+        }
+        .offline-notice::before { content: "⚠️ "; }
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        .footer p { margin: 10px 0; opacity: 0.95; }
+        .footer a { color: white; text-decoration: underline; }
+        .install-prompt {
+            background: white;
+            border: 2px solid {{theme_color}};
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        .install-prompt.show { display: block; animation: fadeIn 0.6s; }
+        .install-prompt button {
+            background: {{theme_color}};
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.9em; }
+            .emergency-number { font-size: 2.5em; }
+            .contact-methods { flex-direction: column; }
+            .btn { width: 100%; }
+            .content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🫂 {{country_name}} Crisis Support</h1>
+            <p>{{site_description}}</p>
+        </div>
+
+        <div class="emergency-banner">
+            <h2>⚠️ {{emergency_header}}</h2>
+            <p>{{emergency_description}}</p>
+            <div class="emergency-number">
+                <a href="tel:{{emergency_number}}">{{emergency_number}}</a>
+            </div>
+        </div>
+
+        <div class="offline-notice" id="offlineNotice">
+            {{offline_notice}}
+        </div>
+
+        <div class="install-prompt" id="installPrompt">
+            <h3>📱 Install This App</h3>
+            <p>Access crisis support instantly, even offline</p>
+            <button id="installButton">Install Now</button>
+        </div>
+
+        <div class="content">
+            <h2>{{crisis_lines_header}}</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">{{crisis_lines_description}}</p>
+            
+            <div class="crisis-lines">
+                {{crisis_lines}}
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 1.2em; font-weight: 600;">{{footer_main}}</p>
+            <p style="font-size: 0.95em; margin-top: 15px;">{{footer_disclaimer}}</p>
+            <p style="margin-top: 25px; font-size: 0.85em;">
+                Built with ❤️ by <a href="https://deliberateensemble.works">Deliberate Ensemble</a> • 
+                <a href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble">Open Source</a> • 
+                <a href="https://doi.org/10.17605/OSF.IO/N3TYA">Research</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('✅ Service Worker registered'))
+                    .catch(err => console.error('❌ SW registration failed:', err));
+            });
+        }
+
+        // Offline detection
+        function updateOnlineStatus() {
+            const notice = document.getElementById('offlineNotice');
+            if (!navigator.onLine) {
+                notice.style.display = 'block';
+            } else {
+                notice.style.display = 'none';
+            }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // PWA Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').classList.add('show');
+        });
+
+        document.getElementById('installButton')?.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Install prompt outcome: ${outcome}`);
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

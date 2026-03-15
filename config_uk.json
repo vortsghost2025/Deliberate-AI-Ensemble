@@ -1,0 +1,69 @@
+{
+  "country": {
+    "code": "GB",
+    "name": "United Kingdom",
+    "languages": ["en"],
+    "emergency_number": "999",
+    "timezone": "Europe/London"
+  },
+
+  "crisis_lines": [
+    {
+      "id": "samaritans",
+      "name": "Samaritans",
+      "description": "24/7 support for anyone struggling to cope",
+      "phone": "116123",
+      "email": "jo@samaritans.org",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "shout",
+      "name": "Shout Crisis Text Line",
+      "description": "Free, confidential support via text",
+      "sms": "85258",
+      "hours": "24/7",
+      "languages": ["en"],
+      "free": true,
+      "confidential": true
+    },
+    {
+      "id": "childline",
+      "name": "Childline",
+      "description": "Support for children and young people",
+      "phone": "0800 1111",
+      "chat_url": "https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/",
+      "hours": "24/7",
+      "age_range": "0-19",
+      "free": true
+    },
+    {
+      "id": "nhs_111",
+      "name": "NHS 111 Mental Health",
+      "description": "Get mental health support from NHS",
+      "phone": "111",
+      "hours": "24/7",
+      "free": true
+    },
+    {
+      "id": "papyrus_hopeline",
+      "name": "PAPYRUS HOPELINEUK",
+      "description": "Suicide prevention for young people",
+      "phone": "0800 068 4141",
+      "sms": "07860 039967",
+      "email": "pat@papyrus-uk.org",
+      "hours": "9am-midnight",
+      "age_range": "0-35",
+      "free": true
+    }
+  ],
+
+  "pwa_settings": {
+    "name": "WE4Free UK",
+    "short_name": "WE4Free GB",
+    "theme_color": "#012169",
+    "background_color": "#ffffff"
+  }
+}
