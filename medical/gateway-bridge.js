@@ -3,7 +3,7 @@
  * GATEWAY BRIDGE
  * Connects the medical pipeline to the Kilo gateway WebSocket.
  *
- * Registers 9 medical agents with the gateway (5 core + 4 clinical)
+ * Registers 11 medical agents with the gateway (5 core + 4 clinical + 2 federated)
  * and routes incoming messages through the pipeline, returning processed results.
  *
  * Usage:
@@ -20,6 +20,12 @@ import {
   getClinicalAgentDefinitions,
   CLINICAL_AGENT_ROLES
 } from './clinical-bridge.js';
+import {
+  initializeFederatedModules,
+  processFederatedRequest,
+  getFederatedAgentDefinitions,
+  FEDERATED_AGENT_ROLES
+} from './trust-network-integration.js';
 
 const GATEWAY_URL = process.env.GATEWAY_URL || 'ws://187.77.3.56:3002';
 const RECONNECT_DELAY_MS = 5000;
@@ -33,6 +39,13 @@ const AGENT_DEFINITIONS = [
   { role: AGENT_ROLES.OUTPUT, name: 'output', description: 'Format final output and validate invariants' },
   // Clinical intelligence agents
   ...getClinicalAgentDefinitions().map(def => ({
+    role: def.role,
+    name: def.name,
+    description: def.description,
+    capabilities: def.capabilities
+  })),
+  // Federated / Trust Network agents
+  ...getFederatedAgentDefinitions().map(def => ({
     role: def.role,
     name: def.name,
     description: def.description,
@@ -109,7 +122,9 @@ function registerAgents() {
   for (const def of AGENT_DEFINITIONS) {
     const coreCaps = getAgentCapabilities(def.role);
     const capabilities = coreCaps ? coreCaps.tasks : (def.capabilities || []);
-    const source = Object.values(CLINICAL_AGENT_ROLES).includes(def.role)
+    const source = Object.values(FEDERATED_AGENT_ROLES).includes(def.role)
+      ? 'trust-network'
+      : Object.values(CLINICAL_AGENT_ROLES).includes(def.role)
       ? 'clinical-intelligence'
       : 'medical-pipeline';
     const registration = {
@@ -148,6 +163,10 @@ function handleMessage(msg) {
 
     case 'clinical_request':
       handleClinicalRequest(msg);
+      break;
+
+    case 'federated_request':
+      handleFederatedRequest(msg);
       break;
 
     case 'agent_query':
@@ -272,6 +291,48 @@ async function handleClinicalRequest(msg) {
   }
 }
 
+async function handleFederatedRequest(msg) {
+  const requestId = msg.id || msg.requestId || `federated-${Date.now()}`;
+
+  log('info', `Processing federated request`, { requestId });
+
+  try {
+    const result = await processFederatedRequest(msg);
+
+    const response = {
+      type: 'agent_response',
+      requestId,
+      success: result.success,
+      pipeline: 'federated',
+      subtype: result.subtype,
+      result: result.result,
+      agentsExecuted: result.processedBy || ['who-data-agent', 'federated-learning-agent']
+    };
+
+    log('info', `Federated request complete`, {
+      requestId,
+      subtype: result.subtype,
+      success: result.success
+    });
+
+    send(response);
+  } catch (error) {
+    log('error', `Federated request failed`, {
+      requestId,
+      error: error.message
+    });
+
+    send({
+      type: 'agent_response',
+      requestId,
+      success: false,
+      pipeline: 'federated',
+      error: error.message,
+      stack: error.stack
+    });
+  }
+}
+
 function handleAgentQuery(msg) {
   const requestId = msg.id || msg.requestId || `query-${Date.now()}`;
   const targetAgent = msg.agent || msg.agentId;
@@ -346,8 +407,10 @@ function shutdown(signal) {
 // Bootstrap
 orchestrator = createMedicalOrchestrator();
 const clinicalStatus = initializeClinicalModules();
+const federatedStatus = initializeFederatedModules();
 log('info', 'Medical pipeline orchestrator initialized');
 log('info', 'Clinical intelligence modules initialized', clinicalStatus);
+log('info', 'Federated / Trust Network modules initialized', federatedStatus);
 log('info', 'Pipeline order:', { order: orchestrator.pipelineOrder });
 log('info', 'Total agents:', { count: AGENT_DEFINITIONS.length });
 log('info', 'Gateway URL:', { url: GATEWAY_URL });
