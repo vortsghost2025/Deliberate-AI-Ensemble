@@ -2,7 +2,7 @@
 
 ## Project Identity
 
-This is the **Deliberate-AI-Ensemble** — a governance-only remnant of the original multi-agent trading system. All trading logic has been extracted to `kucoin-lane` (Lane 4).
+This is the **Deliberate-AI-Ensemble** — a governance-and-historical remnant of the original ensemble, with selected non-trading legacy modules retained. All trading logic has been extracted to `kucoin-lane` (lane number governed by Control Plane registry).
 
 ## Current State
 
