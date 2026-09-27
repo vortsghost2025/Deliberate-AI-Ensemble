@@ -2,7 +2,7 @@ COPILOT SYSTEM EXPORT\nGenerated: 2026-02-05 15:09:35-05:00\nRoot: C:\workspace\
 \n----- FILE START: .env -----\n
 KUCOIN_API_KEY=6982867f76a75f0001f4910a
 KUCOIN_API_SECRET=310f657a-e297-4f34-b9ad-23c92de1121d
-KUCOIN_API_PASSPHRASE=134679Rosebud!
+KUCOIN_API_PASSPHRASE=<REDACTED>
 EXCHANGE=kucoin
 LIVE_MODE=false
 CONTINUOUS_MODE=true
@@ -9962,7 +9962,7 @@ COPILOT SYSTEM EXPORT\nGenerated: 2026-02-05 15:09:35-05:00\nRoot: C:\workspace\
 \n----- FILE START: .env -----\n
 KUCOIN_API_KEY=6982867f76a75f0001f4910a
 KUCOIN_API_SECRET=310f657a-e297-4f34-b9ad-23c92de1121d
-KUCOIN_API_PASSPHRASE=134679Rosebud!
+KUCOIN_API_PASSPHRASE=<REDACTED>
 EXCHANGE=kucoin
 LIVE_MODE=false
 CONTINUOUS_MODE=true
@@ -24376,9 +24376,9 @@ try {
 
 \n----- FILE END: kucoin_trade_check.ps1 -----\n
 \n----- FILE START: kucoin_uta_check.ps1 -----\n
-$apiKey = "6971cd16b64e920001e7f2f6"
-$apiSecret = "8c29bebc-af48-4a78-8976-7a0ca4a03876"
-$apiPassphrase = "Mypassw0rd1994"
+$apiKey = "<REDACTED>"
+$apiSecret = "<REDACTED>"
+$apiPassphrase = "<REDACTED>"
 $baseUrl = "https://api.kucoin.com"
 
 function Invoke-KuCoinRequest {
@@ -24434,9 +24434,9 @@ Write-Host "`n=== QUERY COMPLETE ===" -ForegroundColor Cyan
 
 \n----- FILE END: kucoin_uta_check.ps1 -----\n
 \n----- FILE START: kucoin_uta_detailed.ps1 -----\n
-$apiKey = "69713960cb7e89000126f2f6"
-$apiSecret = "a6b08fdc-045e-4cf4-bafb-c60984fb7b05"
-$apiPassphrase = "134679Rosebud!"
+$apiKey = "<REDACTED>"
+$apiSecret = "<REDACTED>"
+$apiPassphrase = "<REDACTED>"
 $baseUrl = "https://api.kucoin.com"
 
 function Invoke-KuCoinRequest {
@@ -33876,9 +33876,9 @@ if __name__ == '__main__':
 
 \n----- FILE END: test_agents.py -----\n
 \n----- FILE START: test_new_key.ps1 -----\n
-$apiKey = "6982867f76a75f0001f4910a"
-$apiSecret = "310f657a-e297-4f34-b9ad-23c92de1121d"
-$apiPassphrase = "134679"
+$apiKey = "<REDACTED>"
+$apiSecret = "<REDACTED>"
+$apiPassphrase = "<REDACTED>"
 
 $endpoint = "/api/v1/accounts"
 $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
@@ -34668,7 +34668,7 @@ The system is fully prepared to validate Unified Account access once credentials
 # Set your KuCoin credentials
 export KUCOIN_API_KEY=your_api_key
 export KUCOIN_API_SECRET=your_api_secret
-export KUCOIN_API_PASSPHRASE=your_api_passphrase
+export KUCOIN_API_PASSPHRASE=<REDACTED>
 
 # Restart container with credentials
 docker stop orchestrator-trading-bot
@@ -34732,7 +34732,7 @@ python validate_readiness.py
 ```bash
 export KUCOIN_API_KEY=xxx
 export KUCOIN_API_SECRET=yyy
-export KUCOIN_API_PASSPHRASE=zzz
+export KUCOIN_API_PASSPHRASE=<REDACTED>
 docker compose up -d
 ```
 
@@ -34826,7 +34826,7 @@ Set these three environment variables with your KuCoin credentials:
 ```bash
 export KUCOIN_API_KEY=your_api_key
 export KUCOIN_API_SECRET=your_api_secret
-export KUCOIN_API_PASSPHRASE=your_api_passphrase
+export KUCOIN_API_PASSPHRASE=<REDACTED>
 ```
 
 ### Then Rerun Validation
@@ -34869,7 +34869,7 @@ The container is configured with environment variables via docker-compose. To pa
 docker stop orchestrator-trading-bot
 KUCOIN_API_KEY=your_key \
 KUCOIN_API_SECRET=your_secret \
-KUCOIN_API_PASSPHRASE=your_passphrase \
+KUCOIN_API_PASSPHRASE=<REDACTED> \
 docker compose up -d
 ```
 
@@ -34891,7 +34891,7 @@ Create `.env` in the workspace root:
 ```env
 KUCOIN_API_KEY=your_key
 KUCOIN_API_SECRET=your_secret
-KUCOIN_API_PASSPHRASE=your_passphrase
+KUCOIN_API_PASSPHRASE=<REDACTED>
 ```
 
 Then:

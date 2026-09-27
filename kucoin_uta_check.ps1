@@ -1,6 +1,7 @@
-$apiKey = "6971cd16b64e920001e7f2f6"
-$apiSecret = "8c29bebc-af48-4a78-8976-7a0ca4a03876"
-$apiPassphrase = "Mypassw0rd1994"
+$apiKey = $env:KUCOIN_API_KEY
+$apiSecret = $env:KUCOIN_API_SECRET
+$apiPassphrase = $env:KUCOIN_API_PASSPHRASE
+if (-not $apiKey -or -not $apiSecret -or -not $apiPassphrase) { Write-Error "KuCoin API credentials are not set."; exit 1 }
 $baseUrl = "https://api.kucoin.com"
 
 function Invoke-KuCoinRequest {

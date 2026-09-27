@@ -3,6 +3,7 @@
 """Check exactly where files are and their timestamps"""
 
 import sys
+import os
 import paramiko
 from datetime import datetime
 
@@ -15,7 +16,9 @@ if sys.platform == 'win32':
 SSH_HOST = "88.223.85.164"
 SSH_PORT = 65002
 SSH_USER = "u526066719"
-SSH_PASSWORD = "134679Rosebud!"
+SSH_PASSWORD = os.environ.get("HOSTINGER_SSH_PASSWORD", "")
+if not SSH_PASSWORD:
+    sys.exit("HOSTINGER_SSH_PASSWORD is not set. Export it before running this script.")
 
 print("🔍 Checking file locations and timestamps...\n")
 

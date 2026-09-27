@@ -1,6 +1,7 @@
-$apiKey = "6982867f76a75f0001f4910a"
-$apiSecret = "310f657a-e297-4f34-b9ad-23c92de1121d"
-$apiPassphrase = "134679"
+$apiKey = $env:KUCOIN_API_KEY
+$apiSecret = $env:KUCOIN_API_SECRET
+$apiPassphrase = $env:KUCOIN_API_PASSPHRASE
+if (-not $apiKey -or -not $apiSecret -or -not $apiPassphrase) { Write-Error "KuCoin API credentials are not set."; exit 1 }
 
 $endpoint = "/api/v1/accounts"
 $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()

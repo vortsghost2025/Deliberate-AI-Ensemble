@@ -17,7 +17,9 @@ if sys.platform == 'win32':
 SSH_HOST = "88.223.85.164"
 SSH_PORT = 65002
 SSH_USER = "u526066719"
-SSH_PASSWORD = "134679Rosebud!"
+SSH_PASSWORD = os.environ.get("HOSTINGER_SSH_PASSWORD", "")
+if not SSH_PASSWORD:
+    sys.exit("HOSTINGER_SSH_PASSWORD is not set. Export it before running this script.")
 # CORRECT PATH - domain-specific public_html
 REMOTE_DIR = "/home/u526066719/domains/deliberateensemble.works/public_html"
 LOCAL_DIR = "we4free_website"
